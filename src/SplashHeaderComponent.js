@@ -1,12 +1,11 @@
 import React from 'react'
 import './SplashHeaderComponent.css';
-import logo from './blossom_logo.png';
 
 
 export default function SplashHeaderComponent() {
     return (
         <>
-        <img src={require('./blossom_logo.png')} alt='Blossom Logo' height='40vh' width='40vw' id='logoImage'/>
+        <img src={require('./blossom_logo.png')} alt='Blossom Logo' id='logoImage'/>
 
         <div id='sloganTextSection'>
 

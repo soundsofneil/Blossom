@@ -1,0 +1,8 @@
+#mainImage {
+    margin-top: 10vh;
+    margin-left: 65vw;
+    height:35vh;
+    width:19vw;
+    border-radius: 50%;
+    border: 5px solid #3A4664;
+}
