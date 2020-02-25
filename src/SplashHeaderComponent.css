@@ -1,0 +1,35 @@
+#sloganTextSection {
+    text-align: center;
+    margin-top: 10vh;
+}
+
+.sloganText {
+    color: #3A4664;
+    display: block;
+    font-size: 1.5vw;
+}
+
+#titleText{
+    color: #3A4664;
+    display: block;
+    margin-top: 3vh;
+    font-size: 3vw;
+    font-family:'Impact';
+}
+
+#signInButton {
+    margin-top: 2vh;
+    height: 4vh;
+    width: 10vw;
+    font-size: 1vw;
+    color: #3A4664;
+    background-color: #ffffff;
+    border-color: #3A4664;
+    border-radius: 8px;
+}  
+
+#logoImage {
+    position: absolute;
+    height:7vh;
+    width:4vw;
+}
