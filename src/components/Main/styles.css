@@ -1,5 +1,17 @@
 /* Styles for the Main React component */
 
 .main {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF
+}
 
+.main-background {
+  position: fixed;
+  width: calc(100% - 46px);
+  height: 100%;
+  left: 23px;
+  top: 0px;
+  background-color: #FFECEC;
 }

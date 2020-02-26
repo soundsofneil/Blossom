@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import Banner from '../Banner'
 import UniversityList from '../UniversityList'
 
@@ -17,7 +16,13 @@ class Main extends Component {
   render() {
     return (
       <div className="main">
-        <Banner/>
+        <div className="main-background">
+        </div>
+        <Banner
+          title="Find Your University"
+          subtitle="John Doe"
+          subsubtitle="Preferences"
+        />
         <UniversityList
           universities={this.state.universities}
         />
