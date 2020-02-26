@@ -9,10 +9,13 @@
     height: 100vh;
     overflow: hidden;
 }
+
 .pop-box {
-    background-color: #3A4664;
+    background-color: var(--blue);
     padding: 15px;
-    border-radius: 5px;
-    width: 50px;
-    height: 50px;
+    border-radius: 15px;
+}
+
+.MuiInput-underline:before {
+    border-bottom-color: var(--lightpink) !important;
 }

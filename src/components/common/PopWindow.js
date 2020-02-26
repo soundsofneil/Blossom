@@ -1,24 +1,19 @@
 import React from 'react';
-import './PopWindow.css';
-import { NONAME } from 'dns';
+import './common.css';
 
 export default class PopWindow extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+    state = { visible: this.props.visible || false };
 
-    openWindow = () => {
-        console.log('hello');
-    }
-
-    closeWindow = () => {
-        console.log('goodbye');
+    static getDerivedStateFromProps(props, state) {
+        return { visible: props.visible }
     }
 
     render() {
         return (
-            <div className='pop-container' style={{ display: this.props.visible ? 'flex' : 'none' }}>
-                <div className='pop-box' />
+            <div className='pop-container' style={{ display: this.state.visible ? 'flex' : 'none' }}>
+                <div className='pop-box'>
+                    {this.props.children}
+                </div>
             </div>
         )
     }
