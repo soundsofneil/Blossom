@@ -1,0 +1,17 @@
+/* Styles for the Main/UniversityProgram React component */
+
+.university-program {
+  margin: 0;
+  margin-bottom: 3%;
+}
+
+.university-program-title {
+  margin: 0;
+  font-size: .7em;
+}
+
+.university-program-average {
+  margin: 0;
+  margin-left: 3%;
+  font-size: .6em;
+}

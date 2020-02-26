@@ -1,0 +1,26 @@
+/* Styles for the Main/UniversityContent React component */
+
+.university-content {
+  margin-left: 25%;
+	overflow: hidden;
+	color: #EFE4FF;
+}
+
+.university-title {
+  margin: 0;
+  margin-top: 6%;
+  font-size: 1em;
+}
+
+.university-location {
+  margin: 0;
+  font-size: .75em;
+}
+
+.university-description {
+  margin: 0;
+  margin-top: 2%;
+  float: left;
+  width: 50%;
+  font-size: .6em;
+}
