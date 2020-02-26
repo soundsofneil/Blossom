@@ -156,7 +156,7 @@ export default class SignIn extends React.Component {
         <div className="sign-query-box">
             <span className="subtitle noselect">What are your grades like?</span>
             {
-                new Array(this.state.gradeCount).fill(0).map(() => (
+                new Array(this.state.gradeCount).fill((
                     <div className="gradefield">
                         <Field className="fourtyfive" align='left' placeholder="Course Name"/>
                         <Field className="fourtyfive" type="number" align='left' placeholder="Grade (%)"/>
