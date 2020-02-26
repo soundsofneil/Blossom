@@ -12,7 +12,7 @@ const dropdown2 = ['Canada North', 'Canada East', 'Canada West', 'US West', 'US 
 
 export default class SignIn extends React.Component {
     state = {
-        stage: 0, // entry:0 || signup1:1 || signup2:2 || signup3:3
+        stage: 2, // entry:0 || signup1:1 || signup2:2 || signup3:3
         dropdown1Count: 1,
         dropdown2Count: 1,
         gradeCount: 1,
@@ -124,8 +124,8 @@ export default class SignIn extends React.Component {
         <div className="sign-query-box">
             <span className="subtitle noselect">What programs are you interested in?</span>
             {
-                new Array(this.state.dropdown1Count).fill(0).map(() => (
-                <Dropdown choices={dropdown1}/>))
+                new Array(this.state.dropdown1Count).fill(
+                    <Dropdown choices={dropdown1}/>)
             }
             <div 
                 className="button-add noselect"
@@ -140,8 +140,8 @@ export default class SignIn extends React.Component {
         <div className="sign-query-box">
             <span className="subtitle noselect">What regions are you interested in?</span>
             {
-                new Array(this.state.dropdown2Count).fill(0).map(() => (
-                    <Dropdown choices={dropdown2}/>))
+                new Array(this.state.dropdown2Count).fill(
+                    <Dropdown choices={dropdown2}/>)
             }
             <div 
                 className="button-add noselect"
