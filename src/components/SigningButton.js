@@ -1,7 +1,6 @@
 import React from 'react';
 import PopWindow from './common/PopWindow';
 import SignIn from './SignIn'
-import SignUp from './SignUp'
 
 export default class SigningButton extends React.Component {
     state = { signInVisible: false, currentView: 'in' }
@@ -22,9 +21,10 @@ export default class SigningButton extends React.Component {
         return (
             <div>
                 <PopWindow visible={this.state.signInVisible}>
-                    { this.state.currentView === 'in' ? (
-                        <SignIn close={this.closeSignIn} switchView={this.switchView} />
-                    ) : <SignUp close={this.closeSignIn} switchView={this.switchView} />}
+                    <SignIn 
+                        close={this.closeSignIn} 
+                        switchView={this.switchView} 
+                        type={this.state.currentView} />
                 </PopWindow>
                 <button onClick={this.raiseSignIn}>raise signing</button>
             </div>

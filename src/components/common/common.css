@@ -16,6 +16,11 @@
     border-radius: 15px;
 }
 
+.field {
+    margin-top: 12px;
+    width: 100%;
+}
+
 .MuiInput-underline:before {
     border-bottom-color: var(--lightpink) !important;
 }

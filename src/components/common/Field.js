@@ -8,6 +8,7 @@ const color = {
     pink: "#FFDBDC",
 };
 
+// Some interesting stuff here with the material UI framework
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -22,8 +23,9 @@ const theme = createMuiTheme({
 export default (props) => (
     <ThemeProvider theme={theme}>
         <TextField
+            className='field'
             margin='dense'
-            inputProps={{ style: {textAlign: 'center'} }}
+            inputProps={{ style: {textAlign: 'center'} }} // specific
             {...props}
         />
     </ThemeProvider>

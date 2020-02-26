@@ -14,19 +14,45 @@ export default class SignIn extends React.Component {
         console.log('sign in google');
     }
 
+    signUp = () => {
+        console.log('sign up');
+    }
+
+    signUpGoogle = () => {
+        console.log('sign up google');
+    }
+
     render() {    
         return (
             <div id="sign-in-container">
                 <img className="logo" alt="blossom" src={require('../images/blossom-pink.png')} />
                 <div className="sign-info-box">
                     <span className="title noselect">blossom</span>
-                    <Field placeholder="username" type="text" style={{marginTop: '14px', width: '100%'}} />
-                    <Field placeholder="password" type="password" style={{marginTop: '12px',width: '100%'}} />
-                    <a className="button" onClick={this.signIn}>Sign In</a>
-                    <a className="button-goog" onClick={this.signInGoogle}>
-                        <FontAwesomeIcon color="#3A4664" icon={faGoogle}/>&nbsp; Sign In with Google
+                    <Field placeholder="username" type="text" />
+                    {
+                        this.props.type === 'out' && (
+                        <Field placeholder="name" type="text" />)
+                    }
+                    <Field placeholder="password" type="password" />
+
+                    <a 
+                        className="button" 
+                        onClick={
+                            this.props.type === 'out' ? 
+                            this.signUp : this.signIn}>
+                        Sign {this.props.type === 'out' ? 'Up' : 'In'}</a>
+                    <a 
+                        className="button-goog" 
+                        onClick={
+                            this.props.type === 'out' ? 
+                            this.signUpGoogle : this.signInGoogle }>
+                        <FontAwesomeIcon color="#3A4664" icon={faGoogle}/>&nbsp; Sign&nbsp; 
+                            {this.props.type === 'out' ? 'Up' : 'In'} with Google
                     </a>
-                    <a className="button-up noselect" onClick={this.props.switchView}>No account? Sign Up.</a>
+                    <a className="button-up noselect" onClick={this.props.switchView}>
+                        {this.props.type === 'out' ? 
+                        'Have an account? Sign In.' : 'No account? Sign Up.'}
+                    </a>
                 </div>
                 <CloseIcon className="close-icon" onClick={this.props.close} />
             </div>
