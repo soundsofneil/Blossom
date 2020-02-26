@@ -10,7 +10,7 @@ export default class PopWindow extends React.Component {
 
     render() {
         return (
-            <div className='pop-container' style={{ display: this.state.visible ? 'flex' : 'none' }}>
+            <div className={'pop-container animated fadeIn'} style={{ display: this.state.visible ? 'flex' : 'none' }}>
                 <div className='pop-box'>
                     {this.props.children}
                 </div>

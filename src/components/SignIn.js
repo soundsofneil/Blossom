@@ -12,7 +12,7 @@ const dropdown2 = ['Canada North', 'Canada East', 'Canada West', 'US West', 'US 
 
 export default class SignIn extends React.Component {
     state = {
-        stage: 2, // entry:0 || signup1:1 || signup2:2 || signup3:3
+        stage: 0, // entry:0 || signup1:1 || signup2:2 || signup3:3
         dropdown1Count: 1,
         dropdown2Count: 1,
         gradeCount: 1,

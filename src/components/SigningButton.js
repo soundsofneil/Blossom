@@ -3,7 +3,7 @@ import PopWindow from './common/PopWindow';
 import SignIn from './SignIn'
 
 export default class SigningButton extends React.Component {
-    state = { signInVisible: true, currentView: 'in' }
+    state = { signInVisible: false, currentView: 'in' }
     
     raiseSignIn = () => {
         this.setState({ signInVisible: true })
