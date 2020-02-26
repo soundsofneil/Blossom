@@ -1,6 +1,7 @@
 #sloganTextSection {
     text-align: center;
-    margin-top: 10vh;
+    position: relative;
+    margin-top: 5vh;
 }
 
 .sloganText {
@@ -19,6 +20,7 @@
 
 #signInButton {
     margin-top: 2vh;
+    margin-bottom: 5vh;
     height: 4vh;
     width: 10vw;
     font-size: 1vw;
@@ -26,19 +28,14 @@
     background-color: #ffffff;
     border-color: #3A4664;
     border-radius: 8px;
-}  
+}
+
+#signInButton:hover {
+    background-color: #ffc8d3;
+}
 
 #logoImage {
     position: absolute;
     height:7vh;
-    width:4vw;
-}
-
-#mainImage {
-    margin-top: 10vh;
-    margin-left: 65vw;
-    height:35vh;
-    width:19vw;
-    border-radius: 50%;
-    border: 5px solid #3A4664;
+    width:3.5vw;
 }

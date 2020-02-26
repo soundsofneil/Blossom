@@ -1,8 +1,71 @@
-#mainImage {
+#bodySection {
     margin-top: 10vh;
-    margin-left: 65vw;
-    height:35vh;
-    width:19vw;
+}
+
+#mainImage {
+    height:50vh;
+    width:23vw;
+    position: absolute;
+    bottom: 12vh;
+    left: 60vw;
     border-radius: 50%;
     border: 5px solid #3A4664;
 }
+
+#mainImage2 {
+    height:30vh;
+    width:13vw;
+    position: absolute;
+    bottom: 12vh;
+    left:50vw;
+    border-radius: 50%;
+    border: 5px solid #3A4664;
+}
+
+#mainImage3 {
+    height:30vh;
+    width:13vw;
+    position: absolute;
+    top: 20vh;
+    left: 75vw;
+    border-radius: 50%;
+    border: 5px solid #3A4664;
+}
+
+.welcomeTextBlock {
+    margin: 3vh;
+    margin-left: 18vh;
+    padding-top: 1vh;
+    width: 26vw;
+    height: 10vh;
+    border-radius: 8px;
+    background-color:#3A4664;
+}
+
+.welcomeTextBlock2 {
+    margin-top: 3vh;
+    margin-left: 28vh;
+    margin-right: 3vh;
+    margin-bottom: 3vh;
+    padding-top: 1vh;
+    width: 26vw;
+    height: 10vh;
+    border-radius: 8px;
+    background-color:#3A4664;
+}
+
+.welcomeTextHeading {
+    color: white;
+    margin-left: 15%;
+    font-size: 1.5vmax;
+    display: block;
+}
+
+.welcomeText{
+    color: white;
+    padding-left: 10%;
+    display: block;
+    font-size: 0.75vw;
+    text-indent: -5%;
+}
+
