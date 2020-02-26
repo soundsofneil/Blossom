@@ -26,3 +26,19 @@ code {
         -ms-user-select: none; 
             user-select: none;
 }
+
+.full {
+  width: 100%;
+}
+
+.threequarters {
+  width: 75%
+}
+
+.half {
+  width: 50%;
+}
+
+.fourtyfive {
+  width: 45%;
+}

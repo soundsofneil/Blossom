@@ -25,7 +25,7 @@ export default (props) => (
         <TextField
             className='field'
             margin='dense'
-            inputProps={{ style: {textAlign: 'center'} }} // specific
+            inputProps={{ style: {textAlign: props.align || 'center'}, min: 1, max: 100 }} // specific
             {...props}
         />
     </ThemeProvider>

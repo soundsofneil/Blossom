@@ -9,18 +9,35 @@
     height: 100vh;
     overflow: hidden;
 }
-
 .pop-box {
     background-color: var(--blue);
     padding: 15px;
     border-radius: 15px;
 }
 
+
 .field {
     margin-top: 12px;
-    width: 100%;
 }
-
 .MuiInput-underline:before {
     border-bottom-color: var(--lightpink) !important;
 }
+
+
+.formdrop{
+    width: 50%;
+}
+.dropdown {
+    height: 32px;
+    margin-top: 10px;
+}
+.MuiInputBase-root {
+    color: var(--pink) !important;
+}
+.MuiOutlinedInput-notchedOutline {
+    border-color: var(--pink) !important;
+}
+option {
+    color: black;
+}
+
