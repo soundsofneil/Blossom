@@ -5,10 +5,7 @@ import './SplashHeaderComponent.css';
 export default function SplashHeaderComponent() {
     return (
         <>
-        <img src={require('./blossom_logo.png')} alt='Blossom Logo' id='logoImage'/>
-
-        <div id='sloganTextSection'>
-
+        <div id='headerSection'>
         <span class='sloganText'>
             Can't find the right University?
         </span>
@@ -16,10 +13,10 @@ export default function SplashHeaderComponent() {
             We can help.
         </span>
         <span id='titleText'>
-            Blossom
+            blossom
         </span>
 
-        <button id='signInButton'>Sign In or Sign Up</button>
+        <button id='signInButton'><span id='signInButtonText'>Sign In or Sign Up</span></button>
     
         </div>
         </>

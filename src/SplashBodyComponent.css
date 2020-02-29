@@ -1,3 +1,11 @@
+:root {
+    --pink: #FFDBDC;
+    --lightpink: #FFECEC;
+    --darkpink: #FFBBBD;
+    --blue: #3A4664;
+  }
+
+
 #bodySection {
     margin-top: 10vh;
 }
@@ -9,7 +17,7 @@
     bottom: 12vh;
     left: 60vw;
     border-radius: 50%;
-    border: 5px solid #3A4664;
+    border: 5px solid var(--blue);
 }
 
 #mainImage2 {
@@ -19,7 +27,7 @@
     bottom: 12vh;
     left:50vw;
     border-radius: 50%;
-    border: 5px solid #3A4664;
+    border: 5px solid var(--blue);
 }
 
 #mainImage3 {
@@ -29,18 +37,19 @@
     top: 20vh;
     left: 75vw;
     border-radius: 50%;
-    border: 5px solid #3A4664;
+    border: 5px solid var(--blue);
 }
 
 .welcomeTextBlock {
-    margin: 3vh;
+    margin-top: 20vh;
     margin-left: 18vh;
     padding-top: 1vh;
     width: 26vw;
     height: 10vh;
     border-radius: 8px;
-    background-color:#3A4664;
+    background-color:var(--blue);
 }
+
 
 .welcomeTextBlock2 {
     margin-top: 3vh;
@@ -51,7 +60,7 @@
     width: 26vw;
     height: 10vh;
     border-radius: 8px;
-    background-color:#3A4664;
+    background-color:var(--blue);
 }
 
 .welcomeTextHeading {

@@ -1,0 +1,65 @@
+:root {
+    --pink: #FFDBDC;
+    --lightpink: #FFECEC;
+    --darkpink: #FFBBBD;
+    --blue: #3A4664;
+  }
+
+#mainInfoBox {
+    background-color: var(--darkpink);  
+    height:97vh;
+    width:97.5vw;
+    margin-left: 1.25vw;
+    position: relative;
+    border-radius: 3vmin;
+    justify-self: center;
+  }
+
+#whiteBoxLeft {
+    background-color: white;
+    width: 1vw;
+    position: absolute;
+    height: 100vh;
+    z-index: 1;
+}
+
+#whiteBoxRight {
+    background-color: white;
+    width: 1vw;
+    left: 99vw;
+    position: absolute;
+    height: 100vh;
+    z-index: 1;
+}
+
+#headingBox {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 100vw;
+    height: 55vh;
+    top: -29vh;
+    background: var(--lightpink);
+}
+
+#headingOval {
+    position: fixed;
+    width: 150vw;
+    display: flex;
+    overflow: hidden;
+    top: -17.5vh;
+    left: -25vw;
+    height: 47vh;
+    background: var(--lightpink);
+    border-radius: 40%;
+  }
+
+  
+#logoImage {
+    position: absolute;
+    top: 3vh;
+    left: 5vw;
+    height:7vh;
+    width:3.5vw;
+}

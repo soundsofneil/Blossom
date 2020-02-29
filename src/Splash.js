@@ -1,11 +1,15 @@
 import React from 'react'
 import './Splash.css';
-import SplashMain from './SplashMain.js';
+import SplashHeaderComponent from './SplashHeaderComponent'
+import SplashBodyComponent from './SplashBodyComponent';
+import SplashDesignComponent from './SplashDesignComponent.js';
 
 export default function Splash() {
     return (
-        <div class="Splash-header">
-            <SplashMain />
-        </div>
+        <>
+        <SplashHeaderComponent />
+        <SplashDesignComponent />
+        {/*<SplashBodyComponent />*/}
+        </>
     )
 }
