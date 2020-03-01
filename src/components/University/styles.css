@@ -2,8 +2,8 @@
 
 .university {
   position: relative;
-  margin-top: 15px;
-  background-color: #3A4664;
+  margin-bottom: 15px;
+  background-color: var(--blue);
   border-radius: 8px;
   height: 180px;
 }

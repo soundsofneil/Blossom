@@ -13,6 +13,7 @@ class UniversityList extends Component {
           <University
             key={uni.id}
             university={uni}
+            addToList={this.props.addToList}
           />)}
       </div>
     );

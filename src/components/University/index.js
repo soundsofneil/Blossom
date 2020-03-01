@@ -14,7 +14,7 @@ class University extends Component {
   }
 
   render() {
-    const {university} = this.props;
+    const {university, addToList} = this.props;
 
     return (
       <div className="university">
@@ -26,7 +26,7 @@ class University extends Component {
         </div>
         <UniversityContent university={university} />
         <div className="university-add-button-container">
-          <Button className="university-add-button" variant="outlined" onClick={() => {this.addToList(university)}}>
+          <Button className="university-add-button" variant="outlined" onClick={() => {addToList(university)}}>
             Add to List
           </Button>
         </div>
@@ -34,14 +34,10 @@ class University extends Component {
     );
   }
 
-  addToList = uni => {
-    console.log("Adding " + uni.name + " to the list!");
-  }
-
   getSmallIcon = country => {
-    if (country == "Canada") {
+    if (country === "Canada") {
       return leaf_icon;
-    } else if (country == "United States") {
+    } else if (country === "United States") {
       return star_icon;
     } else {
       return default_icon

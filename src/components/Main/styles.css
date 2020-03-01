@@ -13,5 +13,5 @@
   height: 100%;
   left: 23px;
   top: 0px;
-  background-color: #FFECEC;
+  background-color: var(--lightpink);
 }

@@ -6,7 +6,7 @@
   height: 100%;
 
   text-align: center;
-  color: #3A4664;
+  color: var(--blue);
 }
 
 .banner-background {
@@ -29,12 +29,18 @@
   height: 40px;
 }
 
-.banner-sign-out {
+.banner-sign-out-button-container {
   position: absolute;
   top: 10px;
-  right: 38px;
+  right: 30px;
   width: 70px;
-  height: 40px;
+  height: 30px;
+}
+
+.banner-sign-out-button .MuiButton-label {
+  color: var(--blue);
+  font-size: 11px;
+  text-transform: none;
 }
 
 .banner-text {
