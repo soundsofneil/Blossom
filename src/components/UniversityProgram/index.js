@@ -7,7 +7,7 @@ class UniversityProgram extends Component {
   render() {
     return (
       <div className="university-program">
-        <h1 className="university-program-title"> {this.props.program.name} </h1>
+        <h2 className="university-program-title"> {this.props.program.name} </h2>
         <p className="university-program-average"> {this.props.program.average}% admission average </p>
       </div>
     );

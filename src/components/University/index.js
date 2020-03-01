@@ -1,22 +1,52 @@
 import React, { Component } from 'react';
 import UniversityContent from '../UniversityContent'
+import Button from "@material-ui/core/Button";
+import star_icon from '../../static/star.png';
+import leaf_icon from '../../static/maple_leaf.png';
+import default_icon from '../../static/default.png';
 
 import './styles.css'
 
 class University extends Component {
 
+  buttonStyle = {
+    color: "#FFFFFF"
+  }
+
   render() {
-    console.log("../../static/" + this.props.university.icon);
+    const {university} = this.props;
+
     return (
       <div className="university">
         <div className="university-icon-container">
-          <img className="university-icon" src={require("../../static/" + this.props.university.icon)} alt="University Icon"/>
+          <img className="university-icon" src={require("../../static/" + university.icon)} alt="University Icon"/>
         </div>
-        <UniversityContent university={this.props.university} />
+        <div className="university-small-icon-container">
+          <img className="university-small-icon" src={this.getSmallIcon(university.country)} alt="Country Icon"/>
+        </div>
+        <UniversityContent university={university} />
+        <div className="university-add-button-container">
+          <Button className="university-add-button" variant="outlined" onClick={() => {this.addToList(university)}}>
+            Add to List
+          </Button>
+        </div>
       </div>
     );
   }
 
+  addToList = uni => {
+    console.log("Adding " + uni.name + " to the list!");
+  }
+
+  getSmallIcon = country => {
+    if (country == "Canada") {
+      return leaf_icon;
+    } else if (country == "United States") {
+      return star_icon;
+    } else {
+      return default_icon
+    }
+  }
 }
 
 export default University;

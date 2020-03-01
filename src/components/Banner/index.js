@@ -11,9 +11,9 @@ class Banner extends Component {
         <img className="banner-icon" src={require("../../static/logo_blue.png")} alt="Logo"/>
         <div className="banner-sign-out"> Sign Out </div>
         <div className="banner-text">
-          <h1> {this.props.title} </h1>
-          <h2> {this.props.subtitle} </h2>
-          <h3> {this.props.subsubtitle} </h3>
+          <p className="banner-title"> {this.props.title} </p>
+          <p className="banner-subtitle"> {this.props.subtitle} </p>
+          <p className="banner-subsubtitle"> {this.props.subsubtitle} </p>
         </div>
       </div>
     );

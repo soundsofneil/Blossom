@@ -3,7 +3,7 @@
 .university-list {
   position: absolute;
   margin-top: 230px;
-  margin-left: 30%;
-  margin-right: 30%;
-  width: 40%;
+  margin-left: 50%;
+  transform: translate(-50%, 0);
+  width: 650px;
 }

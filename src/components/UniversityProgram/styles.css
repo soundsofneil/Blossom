@@ -3,15 +3,15 @@
 .university-program {
   margin: 0;
   margin-bottom: 3%;
+  margin-top: 3%;
 }
 
 .university-program-title {
   margin: 0;
-  font-size: .7em;
+	font-weight: lighter;
 }
 
 .university-program-average {
   margin: 0;
   margin-left: 3%;
-  font-size: .6em;
 }
