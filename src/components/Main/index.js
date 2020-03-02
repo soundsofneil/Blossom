@@ -30,6 +30,7 @@ class Main extends Component {
           subtitle="John Doe"
           subsubtitle="Preferences"
           signOut={this.signOut}
+          bringUpAdminPanel={this.bringUpAdminPanel}
         />
         <UniversityList
           universities={this.state.universities}
@@ -45,6 +46,10 @@ class Main extends Component {
 
   signOut = () => {
     console.log("Signing out.");
+  }
+
+  bringUpAdminPanel = () => {
+    console.log("Bringing up admin panel.");
   }
 }
 

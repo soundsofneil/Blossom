@@ -11,14 +11,16 @@
 
 .banner-background {
   position: absolute;
-  width: 300%;
-  height: 320px;
-  top: -100px;
-  left: -100%;
-  border-radius: 50%;
+  display: flex;
+  width: 200vw;
+  height: 343px;
+  top: -116px;
+  left: -50vw;
 
+  background: var(--pink);
+  border-radius: 50%;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-  background-color: #FFDBDC;
+  overflow: hidden;
 }
 
 .banner-icon {
@@ -27,20 +29,6 @@
   left: 38px;
   width: 40px;
   height: 40px;
-}
-
-.banner-sign-out-button-container {
-  position: absolute;
-  top: 10px;
-  right: 30px;
-  width: 70px;
-  height: 30px;
-}
-
-.banner-sign-out-button .MuiButton-label {
-  color: var(--blue);
-  font-size: 11px;
-  text-transform: none;
 }
 
 .banner-text {
@@ -74,4 +62,32 @@
   margin: 0px;
 
   font-size: 12px;
+}
+
+.banner-sign-out-button-container {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  width: 100px;
+  height: 30px;
+}
+
+.banner-sign-out-button .MuiButton-label {
+  color: var(--blue);
+  font-size: 14px;
+  text-transform: none;
+}
+
+.banner-admin-panel-button-container {
+  position: absolute;
+  top: 34px;
+  right: 32px;
+  width: 100px;
+  height: 30px;
+}
+
+.banner-admin-panel-button .MuiButton-label {
+  color: var(--blue);
+  font-size: 10px;
+  text-transform: none;
 }

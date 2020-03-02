@@ -6,7 +6,7 @@ import './styles.css'
 class Banner extends Component {
 
   render() {
-    const {title, subtitle, subsubtitle, signOut} = this.props;
+    const {title, subtitle, subsubtitle, signOut, bringUpAdminPanel} = this.props;
 
     return (
       <div className="banner">
@@ -19,6 +19,9 @@ class Banner extends Component {
         </div>
         <div className="banner-sign-out-button-container">
           <Button className="banner-sign-out-button" onClick={signOut}>Sign Out</Button>
+        </div>
+        <div className="banner-admin-panel-button-container">
+          <Button className="banner-admin-panel-button" onClick={bringUpAdminPanel}>Admin Panel</Button>
         </div>
       </div>
     );
