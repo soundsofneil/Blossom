@@ -9,10 +9,6 @@ import './styles.css'
 
 class University extends Component {
 
-  buttonStyle = {
-    color: "#FFFFFF"
-  }
-
   render() {
     const {university, addToList} = this.props;
 
