@@ -7,9 +7,9 @@ import SplashDesignComponent from './SplashDesignComponent.js';
 export default function Splash() {
     return (
         <>
-        <SplashHeaderComponent />
         <SplashDesignComponent />
-        {/*<SplashBodyComponent />*/}
+        <SplashHeaderComponent />
+        <SplashBodyComponent />
         </>
     )
 }

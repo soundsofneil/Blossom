@@ -7,43 +7,28 @@
 
 
 #bodySection {
-    margin-top: 10vh;
+    text-align: center;
+    position: relative;
+    height: 55vh;
+    overflow: hidden;
 }
 
 #mainImage {
-    height:50vh;
-    width:23vw;
+    height:45vh;
+    width:25vw;
     position: absolute;
-    bottom: 12vh;
     left: 60vw;
-    border-radius: 50%;
-    border: 5px solid var(--blue);
-}
-
-#mainImage2 {
-    height:30vh;
-    width:13vw;
-    position: absolute;
-    bottom: 12vh;
-    left:50vw;
-    border-radius: 50%;
-    border: 5px solid var(--blue);
-}
-
-#mainImage3 {
-    height:30vh;
-    width:13vw;
-    position: absolute;
-    top: 20vh;
-    left: 75vw;
+    margin-top: 2vh;
+    object-fit: cover;
     border-radius: 50%;
     border: 5px solid var(--blue);
 }
 
 .welcomeTextBlock {
-    margin-top: 20vh;
+    margin-bottom: 20vh;
     margin-left: 18vh;
     padding-top: 1vh;
+    padding-right: 0.5vw;
     width: 26vw;
     height: 10vh;
     border-radius: 8px;
@@ -57,6 +42,7 @@
     margin-right: 3vh;
     margin-bottom: 3vh;
     padding-top: 1vh;
+    padding-right: 0.5vw;
     width: 26vw;
     height: 10vh;
     border-radius: 8px;

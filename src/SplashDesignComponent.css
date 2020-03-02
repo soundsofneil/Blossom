@@ -9,8 +9,10 @@
     background-color: var(--darkpink);  
     height:97vh;
     width:97.5vw;
+    top: 0;
+    overflow: hidden;
     margin-left: 1.25vw;
-    position: relative;
+    position: absolute;
     border-radius: 3vmin;
     justify-self: center;
   }
@@ -39,8 +41,8 @@
     overflow: hidden;
     width: 100vw;
     height: 55vh;
-    top: -29vh;
-    background: var(--lightpink);
+    top: -17vh;
+    background: var(--pink);
 }
 
 #headingOval {
@@ -48,18 +50,20 @@
     width: 150vw;
     display: flex;
     overflow: hidden;
-    top: -17.5vh;
+    top: -5.5vh;
     left: -25vw;
     height: 47vh;
-    background: var(--lightpink);
+    background: var(--pink);
     border-radius: 40%;
   }
 
   
 #logoImage {
     position: absolute;
+    overflow: hidden;
     top: 3vh;
     left: 5vw;
-    height:7vh;
-    width:3.5vw;
+    height:6vh;
+    object-fit: contain;
+    width:2.5vw;
 }

@@ -3,8 +3,8 @@ import './SplashBodyComponent.css';
 
 export default function SplashBodyComponent() {
     return (
-        <div class='bodySection'>
-        <img src={require('./Images/students.jpg')} alt='Group of Students' id='mainImage'/>
+        <div id='bodySection'>
+        <img src={require('./images/students.jpg')} alt='Group of Students' id='mainImage'/>
         
         <div class = 'welcomeTextBlock'>
             <span class = 'welcomeTextHeading'>
