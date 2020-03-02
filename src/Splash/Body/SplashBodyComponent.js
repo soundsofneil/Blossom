@@ -4,9 +4,11 @@ import './SplashBodyComponent.css';
 export default function SplashBodyComponent() {
     return (
         <div id='bodySection'>
-        <img src={require('./images/students.jpg')} alt='Group of Students' id='mainImage'/>
+        <img src={require('../Images/students.jpg')} alt='Group of Students' id='mainImage'/>
+        <img src={require('../Images/smiling.jpg')} alt='Group of Students' id='mainImage2'/>
+        <img src={require('../Images/laptop.jpg')} alt='Group of Students' id='mainImage3'/>
         
-        <div class = 'welcomeTextBlock'>
+        <div id = 'welcomeTextBlock'>
             <span class = 'welcomeTextHeading'>
                 Find the right university for you.
             </span>
@@ -15,22 +17,24 @@ export default function SplashBodyComponent() {
                 we search through universities and colleges that match your needs.
             </span>
         </div>
-        <div class = 'welcomeTextBlock2'>
+        <div id = 'welcomeTextBlock2'>
             <span class = 'welcomeTextHeading'>
-                Find the right university for you.
+                Apply.
             </span>
             <span class = 'welcomeText'>
-                Using your grades along with your location and program preferences,
-                we search through universities and colleges that match your needs.
+                Apply to the universities you like!
+            </span>
+            <span class = 'welcomeText'>
+                We provide easy links to apply to select approved schools!
             </span>
         </div>
-        <div class = 'welcomeTextBlock'>
+        <div id = 'welcomeTextBlock3'>
             <span class = 'welcomeTextHeading'>
-                Find the right university for you.
+                Keep track.
             </span>
             <span class = 'welcomeText'>
-                Using your grades along with your location and program preferences,
-                we search through universities and colleges that match your needs.
+                We keep the universities you've applied to or noted down on your profile,
+                so you don't have to note them down in an Excel spreadsheet.
             </span>
         </div>
         </div>

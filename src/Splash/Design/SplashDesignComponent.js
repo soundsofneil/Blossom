@@ -8,7 +8,7 @@ export default function SplashDesignComponent() {
         <div id = 'mainInfoBox'></div>
         <div id = 'headingOval'></div>
         <div id = 'headingBox'></div>
-        <img src={require('./images/blossom_logo.png')} alt='Blossom Logo' id='logoImage'/>
+        <img src={require('../Images/blossom_logo.png')} alt='Blossom Logo' id='logoImage'/>
         </>
     )
 }

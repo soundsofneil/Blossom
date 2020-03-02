@@ -42,7 +42,7 @@
     white-space: nowrap;
     align-items: center;
     justify-content: center;
-    font-size: 1vw;
+    font-size: 0.9vw;
     font-family: var(--mainfont);
     position: relative;
 }

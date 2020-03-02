@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Splash from './Splash';
+import Splash from './Splash/Splash';
 
 function App() {
   return (
