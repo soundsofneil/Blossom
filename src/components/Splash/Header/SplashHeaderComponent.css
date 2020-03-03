@@ -41,6 +41,7 @@
 
 #signInButton:hover {
     background-color: var(--lightpink);
+    cursor: pointer;
 }
 
 #logoImage {
