@@ -3,7 +3,7 @@
         {
             "username": "user",
             "name": "John Doe",
-            "password": "password",
+            "password": "user",
             "admin": false,
             "grades": [
                 {
