@@ -13,6 +13,6 @@
     e. Click complete profile.
 5. Scroll through the available schools, click one's image to see its details.
     a. Click through the links to navigate to a school's available links.
-6. To open the user profile, click on `John Doe` in the middle.
+6. To edit the user profile, click on `Preferences` in the middle of the banner.
 7. If on the `admin` account, to open the admin profile, click `Admin Profile` in the top right, under `Sign Out`.
 8. To sign out, click `Sign Out` in the top right.
