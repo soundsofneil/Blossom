@@ -1,0 +1,15 @@
+#profile-button {
+    border-radius: 4px;
+    margin: 5px;
+    background-color: #FFDBDC;
+    color: 3A4664;
+    text-align: centre;
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 10px;
+}
+
+#profile-button:hover {
+    background-color: green;
+    color: white;
+}
