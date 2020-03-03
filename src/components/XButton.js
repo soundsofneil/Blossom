@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './XButton.css'
 export class XButton extends Component {
 
-// NOT actually a button lmao
+// the top closing button
   render() {
     return (
         <a href="#" class="close"/>
