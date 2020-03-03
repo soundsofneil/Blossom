@@ -1,6 +1,17 @@
+:root {
+  --pink: #FFDBDC;
+  --lightpink: #FFECEC;
+  --darkpink: #FFBBBD;
+  --blue: #3A4664;
+  --lightblue: #414e70;
+  --lightgray: #CECECE;
+  --green: #46A566;
+  --darkgreen: #348a51;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -11,4 +22,28 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.noselect {
+  -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none;
+}
+
+.full {
+  width: 100%;
+}
+
+.threequarters {
+  width: 75%
+}
+
+.half {
+  width: 50%;
+}
+
+.fourtyfive {
+  width: 45%;
 }

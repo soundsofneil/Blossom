@@ -1,0 +1,18 @@
+/* Styles for the Main React component */
+
+.main {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+  overflow-x: hidden;
+}
+
+.main-background {
+  position: fixed;
+  width: calc(100% - 2.5vw);
+  height: 100%;
+  left: 1.25vw;
+  top: 0px;
+  background-color: var(--lightpink);
+}

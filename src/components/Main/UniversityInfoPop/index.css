@@ -1,0 +1,104 @@
+#pop-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.popup-hdr {
+    color: var(--darkpink);
+    font-size: 42px;
+    margin: 0;
+}
+
+.popup-location {
+    color: white;
+    font-size: 20px;
+    margin: 0;
+}
+
+.popup-desc {
+    color: var(--lightgray);
+    margin: 10px 0 20px 0;
+}
+
+.popup-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 60px 10px 10px 10px;
+    position: relative;
+}
+
+.popup-img {
+    margin-top: 25px;
+    margin-bottom: 20px;
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.button-uni-grp {
+    display: flex;
+}
+
+.button-uni-col {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.button-uni.apply {
+    background-color: var(--green);
+    color: white;
+}
+
+.button-uni.apply:hover {
+    background-color: var(--darkgreen);
+    cursor: pointer;
+}
+
+.button-uni.wide {
+    padding-left: 30px;
+    padding-right: 30px;
+    align-self: stretch;
+}
+
+.button-uni {
+    text-align: center;
+    margin-bottom: 7px;
+    margin-left: 10px;
+    font-size: 14px;
+    padding: 11px;
+    color: var(--blue);
+    border-radius: 5px;
+    background-color: var(--pink);
+    text-decoration: none;
+}
+
+.button-uni:hover {
+    background-color: var(--darkpink);
+    cursor: pointer;
+}
+
+.button-uni.program {
+    border-radius: 5px 0 0 5px;
+    margin-bottom: 7px;
+}
+
+.program-block {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.average-block {
+    background-color: white;
+    text-align: center;
+    padding: 11px;
+    margin-top: -7px;
+    border-radius: 0 5px 5px 0;
+    color: var(--blue);
+}
