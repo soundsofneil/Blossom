@@ -37,6 +37,7 @@ export default class SplashHeaderComponent extends React.Component {
                         close={this.closeSignIn} 
                         switchView={this.switchView} 
                         type={this.state.currentView}
+                        signUp={this.props.signUp} 
                         signIn={this.props.signIn} />
                 </PopWindow>
             </div>

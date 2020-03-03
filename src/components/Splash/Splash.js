@@ -6,7 +6,7 @@ import SplashBodyComponent from './Body/SplashBodyComponent';
 export default function Splash(props) {
     return (
         <div id="splash">
-            <SplashHeaderComponent signIn={props.signIn}/>
+            <SplashHeaderComponent signUp={props.signUp} signIn={props.signIn}/>
             <SplashBodyComponent />
         </div>
     )

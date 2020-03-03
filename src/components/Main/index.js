@@ -3,7 +3,7 @@ import Banner from './Banner'
 import UniversityList from './UniversityList'
 import MySchoolsList from './MySchoolsList'
 import UniversityInfoPop from './UniversityInfoPop'
-import { addToList, removeFromList, fetchUniversities, getReccomendations, getMySchoolsList } from "../../actions/main";
+import { addToList, removeFromList, fetchUniversities, getReccomendations } from "../../actions/main";
 
 import './styles.css'
 
@@ -16,12 +16,12 @@ class Main extends Component {
         uniPop: {id: -1, name: "Default University", location: "Default, State", country: "United States", description: "Default description.", programs: [{id: 0, name: "Computer Science", average: 100}, {id: 1, name: "Commerce", average: 0}]},
     }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state.universities = fetchUniversities();
         this.state.universities = getReccomendations(this.state.universities);
-        this.state.mySchools = getMySchoolsList();
+        this.state.mySchools = props.user.schools.map((id) => this.state.universities.filter((uni) => uni.id === id)[0])
     }
 
     render() {
@@ -30,7 +30,7 @@ class Main extends Component {
                 <div className="main-background"></div>
                 <Banner
                     title="Find Your University"
-                    subtitle="John Doe"
+                    subtitle={this.props.user.name}
                     subsubtitle="Preferences"
                     signOut={this.signOut}
                     bringUpAdminPanel={this.bringUpAdminPanel}
