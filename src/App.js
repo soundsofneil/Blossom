@@ -7,7 +7,7 @@ const users = require('./data.json').users
 
 export default class App extends React.Component {
     state = {
-        view: 'splash', // splash | main
+        view: 'main', // splash | main
         user: users[0] // currently logged in user 
     }
 
