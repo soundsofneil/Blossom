@@ -37,6 +37,7 @@ class Main extends Component {
                     subtitle={this.props.user.name}
                     subsubtitle="Preferences"
                     signOut={this.signOut}
+                    isAdmin={this.props.user.admin}
                     toggleAdminPanel={this.toggleAdminPanel}
                     togglePreferences={this.togglePreferences}
                 />

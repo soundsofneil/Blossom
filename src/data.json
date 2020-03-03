@@ -4,6 +4,28 @@
             "username": "user",
             "name": "John Doe",
             "password": "password",
+            "admin": false,
+            "grades": [
+                {
+                    "id": 0,
+                    "course": "Mathematics",
+                    "grade": 90
+                },
+                {
+                    "id": 1,
+                    "course": "English",
+                    "grade": 80
+                }
+            ],
+            "regions": [1, 6],
+            "programs": [0, 1],
+            "schools": [0, 1]
+        },
+        {
+            "username": "admin",
+            "name": "John Admin",
+            "password": "admin",
+            "admin": true,
             "grades": [
                 {
                     "id": 0,
