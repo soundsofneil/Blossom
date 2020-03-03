@@ -46,7 +46,7 @@ export default class Preferences extends React.Component {
                                 <span className="grd-text">Programs</span>
                                 {
                                     this.props.user.programs.map((program) => (
-                                        <Dropdown formClassName="drop" choices={programs} defaultValue={program.id}/>
+                                        <Dropdown key={program.id} formclassname="drop" choices={programs} defaultValue={program.id}/>
                                     ))
                                 }
                                 <div 
@@ -57,7 +57,7 @@ export default class Preferences extends React.Component {
                                 <span className="grd-text">Regions</span>
                                 {
                                     this.props.user.regions.map((region) => (
-                                        <Dropdown formClassName="drop" choices={regions} defaultValue={region.id}/>
+                                        <Dropdown key={region.id} formclassname="drop" choices={regions} defaultValue={region.id}/>
                                     ))
                                 }
                                 <div 

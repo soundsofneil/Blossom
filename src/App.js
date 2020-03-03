@@ -16,7 +16,7 @@ export default class App extends React.Component {
         const user = users.filter(({username}) => username === input.username)
         if (user.length > 0 && user[0].username === input.username && input.password === user[0].password) {
             console.log('Signing in...')
-            this.setState({ view: 'main', user: user })
+            this.setState({ view: 'main', user: user[0] })
             res() // data to return goes here
         } else {
             rej('Incorrect credentials...')
