@@ -1,9 +1,6 @@
 /* Styles for the UniversityList React component */
 
 .university-list {
-  position: absolute;
-  top: 245px;
-  left: 50%;
-  transform: translate(-50%, 0);
+  margin-top: 245px;
   width: 650px;
 }

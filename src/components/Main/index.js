@@ -11,7 +11,7 @@ import './styles.css'
 
 class Main extends Component {
     state = {
-        view: 'main', // main | pref | admin | learn 
+        view: 'main', // main | pref | admin | learn
         universities: [],
         mySchools: [],
         popVisible: false,
@@ -31,27 +31,28 @@ class Main extends Component {
     render() {
         return (
             <div className="main">
-                <div className="main-background"></div>
-                <Banner
-                    title="Find Your University"
-                    subtitle={this.props.user.name}
-                    subsubtitle="Preferences"
-                    signOut={this.signOut}
-                    isAdmin={this.props.user.admin}
-                    toggleAdminPanel={this.toggleAdminPanel}
-                    togglePreferences={this.togglePreferences}
-                />
-                <UniversityList
-                    universities={this.state.universities}
-                    addToList={(uni) => {addToList(this, uni)}}
-                    learnMore={this.learnMore}
-                />
-                <MySchoolsList
-                    mySchools={this.state.mySchools}
-                    removeFromList={(uni) => {removeFromList(this, uni)}}
-                />
-                <UniversityInfoPop 
-                    visible={this.state.popVisible} 
+                <div className="main-background">
+                    <Banner
+                        title="Find Your University"
+                        subtitle={this.props.user.name}
+                        subsubtitle="Preferences"
+                        signOut={this.signOut}
+                        isAdmin={this.props.user.admin}
+                        toggleAdminPanel={this.toggleAdminPanel}
+                        togglePreferences={this.togglePreferences}
+                    />
+                    <UniversityList
+                        universities={this.state.universities}
+                        addToList={(uni) => {addToList(this, uni)}}
+                        learnMore={this.learnMore}
+                    />
+                    <MySchoolsList
+                        mySchools={this.state.mySchools}
+                        removeFromList={(uni) => {removeFromList(this, uni)}}
+                    />
+                </div>
+                <UniversityInfoPop
+                    visible={this.state.popVisible}
                     uni={this.state.uniPop}
                     close={() => this.setState({ popVisible: false })}/>
                 <AdminPortal visible={this.state.adminVisible} setUser={this.props.setUser} close={this.toggleAdminPanel}/>
