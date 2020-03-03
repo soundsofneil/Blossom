@@ -1,0 +1,61 @@
+/* Styles for the Main/MySchoolsList React component */
+
+.my-schools-list {
+  position: absolute;
+  top: 245px;
+  left: 50%;
+  transform: translate(200%, 0);
+  width: 180px;
+
+  background-color: var(--blue);
+  border-radius: 8px;
+	color: white;
+}
+
+.my-schools-list-title {
+	margin: 0px;
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-bottom: 15px;
+
+	font-style: normal;
+	font-weight: normal;
+	font-size: 20px;
+	line-height: 120%;
+	text-align: left;
+}
+
+ul {
+  margin-bottom: 10px;
+  padding-inline-start: 0;
+  list-style-type: none;
+}
+
+.my-schools-list-school {
+	font-size: 12px;
+	text-align: right;
+  margin-top: -11px;
+  margin-right: 20px;
+	color: var(--lightgray)
+}
+
+.school-list-name {
+  margin-right: 10px;
+}
+
+.my-schools-list-delete-button {
+	width: 6px !important;
+	margin-left: 13px;
+}
+
+.my-schools-list-delete-button-icon {
+	position: relative;
+  color: var(--lightgray);
+	width: 12px !important;
+	margin: 0; 
+}
+
+.my-schools-list-delete-button-icon .MuiIconButton-label {
+	color: #EFE4FF !important;
+	font-size: 11px;
+}

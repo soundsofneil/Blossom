@@ -30,8 +30,17 @@ export default class SignIn extends React.Component {
             // should log in, move to main page.
             this.setState({ username: '', password: '', errusername: false, errpassword: false })
             this.props.close()
+            this.props.signIn()
         } else {
             this.setState({ errusername: true, errpassword: true })
+        }
+    }
+
+    onKeyDownIn = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            event.stopPropagation();
+            this.signIn();
         }
     }
 
@@ -67,6 +76,14 @@ export default class SignIn extends React.Component {
         this.props.switchView()
     }
 
+    onKeyDownUp = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            event.stopPropagation();
+            this.nextSignUpStep();
+        }
+    }
+
     signUpGoogle = () => {
         console.log('sign up google');
     }
@@ -82,7 +99,7 @@ export default class SignIn extends React.Component {
                 placeholder="username" 
                 type="text" />
             {
-                this.props.type === 'out' && (
+                this.props.type === 'up' && (
                 <Field 
                     className="full" 
                     value={this.state.name} 
@@ -97,24 +114,25 @@ export default class SignIn extends React.Component {
                 onChange={({target: {value}}) => this.setState({password: value})} 
                 error={this.state.errpassword} 
                 placeholder="password" 
-                type="password" />
+                type="password"
+                onKeyDown={this.state.type === 'up' ? this.onKeyDownUp : this.onKeyDownIn}/>
 
             <div 
                 className="button full" 
                 onClick={
-                    this.props.type === 'out' ? 
+                    this.props.type === 'up' ? 
                     this.nextSignUpStep : this.signIn}>
-                Sign {this.props.type === 'out' ? 'Up' : 'In'}</div>
+                Sign {this.props.type === 'up' ? 'Up' : 'In'}</div>
             <div
                 className="button-goog full" 
                 onClick={
-                    this.props.type === 'out' ? 
+                    this.props.type === 'up' ? 
                     this.signUpGoogle : this.signInGoogle }>
                 <FontAwesomeIcon color="#3A4664" icon={faGoogle}/>&nbsp; Sign&nbsp; 
-                    {this.props.type === 'out' ? 'Up' : 'In'} with Google
+                    {this.props.type === 'up' ? 'Up' : 'In'} with Google
             </div>
             <div className="button-up noselect" onClick={this.props.switchView}>
-                {this.props.type === 'out' ? 
+                {this.props.type === 'up' ? 
                 'Have an account? Sign In.' : 'No account? Sign Up.'}
             </div>
         </div>

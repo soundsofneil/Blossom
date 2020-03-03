@@ -3,10 +3,10 @@ import './Splash.css';
 import SplashHeaderComponent from './Header/SplashHeaderComponent'
 import SplashBodyComponent from './Body/SplashBodyComponent';
 
-export default function Splash() {
+export default function Splash(props) {
     return (
         <div id="splash">
-            <SplashHeaderComponent />
+            <SplashHeaderComponent signIn={props.signIn}/>
             <SplashBodyComponent />
         </div>
     )
