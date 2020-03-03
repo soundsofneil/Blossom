@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
-import Splash from './Splash/Splash';
+import Splash from './components/Splash/Splash';
 
-function App() {
-  return (
-    <>
-      <Splash />
-    </>
-  )
+export default class App extends React.Component {
+    // No state, base component
+    render() {
+        return (
+            <div>
+                <Splash />
+            </div>
+        );
+    }
 }
-
-export default App;

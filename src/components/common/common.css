@@ -1,0 +1,50 @@
+.pop-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+.pop-bg {
+    position: absolute;
+    background-color: rgba(0,0,0,0.8);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+.pop-box {
+    background-color: var(--blue);
+    padding: 15px;
+    border-radius: 15px;
+}
+
+
+.field {
+    margin-top: 12px;
+}
+.MuiInput-underline:before {
+    border-bottom-color: var(--lightpink) !important;
+}
+
+
+.formdrop{
+    width: 50%;
+}
+.dropdown {
+    height: 32px;
+    margin-top: 10px;
+}
+.MuiInputBase-root {
+    color: var(--pink) !important;
+}
+.MuiOutlinedInput-notchedOutline {
+    border-color: var(--pink) !important;
+}
+option {
+    color: black;
+}
+
