@@ -1,0 +1,67 @@
+/* Styles for the Main/University React component */
+
+.university {
+  position: relative;
+  margin-bottom: 15px;
+  background-color: var(--blue);
+  border-radius: 8px;
+  height: 180px;
+}
+
+.university-icon-container:hover {
+  cursor: pointer;
+}
+
+.university-icon-container {
+  float: left;
+  width: 28%;
+  height: 100%;
+}
+
+.university-icon {
+  width: 70%;
+  height: 70%;
+  margin: 15%;
+  margin-left: 18%;
+}
+
+.university-icon:hover {
+  opacity: 70%;
+}
+
+.university-small-icon-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+.university-small-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.university-add-button-container {
+  position: absolute;
+  bottom: 16px;
+  right: 20px;
+}
+
+.university-add-button {
+  width: 70px;
+  height: 24px;
+  padding: 0px !important;
+
+  border-color: white !important;
+}
+
+.university-add-button .MuiButton-label {
+  color: white;
+  font-size: 10px;
+  text-transform: none;
+}
+
+.university-add-button-container:hover {
+  background-color: var(--lightblue);
+}
