@@ -7,7 +7,7 @@ import default_icon from '../../../static/default.png';
 
 import './styles.css'
 
-class University extends Component {
+export default class University extends Component {
     render() {
         const {university, addToList, learnMore} = this.props;
 
@@ -39,5 +39,3 @@ class University extends Component {
         }
     }
 }
-
-export default University;

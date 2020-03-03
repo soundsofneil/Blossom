@@ -5,6 +5,8 @@
   --blue: #3A4664;
   --lightblue: #414e70;
   --lightgray: #CECECE;
+  --green: #46A566;
+  --darkgreen: #348a51;
 }
 
 body {
@@ -14,6 +16,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: grey;
 }
 
 code {

@@ -13,6 +13,12 @@
     margin: 50px;
 }
 
+#textSection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 #mainImage {
     height: 450px;
     width: 450px;

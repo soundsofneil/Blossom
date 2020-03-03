@@ -5,7 +5,7 @@ import Main from './components/Main';
 
 export default class App extends React.Component {
     state = {
-        view: 'splash' // splash | main 
+        view: 'main' // splash | main 
     }
 
     signIn = () => {
