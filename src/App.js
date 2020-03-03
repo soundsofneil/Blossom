@@ -7,7 +7,7 @@ const users = require('./data.json').users
 
 export default class App extends React.Component {
     state = {
-        view: 'main', // splash | main
+        view: 'splash', // splash | main
         user: users[0] // currently logged in user 
     }
 
@@ -32,13 +32,14 @@ export default class App extends React.Component {
         // amongst other logic
         this.setState({ view: 'main', user: user })
     }
+    setUser = (user) => this.setState({ user })
 
     render() {
         return (
             <div>
                 { this.state.view === 'splash' ? 
                     (<Splash signIn={this.signIn} signUp={this.signUp}/>) : 
-                    (<Main signOut={this.signOut} user={this.state.user}/>) }
+                    (<Main signOut={this.signOut} setUser={this.setUser} user={this.state.user}/>) }
             </div>
         );
     }

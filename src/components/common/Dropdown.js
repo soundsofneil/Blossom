@@ -11,7 +11,7 @@ const styles = {
 };
 
 const Dropdown = (props) => (
-    <FormControl className="formdrop" variant="outlined">
+    <FormControl className={props.formClassName || "formdrop"} variant="outlined">
         <Select
             native
             className='dropdown'
@@ -21,7 +21,7 @@ const Dropdown = (props) => (
             {...props}
         >
             {props.choices.map(({ id, name }) => (
-                <option key={id}>{name}</option>
+                <option key={id} value={id}>{name}</option>
             ))}
         </Select>
     </FormControl>
