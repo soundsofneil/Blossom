@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+// Material UI Specific styles.
 const styles = {
     icon: {
         fill: "var(--pink)",
@@ -10,7 +11,7 @@ const styles = {
 };
 
 const Dropdown = (props) => (
-    <FormControl className="formdrop" variant="outlined">
+    <FormControl className={props.formclassname || "formdrop"} variant="outlined">
         <Select
             native
             className='dropdown'
@@ -19,8 +20,8 @@ const Dropdown = (props) => (
             }}
             {...props}
         >
-            {props.choices.map((choice) => (
-                <option key={choice}>{choice}</option>
+            {props.choices.map(({ id, name }) => (
+                <option key={id} value={id}>{name}</option>
             ))}
         </Select>
     </FormControl>

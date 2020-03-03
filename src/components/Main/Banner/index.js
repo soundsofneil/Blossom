@@ -5,7 +5,7 @@ import './styles.css'
 
 class Banner extends Component {
     render() {
-        const {title, subtitle, subsubtitle, signOut, bringUpAdminPanel, bringUpPreferences} = this.props;
+        const {title, subtitle, subsubtitle, signOut, toggleAdminPanel, togglePreferences} = this.props;
 
         return (
             <div className="banner">
@@ -14,13 +14,13 @@ class Banner extends Component {
                 <div className="banner-text">
                     <p className="banner-title"> {title} </p>
                     <p className="banner-subtitle"> {subtitle} </p>
-                    <Button className="banner-subsubtitle" onClick={bringUpPreferences}> {subsubtitle} </Button>
+                    <Button className="banner-subsubtitle" onClick={togglePreferences}> {subsubtitle} </Button>
                 </div>
                 <div className="banner-sign-out-button-container">
                     <Button className="banner-sign-out-button" onClick={signOut}>Sign Out</Button>
                 </div>
                 <div className="banner-admin-panel-button-container">
-                    <Button className="banner-admin-panel-button" onClick={bringUpAdminPanel}>Admin Panel</Button>
+                    <Button className="banner-admin-panel-button" onClick={toggleAdminPanel}>Admin Panel</Button>
                 </div>
             </div>
         );

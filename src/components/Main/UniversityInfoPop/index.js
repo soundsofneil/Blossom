@@ -31,7 +31,7 @@ export default class UniPopUp extends Component {
                                     <FontAwesomeIcon color="#3A4664" icon={uni.country === 'Canada' ? faCanadianMapleLeaf : faStar}/>&nbsp; {uni.location}
                                 </a> 
                                 {uni.programs.map(({ name, link, average, icon }) => (
-                                    <div className="program-block">
+                                    <div key={name} className="program-block">
                                         <a target="_blank" rel="noopener noreferrer" href={link} className="button-uni program">
                                             <FontAwesomeIcon color="#3A4664" icon={icon}/>&nbsp; {name}
                                         </a>

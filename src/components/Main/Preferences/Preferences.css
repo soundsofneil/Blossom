@@ -1,0 +1,106 @@
+.pref-window {
+    display: flex;
+}
+
+.pref-name {
+    color: var(--pink);
+    margin-top: 80px;
+    font-size: 42px;
+}
+
+.pref-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grade-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+.grade-form.entry {
+    margin-top: 0;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.button-form {
+    display: flex;
+    width: 100%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    align-items: center;
+}
+
+.program-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
+.region-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
+.grd-text {
+    color: white;
+    text-align: center;
+}
+
+.button-add.grade {
+    align-self: center;
+}
+
+.user-details-form {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.fourtyfive.marg {
+    margin: 5px;
+}
+
+.button.threequarters.marg-bot {
+    margin-bottom: 25px;
+}
+
+.button.threequarters.modify {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.button.threequarters.create {
+    background-color: var(--green);
+    color: white;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.button.threequarters.delete {
+    background-color: var(--red);
+    color: white;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.button.threequarters.create:hover {
+    background-color: var(--darkgreen);
+}
+
+.button.threequarters.delete:hover {
+    background-color: var(--darkred);
+}
+
+.admin-header {
+    color: var(--pink);
+    font-size: 25px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
