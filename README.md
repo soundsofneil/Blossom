@@ -5,7 +5,7 @@
 1. Install node_modules: `npm install` in the base folder.
 2. Start the react server: `npm start` in the base folder.
 3. Click Sign in or Sign up.
-4. Either Sign in with username: `user`, password: `password`, or Sign up by clicking `No account? Sign Up.`.
+4. Either Sign in with username: `user`, password: `password` or username+password: `admin`, or Sign up by clicking `No account? Sign Up.`.
     a. If signing up, enter new username, name, and password.
     b. Enter programs of interest.
     c. Enter regions of interest.
