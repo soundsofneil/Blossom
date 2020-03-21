@@ -53,6 +53,7 @@ class Main extends Component {
                     <MySchoolsList
                         mySchools={this.state.mySchools}
                         removeFromList={(uni) => {removeFromList(this, uni)}}
+                        learnMore={this.learnMore}
                     />
                     <div className="main-search-bar-container">
                             <TextField

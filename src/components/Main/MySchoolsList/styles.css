@@ -32,7 +32,6 @@ ul {
 }
 
 .my-schools-list-school {
-	font-size: 12px;
 	text-align: right;
   margin-top: -11px;
   margin-right: 20px;
@@ -41,6 +40,13 @@ ul {
 
 .school-list-name {
   margin-right: 10px;
+}
+
+.school-list-name .MuiButton-label {
+  color: #FFFFFF;
+	font-size: 12px;
+	font-weight: lighter;
+  text-transform: none;
 }
 
 .my-schools-list-delete-button {
@@ -52,7 +58,7 @@ ul {
 	position: relative;
   color: var(--lightgray);
 	width: 12px !important;
-	margin: 0; 
+	margin: 0;
 }
 
 .my-schools-list-delete-button-icon .MuiIconButton-label {
