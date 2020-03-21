@@ -19,3 +19,28 @@
   background-color: var(--lightpink);
   border-radius: 25px;
 }
+
+.main-search-bar-container {
+  position: absolute;
+  top: 245px;
+  left: 50%;
+  transform: translate(-300%, 0);
+  width: 180px;
+
+  /*background-color: var(--blue);
+  border-radius: 8px;
+	color: white;*/
+}
+
+.main-search-bar .MuiInputBase-root {
+  color: var(--blue) !important;
+  height:
+}
+
+.main-search-bar .MuiOutlinedInput-notchedOutline {
+    border-color: var(--lightblue) !important;
+}
+
+.main-search-bar .MuiOutlinedInput-input {
+  padding: 8px;
+}

@@ -7,14 +7,16 @@ import './styles.css'
 class UniversityList extends Component {
 
     render() {
+        const {universities, indeces} = this.props;
+
         return (
         <div className="university-list">
-            {this.props.universities.map(uni =>
+            {indeces.map(i =>
             <University
-                key={uni.id}
-                university={uni}
+                key={universities[i].id}
+                university={universities[i]}
                 addToList={this.props.addToList}
-                learnMore={() => this.props.learnMore(uni)}
+                learnMore={() => this.props.learnMore(universities[i])}
             />)}
         </div>
         );
