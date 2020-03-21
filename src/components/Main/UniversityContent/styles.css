@@ -3,6 +3,8 @@
 .university-content {
 	color: white;
 	text-align: left;
+
+	cursor: pointer;
 }
 
 .university-content-left {

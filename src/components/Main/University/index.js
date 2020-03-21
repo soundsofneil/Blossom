@@ -19,7 +19,7 @@ export default class University extends Component {
             <div className="university-small-icon-container">
                 <img className="university-small-icon" src={this.getSmallIcon(university.country)} alt="Country Icon"/>
             </div>
-            <UniversityContent university={university} />
+            <UniversityContent university={university} learnMore={learnMore}/>
             <div className="university-add-button-container">
                 <Button className="university-add-button" variant="outlined" onClick={() => {addToList(university)}}>
                     Add to List

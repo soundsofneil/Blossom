@@ -11,13 +11,17 @@ class UniversityList extends Component {
 
         return (
         <div className="university-list">
-            {indeces.map(i =>
+            {indeces.length > 0 ?
+            indeces.map(i =>
             <University
                 key={universities[i].id}
                 university={universities[i]}
                 addToList={this.props.addToList}
                 learnMore={() => this.props.learnMore(universities[i])}
-            />)}
+            />) :
+            <div className="university-list-empty">
+                No results.
+            </div>}
         </div>
         );
     }
