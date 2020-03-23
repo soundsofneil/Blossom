@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Banner from './Banner'
 import UniversityList from './UniversityList'
 import MySchoolsList from './MySchoolsList'
+import TextField from "@material-ui/core/TextField";
 import UniversityInfoPop from './UniversityInfoPop'
 import Preferences from './Preferences/Preferences'
 import AdminPortal from './Preferences/AdminPortal'
@@ -14,6 +15,7 @@ class Main extends Component {
         view: 'main', // main | pref | admin | learn
         universities: [],
         mySchools: [],
+        searchInds: [],
         popVisible: false,
         adminVisible: false,
         prefVisible: false,
@@ -26,6 +28,7 @@ class Main extends Component {
         this.state.universities = fetchUniversities();
         this.state.universities = getReccomendations(this.state.universities);
         this.state.mySchools = props.user.schools.map((id) => this.state.universities.filter((uni) => uni.id === id)[0])
+        this.state.searchInds = this.state.universities.map((uni, i) => i);
     }
 
     render() {
@@ -43,13 +46,25 @@ class Main extends Component {
                     />
                     <UniversityList
                         universities={this.state.universities}
+                        indeces={this.state.searchInds}
                         addToList={(uni) => {addToList(this, uni)}}
                         learnMore={this.learnMore}
                     />
                     <MySchoolsList
                         mySchools={this.state.mySchools}
                         removeFromList={(uni) => {removeFromList(this, uni)}}
+                        learnMore={this.learnMore}
                     />
+                    <div className="main-search-bar-container">
+                            <TextField
+                                className="main-search-bar"
+                                variant="outlined"
+                                onChange={({target: {value}}) => this.search(value)}
+                                error={false}
+                                placeholder="search"
+                                type="text"
+                            />
+                    </div>
                 </div>
                 <UniversityInfoPop
                     visible={this.state.popVisible}
@@ -80,6 +95,18 @@ class Main extends Component {
         // open university info page
         console.log('Bringing up "learn more" about ' + uni.name)
         this.setState({ popVisible: true, uniPop: uni });
+    }
+
+    search = (query) => {
+        const indeces = this.state.universities.reduce( (inds, uni, i) => {
+            if (uni.name.toLowerCase().trim().indexOf(query.toLowerCase().trim()) > -1) {
+                inds.push(i)
+            }
+
+            return inds;
+        }, [])
+
+        this.setState({searchInds: indeces});
     }
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from "@material-ui/core/Button";
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -7,7 +8,7 @@ import './styles.css';
 class MySchoolsList extends Component {
 
     render() {
-        const {mySchools, removeFromList} = this.props;
+        const {mySchools, removeFromList, learnMore} = this.props;
 
         return (
             <div className="my-schools-list">
@@ -15,11 +16,11 @@ class MySchoolsList extends Component {
                 <ul>
                     {mySchools.map(school =>
                         <li className="my-schools-list-school" key={school.id}>
-                            <span className="school-list-name">{school.name}</span>
-                            <IconButton 
+                            <Button className="school-list-name" onClick={() => learnMore(school)}>{school.name}</Button>
+                            <IconButton
                                 className="my-schools-list-delete-button"
-                                size='small' 
-                                aria-label="delete" 
+                                size='small'
+                                aria-label="delete"
                                 onClick={() => removeFromList(school)}>
                                 <CloseIcon className="my-schools-list-delete-button-icon" />
                             </IconButton>

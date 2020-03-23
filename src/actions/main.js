@@ -10,12 +10,7 @@ export const addToList = (main, uni) => {
 
   console.log("Adding " + uni.name + " to the list!");
 
-  const newItem = {
-    id: uni.id,
-    name: uni.name
-  }
-
-  mySchools.push(newItem);
+  mySchools.push(uni);
 
   main.setState(
     {mySchools}
