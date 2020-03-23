@@ -1,6 +1,6 @@
 # blossom
 
-## Usage
+## Phase 1
 
 1. Install node_modules: `npm install` in the base folder.
 2. Start the react server: `npm start` in the base folder.
