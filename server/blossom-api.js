@@ -101,7 +101,7 @@ app.get('/api/user/:email', (req, res) => {
 				res.status(500).send()  // server error
 			})
        } else {
-         console.log("no data exist for this id");
+			res.status(500).send('Could not find user with the email ' + email);
        }
     })
 
@@ -116,26 +116,34 @@ app.get('/api/uni', (req, res) => {
 	})
 })
 
-// Get a particular university by their ID
-app.get('/api/uni/:id', (req, res) => {
-	const id = req.params.id
+// Get a particular university by their name
+app.get('/api/uni/:name', (req, res) => {
+	const name = req.params.name
 
-	// Validate id immediately.
-	if (!ObjectID.isValid(id)) {
-		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
-		return;  // so that we don't run the rest of the handler.
-	}
-
-	// Otherwise, findById
-	University.findById(id).then((uni) => {
-		if (!uni) {
-			res.status(404).send()  // could not find this uni
-		} else {
-			res.send(uni)
-		}
-	}).catch((error) => {
-		res.status(500).send()  // server error
-	})
+	University.findOne({ "name": name }) 
+    .then((uni) => {
+       if (uni) {
+		   const id = uni.id;
+			// Validate id immediately.
+			if (!ObjectID.isValid(id)) {
+				res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+				return;  // so that we don't run the rest of the handler.
+			}
+			// Otherwise, findById
+			University.findById(id).then((uni) => {
+				if (!uni) {
+					res.status(404).send()  // could not find this uni
+				} else {
+					/// sometimes we wrap returned object in another object:
+					res.send(uni)
+				}
+			}).catch((error) => {
+				res.status(500).send()  // server error
+			})
+       } else {
+			res.status(500).send('Could not find uni with the name ' + name);
+       }
+    })
 
 })
 
