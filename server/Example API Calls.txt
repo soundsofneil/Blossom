@@ -21,3 +21,7 @@
 	"programs": [{"program": "Computer Science"}, {"program": "English"}],
 	"grades": [{"grade": 100, "course": "CSC373(I wish)"}, {"grade": 99, "course": "CSC309"}]
 }
+
+//Get all UNIVERSITIES in the DB: GET to localhost:5000/get/unis
+
+//Get all USERS in the DB: GET to localhost:5000/get/users

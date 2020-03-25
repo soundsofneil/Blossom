@@ -60,6 +60,24 @@ app.post('/add/uni', (req, res) => {
 	})
 })
 
+// Get all users in the DB
+app.get('/get/users', (req, res) => {
+	User.find().then((users) => {
+		res.send({ users }) // can wrap in object if want to add more properties
+	}, (error) => {
+		res.status(500).send(error) // server error
+	})
+})
+
+// Get all universities in the DB
+app.get('/get/unis', (req, res) => {
+	University.find().then((universities) => {
+		res.send({ universities }) // can wrap in object if want to add more properties
+	}, (error) => {
+		res.status(500).send(error) // server error
+	})
+})
+
 
 // will use an 'environmental variable', process.env.PORT, for deployment.
 const port = process.env.PORT || 5000
