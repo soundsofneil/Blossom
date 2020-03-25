@@ -1,6 +1,7 @@
 /* express.js - Express server*/
 'use strict';
 const User = require('../models/user');
+const University = require('../models/university');
 const { mongoose } = require('../db/mongoose');
 
 const log = console.log
@@ -40,6 +41,28 @@ app.post('/add/user', (req, res) => {
 		res.status(400).send(error) // 400 for bad request
 	})
 })
+
+//Add a new university to the DB
+app.post('/add/uni', (req, res) => {
+	var newUniversity = new University(); 
+	newUniversity.name = req.body.name;
+	newUniversity.description = req.body.description;
+	newUniversity.region = req.body.region;
+	newUniversity.programs = req.body.programs;
+	newUniversity.location = req.body.location;
+	newUniversity.country = req.body.country;
+	newUniversity.applyWebsite = req.body.applyWebsite;
+	newUniversity.website = req.body.website;
+	newUniversity.twitter = req.body.twitter;
+	newUniversity.imageUri = req.body.imageUri;
+
+	newUniversity.save().then((result) => {
+		res.send(result)
+	}, (error) => {
+		res.status(400).send(error) // 400 for bad request
+	})
+})
+
 
 // will use an 'environmental variable', process.env.PORT, for deployment.
 const port = process.env.PORT || 5000

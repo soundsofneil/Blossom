@@ -1,7 +1,7 @@
 /* University mongoose model */
 const mongoose = require('mongoose')
-const RegionSchema = require('region.js')
-const ProgramRequirementsSchema = require('program-requirements.js')
+const RegionSchema = require('./region.js')
+const ProgramRequirementsSchema = require('./program-requirements.js')
 
 const University = mongoose.model('University', {
 	name: {
