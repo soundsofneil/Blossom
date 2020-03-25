@@ -7,7 +7,7 @@ const University = mongoose.model('University', {
 	name: {
 		type: String,
 		required: true,
-		minlegth: 1,
+		minlength: 1,
 		trim: true
 	},
 	description: {
