@@ -10,80 +10,35 @@ const express = require('express')
 
 const app = express();
 
+const bodyParser = require('body-parser') 
+app.use(bodyParser.json())
+
 
 //Routes
+
+//Main landing page
 app.get('/', (req, res) => {
 	// sending a string
 	//res.send('This should be the root route!')
 
 	//sending some HTML
-	res.send('<h1>This should be the root route!</h1>')
+	res.send("<h1>Welcome to Blossom's API</h1>")
 })
 
-// Error codes
-app.get('/problem', (req, res) => {
-	// Default error status code is 500
-	res.status(500).send('There was a problem on the server')
-})
-
-
-// Sending some JSON
-app.get('/api', (req, res) => {
-	// User.find()
-	// 	.then(function(doc) {
-	// 		res.send({items: doc});
-	// 	});
-	//object converted to JSON string
-	res.json([{
-		name: 'John',
-		year: 3,
-		courses: ['csc309', 'csc301']
-	},
-	{
-	name: 'Billy',
-	year: 3,
-	courses: ['csc309', 'csc301']
-	}])
-})
-
-app.get('/store', (req, res) => {
-	var database = [];
-	User.find({}, function(err, foundData) {
-		if (err) {
-			console.log('error');
-			res.status(500).send();
-		}
-		else{
-			if (foundData.length == 0) {
-				var responseObject = undefined;
-				res.status(404).send(responseObject);
-			}
-			else{
-				res.send(foundData);
-			}
-		}
-	});
-});
-
-app.post('/store', (req, res) => {
+//Add a new user to the DB
+app.post('/add/user', (req, res) => {
 	var newUser = new User(); 
-	newUser.email = '3neil.kelkar@mail.utoronto.ca';
-	newUser.name = 'Neil';
-	newUser.password = 'password';
-	newUser.regions = [{region: 'Canada North'}];
-	newUser.programs = [{program:'Commerce'}];
-	newUser.grades = { grade: 100, course: 'CSC373'}
-	newUser.save(function(err, savedObject) {
-		console.log(savedObject);
-		if (err) {
-			console.log("error");
-			console.log(newUser);
-			res.status(500).send();
-		}
-		else{
-			res.send(savedObject);
-		}
-	});
+	newUser.email = req.body.email;
+	newUser.name = req.body.name;
+	newUser.password = req.body.password;
+	newUser.regions = req.body.regions;
+	newUser.programs = req.body.programs;
+	newUser.grades = req.body.grades;
+	newUser.save().then((result) => {
+		res.send(result)
+	}, (error) => {
+		res.status(400).send(error) // 400 for bad request
+	})
 })
 
 // will use an 'environmental variable', process.env.PORT, for deployment.
