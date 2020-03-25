@@ -2,9 +2,9 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const RegionSchema = require('region.js')
-const ProgramSchema = require('program.js')
-const GradeSchema = require('grade.js')
+const RegionSchema = require('./region.js')
+const ProgramSchema = require('./program.js')
+const GradeSchema = require('./grade.js')
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -78,5 +78,4 @@ UserSchema.statics.findByEmailPassword = function(email, password) {
 	})
 }
 
-const User = mongoose.model('User', UserSchema)
-module.exports = { User }
+module.exports = User = mongoose.model('User', UserSchema)
