@@ -4,6 +4,9 @@ const User = require('../models/user');
 const University = require('../models/university');
 const { mongoose } = require('../db/mongoose');
 
+// to validate object IDs
+const { ObjectID } = require('mongodb');
+
 const log = console.log
 log('Express server')
 
@@ -22,6 +25,8 @@ app.get('/', (req, res) => {
 	//sending some HTML
 	res.send("<h1>Welcome to Blossom's API</h1>")
 })
+
+//-------------------POST CALLS---------------------------//
 
 //Add a new user to the DB
 app.post('/add/user', (req, res) => {
@@ -60,6 +65,8 @@ app.post('/add/uni', (req, res) => {
 	})
 })
 
+//-------------------GET CALLS---------------------------//
+
 // Get all users in the DB
 app.get('/get/users', (req, res) => {
 	User.find().then((users) => {
@@ -75,6 +82,29 @@ app.get('/get/unis', (req, res) => {
 		res.send({ universities }) // can wrap in object if want to add more properties
 	}, (error) => {
 		res.status(500).send(error) // server error
+	})
+})
+
+//-------------------DELETE CALLS---------------------------//
+// Delete a particular user by their unique ID
+app.delete('/delete/user/:id', (req, res) => {
+	const id = req.params.id
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()
+		return;
+	}
+
+	// Delete a user by their id
+	User.findByIdAndRemove(id).then((user) => {
+		if (!user) {
+			res.status(404).send()
+		} else {   
+			res.send(user)
+		}
+	}).catch((error) => {
+		res.status(500).send() // server error, could not delete.
 	})
 })
 
