@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 //-------------------POST CALLS---------------------------//
 
 //Add a new user to the DB
-app.post('/add/user', (req, res) => {
+app.post('/api/user', (req, res) => {
 	var newUser = new User(); 
 	newUser.email = req.body.email;
 	newUser.name = req.body.name;
@@ -45,7 +45,7 @@ app.post('/add/user', (req, res) => {
 })
 
 //Add a new university to the DB
-app.post('/add/uni', (req, res) => {
+app.post('/api/uni', (req, res) => {
 	var newUniversity = new University(); 
 	newUniversity.name = req.body.name;
 	newUniversity.description = req.body.description;
@@ -68,7 +68,7 @@ app.post('/add/uni', (req, res) => {
 //-------------------GET CALLS---------------------------//
 
 // Get all users in the DB
-app.get('/get/users', (req, res) => {
+app.get('/api/user', (req, res) => {
 	User.find().then((users) => {
 		res.send({ users }) // can wrap in object if want to add more properties
 	}, (error) => {
@@ -76,8 +76,32 @@ app.get('/get/users', (req, res) => {
 	})
 })
 
+// Get a particular user by their ID
+app.get('/api/user/:id', (req, res) => {
+	const id = req.params.id
+
+	// Validate id immediately.
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// Otherwise, findById
+	User.findById(id).then((user) => {
+		if (!user) {
+			res.status(404).send()  // could not find this user
+		} else {
+			/// sometimes we wrap returned object in another object:
+			res.send(user)
+		}
+	}).catch((error) => {
+		res.status(500).send()  // server error
+	})
+
+})
+
 // Get all universities in the DB
-app.get('/get/unis', (req, res) => {
+app.get('/api/uni', (req, res) => {
 	University.find().then((universities) => {
 		res.send({ universities }) // can wrap in object if want to add more properties
 	}, (error) => {
@@ -85,9 +109,33 @@ app.get('/get/unis', (req, res) => {
 	})
 })
 
+// Get a particular university by their ID
+app.get('/api/uni/:id', (req, res) => {
+	const id = req.params.id
+
+	// Validate id immediately.
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// Otherwise, findById
+	University.findById(id).then((uni) => {
+		if (!uni) {
+			res.status(404).send()  // could not find this uni
+		} else {
+			res.send(uni)
+		}
+	}).catch((error) => {
+		res.status(500).send()  // server error
+	})
+
+})
+
 //-------------------DELETE CALLS---------------------------//
+
 // Delete a particular user by their unique ID
-app.delete('/delete/user/:id', (req, res) => {
+app.delete('/api/user/:id', (req, res) => {
 	const id = req.params.id
 
 	// Validate id
@@ -108,6 +156,27 @@ app.delete('/delete/user/:id', (req, res) => {
 	})
 })
 
+// Delete a particular university by their unique ID
+app.delete('/api/uni/:id', (req, res) => {
+	const id = req.params.id
+
+	// Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()
+		return;
+	}
+
+	// Delete a university by their id
+	University.findByIdAndRemove(id).then((uni) => {
+		if (!uni) {
+			res.status(404).send()
+		} else {   
+			res.send(uni)
+		}
+	}).catch((error) => {
+		res.status(500).send() // server error, could not delete.
+	})
+})
 
 // will use an 'environmental variable', process.env.PORT, for deployment.
 const port = process.env.PORT || 5000
