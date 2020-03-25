@@ -76,27 +76,34 @@ app.get('/api/user', (req, res) => {
 	})
 })
 
-// Get a particular user by their ID
-app.get('/api/user/:id', (req, res) => {
-	const id = req.params.id
+// Get a particular user by their email
+app.get('/api/user/:email', (req, res) => {
+	const email = req.params.email
 
-	// Validate id immediately.
-	if (!ObjectID.isValid(id)) {
-		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
-		return;  // so that we don't run the rest of the handler.
-	}
-
-	// Otherwise, findById
-	User.findById(id).then((user) => {
-		if (!user) {
-			res.status(404).send()  // could not find this user
-		} else {
-			/// sometimes we wrap returned object in another object:
-			res.send(user)
-		}
-	}).catch((error) => {
-		res.status(500).send()  // server error
-	})
+	User.findOne({ "email": email }) 
+    .then((user) => {
+       if (user) {
+		   const id = user.id;
+			// Validate id immediately.
+			if (!ObjectID.isValid(id)) {
+				res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+				return;  // so that we don't run the rest of the handler.
+			}
+			// Otherwise, findById
+			User.findById(id).then((user) => {
+				if (!user) {
+					res.status(404).send()  // could not find this user
+				} else {
+					/// sometimes we wrap returned object in another object:
+					res.send(user)
+				}
+			}).catch((error) => {
+				res.status(500).send()  // server error
+			})
+       } else {
+         console.log("no data exist for this id");
+       }
+    })
 
 })
 
