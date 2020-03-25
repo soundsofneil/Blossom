@@ -1,4 +1,4 @@
-//Add new university (must pass in JSON object): POST to localhost:5000/add/uni
+//Add new UNIVERSITY (must pass in JSON object): POST to localhost:5000/add/uni
 {
 	"name": "UofT",
 	"description": "Gr8 school",
@@ -10,4 +10,14 @@
 	"website": "www.estwebsite.com",
 	"twitter": "UofT",
 	"imageUri": "ohsnap"
+}
+
+//Add new USER (must pass in JSON object): POST to localhost:5000/add/user
+{
+	"email": "neil.kelkar@mail.utoronto.ca",
+	"name": "Neil Kelkar",
+	"password": "password",
+	"regions": [{"region": "Canada North"}, {"region": "Canada East"}],
+	"programs": [{"program": "Computer Science"}, {"program": "English"}],
+	"grades": [{"grade": 100, "course": "CSC373(I wish)"}, {"grade": 99, "course": "CSC309"}]
 }
