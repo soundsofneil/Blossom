@@ -1,0 +1,13 @@
+//Add new university (must pass in JSON object): POST to localhost:5000/add/uni
+{
+	"name": "UofT",
+	"description": "Gr8 school",
+	"region": {"region": "Canada East"},
+	"programs": [{"program": {"program":"Computer Science"}, "gradeRequirement": {"grade": 100, "course": "CSC373"}, "website": "www.weedercourse.com"}],
+	"location": "Toronto",
+	"country": "Canada",
+	"applyWebsite": "test",
+	"website": "www.estwebsite.com",
+	"twitter": "UofT",
+	"imageUri": "ohsnap"
+}

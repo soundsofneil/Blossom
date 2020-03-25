@@ -55,4 +55,4 @@ const University = mongoose.model('University', {
     }
 })
 
-module.exports = { University }
+module.exports = University
