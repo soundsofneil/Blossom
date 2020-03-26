@@ -31,12 +31,14 @@ app.get('/', (req, res) => {
 //Add a new user to the DB
 app.post('/api/user', (req, res) => {
 	var newUser = new User(); 
+	newUser.admin = req.body.admin;
 	newUser.email = req.body.email;
 	newUser.name = req.body.name;
 	newUser.password = req.body.password;
 	newUser.regions = req.body.regions;
 	newUser.programs = req.body.programs;
 	newUser.grades = req.body.grades;
+	newUser.schools = req.body.schools;
 	newUser.save().then((result) => {
 		res.send(result)
 	}, (error) => {
@@ -141,7 +143,7 @@ app.get('/api/uni/:name', (req, res) => {
 				res.status(500).send()  // server error
 			})
        } else {
-			res.status(500).send('Could not find uni with the name ' + name);
+			res.status(500).send('Could not find a university with the name ' + name);
        }
     })
 
@@ -149,47 +151,63 @@ app.get('/api/uni/:name', (req, res) => {
 
 //-------------------DELETE CALLS---------------------------//
 
-// Delete a particular user by their unique ID
-app.delete('/api/user/:id', (req, res) => {
-	const id = req.params.id
+// Delete a particular user by their email address
+app.delete('/api/user/:email', (req, res) => {
+	const email = req.params.email
 
-	// Validate id
-	if (!ObjectID.isValid(id)) {
-		res.status(404).send()
-		return;
-	}
+	User.findOne({ "email": email }) 
+    .then((user) => {
+       if (user) {
+			const id = user.id;
+			// Validate id
+			if (!ObjectID.isValid(id)) {
+				res.status(404).send()
+				return;
+			}
 
-	// Delete a user by their id
-	User.findByIdAndRemove(id).then((user) => {
-		if (!user) {
-			res.status(404).send()
-		} else {   
-			res.send(user)
+			// Delete a user by their id
+			User.findByIdAndRemove(id).then((user) => {
+				if (!user) {
+					res.status(404).send()
+				} else {   
+					res.send(user)
+				}
+			}).catch((error) => {
+				res.status(500).send() // server error, could not delete.
+			})
+	} else {
+			res.status(500).send('Could not find user with the email ' + email);
 		}
-	}).catch((error) => {
-		res.status(500).send() // server error, could not delete.
 	})
 })
 
-// Delete a particular university by their unique ID
-app.delete('/api/uni/:id', (req, res) => {
-	const id = req.params.id
+// Delete a particular university by their name
+app.delete('/api/uni/:name', (req, res) => {
+	const name = req.params.name
 
-	// Validate id
-	if (!ObjectID.isValid(id)) {
-		res.status(404).send()
-		return;
-	}
+	University.findOne({ "name": name }) 
+    .then((uni) => {
+       if (uni) {
+		   const id = uni.id;
+			// Validate id
+			if (!ObjectID.isValid(id)) {
+				res.status(404).send()
+				return;
+			}
 
-	// Delete a university by their id
-	University.findByIdAndRemove(id).then((uni) => {
-		if (!uni) {
-			res.status(404).send()
-		} else {   
-			res.send(uni)
+			// Delete a university by their id
+			University.findByIdAndRemove(id).then((uni) => {
+				if (!uni) {
+					res.status(404).send()
+				} else {   
+					res.send(uni)
+				}
+			}).catch((error) => {
+				res.status(500).send() // server error, could not delete.
+			})
+		} else {
+			res.status(500).send('Could not find a university with the name ' + name);
 		}
-	}).catch((error) => {
-		res.status(500).send() // server error, could not delete.
 	})
 })
 

@@ -2,8 +2,8 @@
 {
 	"name": "UofT",
 	"description": "Gr8 school",
-	"region": {"region": "Canada East"},
-	"programs": [{"program": {"program":"Computer Science"}, "gradeRequirement": {"grade": 100, "course": "CSC373"}, "website": "www.weedercourse.com"}],
+	"region": "Canada East",
+	"programs": [{"program":"Computer Science", "gradeRequirement": 90, "website": "www.weedercourse.com"}],
 	"location": "Toronto",
 	"country": "Canada",
 	"applyWebsite": "test",
@@ -14,12 +14,14 @@
 
 //Add new USER (must pass in JSON object): POST to localhost:5000/api/user
 {
+	"admin": false,
 	"email": "neil.kelkar@mail.utoronto.ca",
 	"name": "Neil Kelkar",
 	"password": "password",
 	"regions": [{"region": "Canada North"}, {"region": "Canada East"}],
 	"programs": [{"program": "Computer Science"}, {"program": "English"}],
-	"grades": [{"grade": 100, "course": "CSC373(I wish)"}, {"grade": 99, "course": "CSC309"}]
+	"grades": [{"grade": 100, "course": "CSC373(I wish)"}, {"grade": 99, "course": "CSC309"}],
+	"schools": [{"name": "University of Toronto"}, {"name":"Ryerson"}]
 }
 
 //Get all UNIVERSITIES in the DB: GET to localhost:5000/api/unis

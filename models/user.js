@@ -36,10 +36,11 @@ const UserSchema = new mongoose.Schema({
     regions: [RegionSchema],
     programs: [ProgramSchema],
 	grades: [GradeSchema],
-	schools: [{ //list of universities the user has selected
+	schools: [{ name: {//list of universities the user has selected
 		type: String,
 		minlength: 1,
 		trim: true
+	}
 	}] 
 })
 
