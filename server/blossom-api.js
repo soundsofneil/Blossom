@@ -76,6 +76,15 @@ app.get('/api/user', (req, res) => {
 	})
 })
 
+// Get all universities in the DB
+app.get('/api/uni', (req, res) => {
+	University.find().then((universities) => {
+		res.send({ universities }) // can wrap in object if want to add more properties
+	}, (error) => {
+		res.status(500).send(error) // server error
+	})
+})
+
 // Get a particular user by their email
 app.get('/api/user/:email', (req, res) => {
 	const email = req.params.email
@@ -105,15 +114,6 @@ app.get('/api/user/:email', (req, res) => {
        }
     })
 
-})
-
-// Get all universities in the DB
-app.get('/api/uni', (req, res) => {
-	University.find().then((universities) => {
-		res.send({ universities }) // can wrap in object if want to add more properties
-	}, (error) => {
-		res.status(500).send(error) // server error
-	})
 })
 
 // Get a particular university by their name
