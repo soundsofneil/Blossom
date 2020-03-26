@@ -7,6 +7,10 @@ const ProgramSchema = require('./program.js')
 const GradeSchema = require('./grade.js')
 
 const UserSchema = new mongoose.Schema({
+	admin: {
+        type: Boolean,
+        required: true
+	},
     email: {
         type: String,
 		required: true,
