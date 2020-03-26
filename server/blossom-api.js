@@ -14,16 +14,121 @@ const express = require('express')
 
 const app = express();
 
+// body-parser: middleware for parsing HTTP JSON body into a usable object
 const bodyParser = require('body-parser') 
 app.use(bodyParser.json())
 
+// express-session for managing user sessions
+const session = require('express-session')
+app.use(bodyParser.urlencoded({ extended: true }));
+
+/*** Session handling **************************************/
+// Create a session cookie
+app.use(session({
+    secret: 'oursecret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 60000,
+        httpOnly: true
+    }
+}));
+
 
 //Routes
+//--------------------SESSION HANDLING-----------------------------//
 
-//Main landing page
-app.get('/', (req, res) => {
-	//sending some HTML
-	res.send("<h1>Welcome to Blossom's API</h1>")
+// Our own express middleware to check for 
+// an active user on the session cookie (indicating a logged in user.)
+const sessionChecker = (req, res, next) => {
+    if (req.session.user) {
+        res.redirect('/api/users/dashboard'); // redirect to dashboard if logged in.
+    } else {
+        next(); // next() moves on to the route.
+    }    
+};
+
+// Middleware for authentication of resources
+const authenticate = (req, res, next) => {
+	if (req.session.user) {
+		User.findById(req.session.user).then((user) => {
+			if (!user) {
+				return Promise.reject()
+			} else {
+				req.user = user
+				next()
+			}
+		}).catch((error) => {
+			res.status(401).send("Unauthorized")
+		})
+	} else {
+		res.status(401).send("Unauthorized")
+	}
+}
+
+// A route to login and create a session
+app.post('/api/users/login', (req, res) => {
+	const email = req.body.email
+	const password = req.body.password
+	
+
+    // Use the static method on the User model to find a user
+    // by their email and password
+	User.findByEmailPassword(email, password).then((user) => {
+	    if (!user) {
+            res.redirect('/api/users/login');
+        } else {
+            // Add the user's id to the session cookie.
+			// We can check later if this exists to ensure we are logged in.
+            req.session.user = user._id;
+            req.session.email = user.email
+            res.redirect('/api/users/dashboard');
+        }
+    }).catch((error) => {
+		res.status(400).redirect('/api/users/login');
+    })
+})
+
+// A route to logout a user
+app.get('/api/users/logout', (req, res) => {
+	// Remove the session
+	req.session.destroy((error) => {
+		if (error) {
+			res.status(500).send(error)
+		} else {
+			res.redirect('/')
+		}
+	})
+})
+
+//--------------------WEBPAGE ROUTES-------------------------------//
+
+// route for root: should redirect to login route
+app.get('/', sessionChecker, (req, res) => {
+	res.redirect('/api/users/login')
+})
+
+// login route serves the login page
+app.get('/api/users/login', sessionChecker, (req, res) => {
+	const sessionResponse = {
+		user: '',
+		email: ''
+	}
+	res.send(sessionResponse);
+})
+
+// dashboard route will check if the user is logged in and serve
+// the dashboard page
+app.get('/api/users/dashboard', (req, res) => {
+	if (req.session.user) {
+		const sessionResponse = {
+			user: req.session.user,
+			email: req.session.email
+		} 
+		res.send(sessionResponse);
+	} else {
+		res.redirect('/api/users/login')
+	}
 })
 
 //-------------------POST (CREATE) CALLS---------------------------//

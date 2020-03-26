@@ -50,3 +50,15 @@ Example:
 //Delete a particular USER by their email: DELETE to localhost:5000/api/user/email
 
 //Delete a particular UNIVERSITY by their NAME: DELETE to localhost:5000/api/uni/name
+
+//To log in: POST to localhost:5000/api/users/login
+Example: 
+{
+"email": "student@gmail.com",
+"password": "password"
+}
+
+//Log out: GET to localhost:5000/api/users/logout
+
+//Once logged in, or to check again: GET to localhost:5000/api/users/dashboard
+//and it should return a session object with user id and user email
