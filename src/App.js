@@ -32,7 +32,10 @@ export default class App extends React.Component {
         // amongst other logic
         this.setState({ view: 'main', user: user })
     }
-    setUser = (user) => this.setState({ user })
+
+    setUser = (user) => {
+        this.setState({ user })
+    }
 
     render() {
         return (

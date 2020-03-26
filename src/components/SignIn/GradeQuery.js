@@ -1,5 +1,6 @@
 import React from 'react';
 import Field from '../common/Field';
+import CloseIcon from '@material-ui/icons/Close';
 
 let range = n => [...Array(n).keys()]
 
@@ -30,31 +31,37 @@ export default class GradeQuery extends React.Component {
         this.setState({ grades: newGrades })
     }
 
+    removeGrade = (index) => {
+        const newGrade = this.state.grades
+        this.setState({ grades: newGrade.slice(0, index).concat(newGrade.slice(index+1))})
+    }
+
     render() {
         return (
-            <div className="sign-query-box">
-                <span className="subtitle noselect">What are your grades like?</span>
+            <div className='sign-query-box'>
+                <span className='subtitle noselect'>What are your grades like?</span>
                 {
-                    range(this.state.grades.length).map((id) => (
-                        <div key={id} className="gradefield">
+                    range(this.state.grades.length).map((id, index) => (
+                        <div key={id} className='gradefield'>
                             <Field 
-                                className="fourtyfive" 
+                                className='fourtyfive' 
                                 onChange={(e) => this.onChangeGradeCourse(e, id)}
                                 align='left' 
-                                placeholder="Course Name"/>
+                                placeholder='Course Name'/>
                             <Field 
-                                className="fourtyfive" 
+                                className='fourtyfive' 
                                 onChange={(e) => this.onChangeGradeNumber(e, id)} 
-                                type="number" 
+                                type='number' 
                                 align='left' 
-                                placeholder="Grade (%)"/>
+                                placeholder='Grade (%)'/>
+                            <CloseIcon className='close-field' onClick={() => this.removeGrade(index)} />
                         </div>))
                 }
                 <div 
-                    className="button-add noselect"
+                    className='button-add noselect'
                     onClick={this.addGradeField}>Add more...</div>
                 <div 
-                    className="button threequarters" 
+                    className='button threequarters' 
                     onClick={() => {
                         this.props.signUp(this.state.grades)
                     }}>Complete Profile</div>

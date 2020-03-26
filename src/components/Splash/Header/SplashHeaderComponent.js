@@ -32,7 +32,7 @@ export default class SplashHeaderComponent extends React.Component {
                     blossom
                 </span>
                 <button id='signInButton' className='noselect' onClick={this.raiseSignIn}>Sign In or Sign Up</button>
-                <PopWindow visible={this.state.signInVisible}>
+                <PopWindow visible={this.state.signInVisible} onClose={this.closeSignIn}>
                     <SignIn 
                         close={this.closeSignIn} 
                         switchView={this.switchView} 
