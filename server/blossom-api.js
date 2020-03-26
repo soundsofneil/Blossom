@@ -117,7 +117,7 @@ app.get('/api/users/login', sessionChecker, (req, res) => {
 	res.send(sessionResponse);
 })
 
-// dashboard route will check if the user is logged in and server
+// dashboard route will check if the user is logged in and serve
 // the dashboard page
 app.get('/api/users/dashboard', (req, res) => {
 	if (req.session.user) {
