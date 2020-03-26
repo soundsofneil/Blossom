@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import UniversityContent from '../UniversityContent'
 import Button from "@material-ui/core/Button";
-import star_icon from '../../../static/star.png';
-import leaf_icon from '../../../static/maple_leaf.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCanadianMapleLeaf } from '@fortawesome/free-brands-svg-icons'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 import default_icon from '../../../static/default.png';
 import no_image_icon from '../../../static/no-image.png';
 
@@ -18,7 +19,7 @@ export default class University extends Component {
                 <img className="university-icon" src={this.getImage(university.imageUri)} alt="University Icon"/>
             </div>
             <div className="university-small-icon-container">
-                <img className="university-small-icon" src={this.getSmallIcon(university.country)} alt="Country Icon"/>
+                <FontAwesomeIcon className="university-small-icon" color="#3A4664" icon={this.getSmallIcon(university.country)}/>
             </div>
             <UniversityContent university={university} learnMore={learnMore}/>
             <div className="university-add-button-container">
@@ -29,6 +30,7 @@ export default class University extends Component {
         </div>
         );
     }
+        //<img className="university-small-icon" src={this.getSmallIcon(university.country)} alt="Country Icon"/>
 
     getImage = imageUri => {
         try {
@@ -41,9 +43,9 @@ export default class University extends Component {
 
     getSmallIcon = country => {
         if (country === "Canada") {
-            return leaf_icon;
-        } else if (country === "United States") {
-            return star_icon;
+            return faCanadianMapleLeaf;
+        } else if (country === "USA") {
+            return faStar;
         } else {
             return default_icon
         }

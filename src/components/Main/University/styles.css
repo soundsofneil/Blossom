@@ -40,6 +40,8 @@
 .university-small-icon {
   width: 100%;
   height: 100%;
+
+  color: var(--lightgray);
 }
 
 .university-add-button-container {
