@@ -9,7 +9,7 @@ class UniversityProgramList extends Component {
     return (
       <div className="university-program-list">
         {this.props.programs.map(prog =>
-          <UniversityProgram key={prog.id} program={prog}/>)}
+          <UniversityProgram key={prog.id} gradeRequirement={prog.gradeRequirement}/>)}
       </div>
     );
   }

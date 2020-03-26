@@ -25,10 +25,18 @@ class Main extends Component {
     constructor(props) {
         super(props);
 
-        this.state.universities = fetchUniversities();
-        this.state.universities = getReccomendations(this.state.universities);
-        this.state.mySchools = props.user.schools.map((id) => this.state.universities.filter((uni) => uni.id === id)[0])
-        this.state.searchInds = this.state.universities.map((uni, i) => i);
+        fetchUniversities().then((universities) => {
+            this.setState({universities: getReccomendations(universities)});
+            const mySchools = props.user.schools.map((id) => this.state.universities.filter((uni) => uni.id === id)[0]);
+            this.setState({mySchools})
+            const searchInds = this.state.universities.map((uni, i) => i);
+            this.setState({searchInds})
+
+            console.log(this.state.universities)
+            console.log(this.state.searchInds)
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     render() {

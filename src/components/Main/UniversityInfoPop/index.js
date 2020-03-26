@@ -12,9 +12,9 @@ export default class UniPopUp extends Component {
         return (
             <PopWindow visible={visible}>
                 <div id="pop-container">
-                    <img 
-                        className="logo" 
-                        alt="blossom" 
+                    <img
+                        className="logo"
+                        alt="blossom"
                         src={require('../../images/blossom-pink.png')} />
                     <div className="popup-div">
                         <p className="popup-hdr">{uni.name}</p>
@@ -22,20 +22,20 @@ export default class UniPopUp extends Component {
                         <p className="popup-desc">{uni.description}</p>
                         <div className="button-uni-grp">
                             <div className="button-uni-col">
-                                <a target="_blank" rel="noopener noreferrer" href={uni.applyUri} className="button-uni apply wide">Apply</a>
+                                <a target="_blank" rel="noopener noreferrer" href={uni.applyWebsite} className="button-uni apply wide">Apply</a>
                                 <a target="_blank" rel="noopener noreferrer" href={uni.website} className="button-uni wide">Website</a>
                                 <a target="_blank" rel="noopener noreferrer" href={uni.twitter} className="button-uni wide">Twitter</a>
                             </div>
                             <div className="button-uni-col">
                                 <a target="_blank" rel="noopener noreferrer" href={uni.locationUri} className="button-uni">
                                     <FontAwesomeIcon color="#3A4664" icon={uni.country === 'Canada' ? faCanadianMapleLeaf : faStar}/>&nbsp; {uni.location}
-                                </a> 
+                                </a>
                                 {uni.programs.map(({ name, link, average, icon }) => (
                                     <div key={name} className="program-block">
                                         <a target="_blank" rel="noopener noreferrer" href={link} className="button-uni program">
                                             <FontAwesomeIcon color="#3A4664" icon={icon}/>&nbsp; {name}
                                         </a>
-                                        <div className="average-block">{average}%</div>                                    
+                                        <div className="average-block">{average}%</div>
                                     </div>
                                 ))}
                             </div>

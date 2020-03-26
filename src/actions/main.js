@@ -28,8 +28,9 @@ export const removeFromList = (main, uni) => {
 }
 
 export const fetchUniversities = () => {
-  // fetch data here
-  const universities = require('../data.json')['universities'];
+  /*
+  // fetch hard-coded data from json (placeholder)
+  let universities = require('../data.json')['universities'];
   for (let i = 0; i < universities.length; i++) {
     const programs = universities[i]['programs']
     for (let j = 0; j < programs.length; j++) {
@@ -40,13 +41,29 @@ export const fetchUniversities = () => {
       }
     }
   }
+  */
 
-  return universities;
+  const url = 'http://localhost:5000/api/uni/';
+
+  return fetch(url)
+  .then((res) => {
+    if (res.status === 200) {
+      return res.json()
+    } else {
+      alert('Could not get unversities')
+    }
+  })
+  .then((json) => {
+    console.log(json.universities)
+    return json.universities;
+  })
 }
 
 export const getReccomendations = (universities) => {
   // determine recommended schools here
-  universities[0].recommended = true;
+  if (universities.length > 0) {
+    universities[0].recommended = true;
+  }
 
   return universities;
 }
