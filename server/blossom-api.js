@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 	res.send("<h1>Welcome to Blossom's API</h1>")
 })
 
-//-------------------POST CALLS---------------------------//
+//-------------------POST (CREATE) CALLS---------------------------//
 
 //Add a new user to the DB
 app.post('/api/user', (req, res) => {
@@ -64,6 +64,69 @@ app.post('/api/uni', (req, res) => {
 		res.send(result)
 	}, (error) => {
 		res.status(400).send(error) // 400 for bad request
+	})
+})
+
+//-------------------PUT (UPDATE) CALLS------------------//
+// Update a particular user by specifying their email address
+// and passing in a JSON body
+app.put('/api/user/:email', (req, res) => {
+	const email = req.params.email
+
+	User.findOne({ "email": email }) 
+    .then((user) => {
+       if (user) {
+			const id = user.id;
+			// Validate id
+			if (!ObjectID.isValid(id)) {
+				res.status(404).send()
+				return;
+			}
+
+			// Update a user by their id
+			User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((user) => {
+				if (!user) {
+					res.status(404).send()
+				} else {   
+					res.send(user)
+				}
+			}).catch((error) => {
+				res.status(400).send() // bad request for changing the user.
+			})
+	} else {
+			res.status(500).send('Could not find user with the email ' + email);
+		}
+	})
+})
+
+// Update a particular university by specifying their name
+// and passing in a JSON body
+app.put('/api/uni/:name', (req, res) => {
+	const name = req.params.name
+
+	University.findOne({ "name": name }) 
+    .then((uni) => {
+       if (uni) {
+			const id = uni.id;
+			// Validate id
+			if (!ObjectID.isValid(id)) {
+				res.status(404).send()
+				return;
+			}
+
+			// Update a uni by their id
+			University.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((uni) => {
+				if (!uni) {
+					res.status(404).send()
+				} else {   
+					res.send(uni)
+				}
+			}).catch((error) => {
+				res.status(400).send() // bad request for changing the uni.
+			})
+	} else {
+			res.status(500).send('Could not find university with the name ' + name);
+		}
 	})
 })
 
