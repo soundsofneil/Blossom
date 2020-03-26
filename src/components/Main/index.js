@@ -18,7 +18,7 @@ class Main extends Component {
         searchInds: [],
         popVisible: false,
         adminVisible: false,
-        prefVisible: false,
+        prefVisible: true,
         uniPop: {id: -1, name: "Default University", location: "Default, State", country: "United States", description: "Default description.", programs: [{id: 0, name: "Computer Science", average: 100}, {id: 1, name: "Commerce", average: 0}]},
     }
 
