@@ -1,8 +1,8 @@
 /* express.js - Express server*/
 'use strict';
-const User = require('../models/user');
-const University = require('../models/university');
-const { mongoose } = require('../db/mongoose');
+const User = require('./models/user');
+const University = require('./models/university');
+const { mongoose } = require('./db/mongoose');
 
 // to validate object IDs
 const { ObjectID } = require('mongodb');
@@ -15,8 +15,8 @@ const express = require('express')
 const app = express();
 
 // cors
-//const cors = require('cors');
-//app.use(cors());
+const cors = require('cors');
+app.use(cors());
 
 // body-parser: middleware for parsing HTTP JSON body into a usable object
 const bodyParser = require('body-parser')
@@ -38,12 +38,12 @@ app.use(session({
     }
 }));
 
-app.use((req, res, next) => {
-    res.append('Access-Control-Allow-Origin', ['*']);
-    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.append('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
+//app.use((req, res, next) => {
+//    res.append('Access-Control-Allow-Origin', ['*']);
+//    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//    res.append('Access-Control-Allow-Headers', 'Content-Type');
+//    next();
+//});
 
 //Routes
 //--------------------SESSION HANDLING-----------------------------//
@@ -395,10 +395,10 @@ app.delete('/api/uni/:name', (req, res) => {
 	})
 })
 
-app.use(express.static(__dirname + "/../build"))
+app.use(express.static(__dirname + "/client/build"))
 
 app.get("*", (req, res) => {
-    res.sendFile(__dirname + "/../build/index.html");
+    res.sendFile(__dirname + "/client/build/index.html");
 });
 
 // will use an 'environmental variable', process.env.PORT, for deployment.
