@@ -11,7 +11,6 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 export default class SignIn extends React.Component {
     state = {
         stage: 0, // entry:0 || signup1:1 || signup2:2 || signup3:3
-        dropdown1Count: 1,
         username: '',
         name: '',
         password: '',
@@ -157,7 +156,14 @@ export default class SignIn extends React.Component {
                                 <FontAwesomeIcon color="#3A4664" icon={faGoogle}/>&nbsp; Sign&nbsp; 
                                     {this.props.type === 'up' ? 'Up' : 'In'} with Google
                             </div>
-                            <div className="button-up noselect" onClick={this.props.switchView}>
+                            <div className="button-up noselect" onClick={() => {
+                                this.setState({
+                                    errusername: false,
+                                    errname: false,
+                                    errpassword: false,
+                                })
+                                this.props.switchView()
+                            }}>
                                 {this.props.type === 'up' ? 
                                 'Have an account? Sign In.' : 'No account? Sign Up.'}
                             </div>

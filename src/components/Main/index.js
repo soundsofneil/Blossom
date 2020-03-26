@@ -18,7 +18,7 @@ class Main extends Component {
         searchInds: [],
         popVisible: false,
         adminVisible: false,
-        prefVisible: true,
+        prefVisible: false,
         uniPop: {id: -1, name: "Default University", location: "Default, State", country: "United States", description: "Default description.", programs: [{id: 0, name: "Computer Science", average: 100}, {id: 1, name: "Commerce", average: 0}]},
     }
 
@@ -36,26 +36,31 @@ class Main extends Component {
             <div className="main">
                 <div className="main-background">
                     <Banner
-                        title="Find Your University"
+                        title={this.props.user.admin ? "Blossom Admin" : "Find Your University"}
                         subtitle={this.props.user.name}
-                        subsubtitle="Preferences"
+                        subsubtitle={this.props.user.admin ? "Admin Panel" : "Preferences"}
                         signOut={this.signOut}
                         isAdmin={this.props.user.admin}
                         toggleAdminPanel={this.toggleAdminPanel}
                         togglePreferences={this.togglePreferences}
                     />
-                    <UniversityList
-                        universities={this.state.universities}
-                        indeces={this.state.searchInds}
-                        addToList={(uni) => {addToList(this, uni)}}
-                        learnMore={this.learnMore}
-                    />
-                    <MySchoolsList
-                        mySchools={this.state.mySchools}
-                        removeFromList={(uni) => {removeFromList(this, uni)}}
-                        learnMore={this.learnMore}
-                    />
-                    <div className="main-search-bar-container">
+                    {!this.props.user.admin && (
+                        <UniversityList
+                            universities={this.state.universities}
+                            indeces={this.state.searchInds}
+                            addToList={(uni) => {addToList(this, uni)}}
+                            learnMore={this.learnMore}
+                        />
+                    )}
+                    {!this.props.user.admin && (
+                        <MySchoolsList
+                            mySchools={this.state.mySchools}
+                            removeFromList={(uni) => {removeFromList(this, uni)}}
+                            learnMore={this.learnMore}
+                        />
+                    )}
+                    {!this.props.user.admin && (
+                        <div className="main-search-bar-container">
                             <TextField
                                 className="main-search-bar"
                                 variant="outlined"
@@ -64,7 +69,8 @@ class Main extends Component {
                                 placeholder="search"
                                 type="text"
                             />
-                    </div>
+                        </div>
+                    )}
                 </div>
                 <UniversityInfoPop
                     visible={this.state.popVisible}

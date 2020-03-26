@@ -10,7 +10,7 @@ export default class UniPopUp extends Component {
     render() {
         const { uni, visible } = this.props;
         return (
-            <PopWindow visible={visible}>
+            <PopWindow visible={visible} onClose={this.props.close}>
                 <div id="pop-container">
                     <img 
                         className="logo" 

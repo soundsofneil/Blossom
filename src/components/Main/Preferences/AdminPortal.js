@@ -57,7 +57,10 @@ export default class AdminPortal extends React.Component {
 
     render() {
         return (
-            <PopWindow visible={this.props.visible}>
+            <PopWindow visible={this.props.visible} onClose={() => {
+                this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
+                this.props.close()
+            }}>
                 <div className="pref-window">
                     <img 
                         className="logo" 

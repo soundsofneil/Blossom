@@ -80,7 +80,7 @@ export default class Preferences extends React.Component {
 
     render() {
         return (
-            <PopWindow visible={this.props.visible}>
+            <PopWindow visible={this.props.visible} onClose={this.props.close}>
                 <div className='pref-window'> 
                     <img 
                         className='logo' 
