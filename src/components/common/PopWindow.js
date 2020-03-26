@@ -1,21 +1,31 @@
 import React from 'react';
+import { motion } from 'framer-motion'
 import './common.css';
 
 export default class PopWindow extends React.Component {
-    state = { visible: this.props.visible || false };
+    state = { 
+        isNone: !this.props.visible
+    };
 
-    static getDerivedStateFromProps(props, state) {
-        return { visible: props.visible }
+    componentDidUpdate(prevProps) {
+        if (prevProps.visible !== this.props.visible && !this.props.visible) {
+            setTimeout(() => {
+                console.log('yo')
+                this.setState({ isNone: true })
+            }, 500)
+        } else if (prevProps.visible !== this.props.visible && this.props.visible) {
+            this.setState({ isNone: false })
+        }
     }
 
     render() {
         return (
-            <div className={'pop-container animated fadeIn'} style={{ display: this.state.visible ? 'flex' : 'none' }}>
-                <div className='pop-bg'/>
+            <motion.div className={'pop-container'} style={{ display: this.state.isNone ? 'none' : 'flex' }} animate={{ opacity: this.props.visible ? 1 : 0 }}>
+                <div className='pop-bg' onClick={this.props.onClose} />
                 <div className='pop-box'>
                     {this.props.children}
                 </div>
-            </div>
+            </motion.div>
         )
     }
 }

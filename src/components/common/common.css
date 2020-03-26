@@ -35,9 +35,16 @@
 .formdrop{
     width: 50%;
 }
+.form-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
 .dropdown {
     height: 32px;
     margin-top: 10px;
+    width: 200px;
 }
 .MuiInputBase-root {
     color: var(--pink) !important;
@@ -49,3 +56,15 @@ option {
     color: black;
 }
 
+.MuiInputLabel-root {
+    color: var(--pink) !important;
+}
+
+.close-field {
+    cursor: pointer;
+    color: var(--pink);
+    align-self: end;
+    margin-top: auto;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
