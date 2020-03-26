@@ -14,8 +14,12 @@ const express = require('express')
 
 const app = express();
 
+// cors
+//const cors = require('cors');
+//app.use(cors());
+
 // body-parser: middleware for parsing HTTP JSON body into a usable object
-const bodyParser = require('body-parser') 
+const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
 // express-session for managing user sessions
@@ -34,18 +38,24 @@ app.use(session({
     }
 }));
 
+app.use((req, res, next) => {
+    res.append('Access-Control-Allow-Origin', ['*']);
+    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.append('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 
 //Routes
 //--------------------SESSION HANDLING-----------------------------//
 
-// Our own express middleware to check for 
+// Our own express middleware to check for
 // an active user on the session cookie (indicating a logged in user.)
 const sessionChecker = (req, res, next) => {
     if (req.session.user) {
         res.redirect('/api/users/dashboard'); // redirect to dashboard if logged in.
     } else {
         next(); // next() moves on to the route.
-    }    
+    }
 };
 
 // Middleware for authentication of resources
@@ -68,16 +78,19 @@ const authenticate = (req, res, next) => {
 
 // A route to login and create a session
 app.post('/api/users/login', (req, res) => {
+	console.log(req.body)
 	const email = req.body.email
 	const password = req.body.password
-	
+
 
     // Use the static method on the User model to find a user
     // by their email and password
 	User.findByEmailPassword(email, password).then((user) => {
 	    if (!user) {
+					console.log('bad user')
             res.redirect('/api/users/login');
         } else {
+						console.log('okay user')
             // Add the user's id to the session cookie.
 			// We can check later if this exists to ensure we are logged in.
             req.session.user = user._id;
@@ -85,6 +98,7 @@ app.post('/api/users/login', (req, res) => {
             res.redirect('/api/users/dashboard');
         }
     }).catch((error) => {
+				console.log(error)
 		res.status(400).redirect('/api/users/login');
     })
 })
@@ -121,12 +135,14 @@ app.get('/api/users/login', sessionChecker, (req, res) => {
 // the dashboard page
 app.get('/api/users/dashboard', (req, res) => {
 	if (req.session.user) {
+		console.log('okay user')
 		const sessionResponse = {
 			user: req.session.user,
 			email: req.session.email
-		} 
+		}
 		res.send(sessionResponse);
 	} else {
+		console.log('bad user')
 		res.redirect('/api/users/login')
 	}
 })
@@ -135,7 +151,7 @@ app.get('/api/users/dashboard', (req, res) => {
 
 //Add a new user to the DB
 app.post('/api/user', (req, res) => {
-	var newUser = new User(); 
+	var newUser = new User();
 	newUser.admin = req.body.admin;
 	newUser.email = req.body.email;
 	newUser.name = req.body.name;
@@ -153,7 +169,7 @@ app.post('/api/user', (req, res) => {
 
 //Add a new university to the DB
 app.post('/api/uni', (req, res) => {
-	var newUniversity = new University(); 
+	var newUniversity = new University();
 	newUniversity.name = req.body.name;
 	newUniversity.description = req.body.description;
 	newUniversity.region = req.body.region;
@@ -178,7 +194,7 @@ app.post('/api/uni', (req, res) => {
 app.put('/api/user/:email', (req, res) => {
 	const email = req.params.email
 
-	User.findOne({ "email": email }) 
+	User.findOne({ "email": email })
     .then((user) => {
        if (user) {
 			const id = user.id;
@@ -192,7 +208,7 @@ app.put('/api/user/:email', (req, res) => {
 			User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((user) => {
 				if (!user) {
 					res.status(404).send()
-				} else {   
+				} else {
 					res.send(user)
 				}
 			}).catch((error) => {
@@ -209,7 +225,7 @@ app.put('/api/user/:email', (req, res) => {
 app.put('/api/uni/:name', (req, res) => {
 	const name = req.params.name
 
-	University.findOne({ "name": name }) 
+	University.findOne({ "name": name })
     .then((uni) => {
        if (uni) {
 			const id = uni.id;
@@ -223,7 +239,7 @@ app.put('/api/uni/:name', (req, res) => {
 			University.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((uni) => {
 				if (!uni) {
 					res.status(404).send()
-				} else {   
+				} else {
 					res.send(uni)
 				}
 			}).catch((error) => {
@@ -259,7 +275,7 @@ app.get('/api/uni', (req, res) => {
 app.get('/api/user/:email', (req, res) => {
 	const email = req.params.email
 
-	User.findOne({ "email": email }) 
+	User.findOne({ "email": email })
     .then((user) => {
        if (user) {
 		   const id = user.id;
@@ -290,7 +306,7 @@ app.get('/api/user/:email', (req, res) => {
 app.get('/api/uni/:name', (req, res) => {
 	const name = req.params.name
 
-	University.findOne({ "name": name }) 
+	University.findOne({ "name": name })
     .then((uni) => {
        if (uni) {
 		   const id = uni.id;
@@ -323,7 +339,7 @@ app.get('/api/uni/:name', (req, res) => {
 app.delete('/api/user/:email', (req, res) => {
 	const email = req.params.email
 
-	User.findOne({ "email": email }) 
+	User.findOne({ "email": email })
     .then((user) => {
        if (user) {
 			const id = user.id;
@@ -337,7 +353,7 @@ app.delete('/api/user/:email', (req, res) => {
 			User.findByIdAndRemove(id).then((user) => {
 				if (!user) {
 					res.status(404).send()
-				} else {   
+				} else {
 					res.send(user)
 				}
 			}).catch((error) => {
@@ -353,7 +369,7 @@ app.delete('/api/user/:email', (req, res) => {
 app.delete('/api/uni/:name', (req, res) => {
 	const name = req.params.name
 
-	University.findOne({ "name": name }) 
+	University.findOne({ "name": name })
     .then((uni) => {
        if (uni) {
 		   const id = uni.id;
@@ -367,7 +383,7 @@ app.delete('/api/uni/:name', (req, res) => {
 			University.findByIdAndRemove(id).then((uni) => {
 				if (!uni) {
 					res.status(404).send()
-				} else {   
+				} else {
 					res.send(uni)
 				}
 			}).catch((error) => {
@@ -378,6 +394,12 @@ app.delete('/api/uni/:name', (req, res) => {
 		}
 	})
 })
+
+app.use(express.static(__dirname + "/../build"))
+
+app.get("*", (req, res) => {
+    res.sendFile(__dirname + "/../build/index.html");
+});
 
 // will use an 'environmental variable', process.env.PORT, for deployment.
 const port = process.env.PORT || 5000

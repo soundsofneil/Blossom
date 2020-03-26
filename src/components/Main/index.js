@@ -25,6 +25,8 @@ class Main extends Component {
     constructor(props) {
         super(props);
 
+        this.props.history.push("/main");
+
         fetchUniversities().then((universities) => {
             this.setState({universities: getReccomendations(universities)});
             const mySchools = props.user.schools.map((id) => this.state.universities.filter((uni) => uni.id === id)[0]);
