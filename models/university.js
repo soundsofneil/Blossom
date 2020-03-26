@@ -17,7 +17,21 @@ const University = mongoose.model('University', {
         minlength: 1,
         trim: true
 	},
-    region: RegionSchema,
+    region: {
+        type: String,
+        enum: [
+            'Canada North',
+            'Canada East',
+            'Canada West',
+            'US West',
+            'US Central',
+            'US South',
+            'US East',
+            'Hawaii',
+            'Alaska'
+        ],
+        required: true,
+    },
     programs: [ProgramRequirementsSchema],
     location: {
 		type: String,
