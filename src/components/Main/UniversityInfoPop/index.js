@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PopWindow from '../../common/PopWindow';
 import CloseIcon from '@material-ui/icons/Close';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLaptopCode, faChartLine } from '@fortawesome/free-solid-svg-icons'
 import { faCanadianMapleLeaf } from '@fortawesome/free-brands-svg-icons'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import './index.css'
@@ -30,12 +31,12 @@ export default class UniPopUp extends Component {
                                 <a target="_blank" rel="noopener noreferrer" href={uni.locationUri} className="button-uni">
                                     <FontAwesomeIcon color="#3A4664" icon={uni.country === 'Canada' ? faCanadianMapleLeaf : faStar}/>&nbsp; {uni.location}
                                 </a>
-                                {uni.programs.map(({ name, link, average, icon }) => (
-                                    <div key={name} className="program-block">
-                                        <a target="_blank" rel="noopener noreferrer" href={link} className="button-uni program">
-                                            <FontAwesomeIcon color="#3A4664" icon={icon}/>&nbsp; {name}
+                                {uni.programs.map(({ program, website, gradeRequirement }) => (
+                                    <div key={program} className="program-block">
+                                        <a target="_blank" rel="noopener noreferrer" href={website} className="button-uni program">
+                                            <FontAwesomeIcon color="#3A4664" icon={this.getIcon(program)}/>&nbsp; {program}
                                         </a>
-                                        <div className="average-block">{average}%</div>
+                                        <div className="average-block">{gradeRequirement}%</div>
                                     </div>
                                 ))}
                             </div>
@@ -46,5 +47,15 @@ export default class UniPopUp extends Component {
                 </div>
             </PopWindow>
         )
+    }
+
+    getIcon = program => {
+        if (program === "Computer Science") {
+            return faLaptopCode;
+        } else if (program === "Commmerce") {
+            return faChartLine;
+        } else {
+            return faChartLine;
+        }
     }
 }

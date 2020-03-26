@@ -14,7 +14,7 @@ class UniversityList extends Component {
             {indeces.length > 0 ?
             indeces.map(i =>
             <University
-                key={universities[i].id}
+                key={universities[i]._id}
                 university={universities[i]}
                 addToList={this.props.addToList}
                 learnMore={() => this.props.learnMore(universities[i])}

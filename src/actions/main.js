@@ -1,10 +1,10 @@
 /* Actions for the Main React component */
-import { faLaptopCode, faChartLine } from '@fortawesome/free-solid-svg-icons'
 
 export const addToList = (main, uni) => {
   const mySchools = main.state.mySchools;
 
-  if (mySchools.find(u => u.id === uni.id)) {
+  if (mySchools.find(u => u._id === uni._id)) {
+    console.log("Already in list!");
     return;
   }
 
@@ -18,7 +18,7 @@ export const addToList = (main, uni) => {
 }
 
 export const removeFromList = (main, uni) => {
-  const mySchools = main.state.mySchools.filter(u => u.id !== uni.id);
+  const mySchools = main.state.mySchools.filter(u => u._id !== uni._id);
 
   console.log("Removing " + uni.name + " from the list!");
 
@@ -54,7 +54,6 @@ export const fetchUniversities = () => {
     }
   })
   .then((json) => {
-    console.log(json.universities)
     return json.universities;
   })
 }

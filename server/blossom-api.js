@@ -14,7 +14,7 @@ const express = require('express')
 
 const app = express();
 
-const bodyParser = require('body-parser') 
+const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
 
@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 
 //Add a new user to the DB
 app.post('/api/user', (req, res) => {
-	var newUser = new User(); 
+	var newUser = new User();
 	newUser.email = req.body.email;
 	newUser.name = req.body.name;
 	newUser.password = req.body.password;
@@ -46,7 +46,7 @@ app.post('/api/user', (req, res) => {
 
 //Add a new university to the DB
 app.post('/api/uni', (req, res) => {
-	var newUniversity = new University(); 
+	var newUniversity = new University();
 	newUniversity.name = req.body.name;
 	newUniversity.description = req.body.description;
 	newUniversity.region = req.body.region;
@@ -79,6 +79,7 @@ app.get('/api/user', (req, res) => {
 // Get all universities in the DB
 app.get('/api/uni', (req, res) => {
 	University.find().then((universities) => {
+	  res.header("Access-Control-Allow-Origin", "*");
 		res.send({ universities }) // can wrap in object if want to add more properties
 	}, (error) => {
 		res.status(500).send(error) // server error
@@ -89,7 +90,7 @@ app.get('/api/uni', (req, res) => {
 app.get('/api/user/:email', (req, res) => {
 	const email = req.params.email
 
-	User.findOne({ "email": email }) 
+	User.findOne({ "email": email })
     .then((user) => {
        if (user) {
 		   const id = user.id;
@@ -120,7 +121,7 @@ app.get('/api/user/:email', (req, res) => {
 app.get('/api/uni/:name', (req, res) => {
 	const name = req.params.name
 
-	University.findOne({ "name": name }) 
+	University.findOne({ "name": name })
     .then((uni) => {
        if (uni) {
 		   const id = uni.id;
@@ -163,7 +164,7 @@ app.delete('/api/user/:id', (req, res) => {
 	User.findByIdAndRemove(id).then((user) => {
 		if (!user) {
 			res.status(404).send()
-		} else {   
+		} else {
 			res.send(user)
 		}
 	}).catch((error) => {
@@ -185,7 +186,7 @@ app.delete('/api/uni/:id', (req, res) => {
 	University.findByIdAndRemove(id).then((uni) => {
 		if (!uni) {
 			res.status(404).send()
-		} else {   
+		} else {
 			res.send(uni)
 		}
 	}).catch((error) => {

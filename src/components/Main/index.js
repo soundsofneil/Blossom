@@ -31,9 +31,6 @@ class Main extends Component {
             this.setState({mySchools})
             const searchInds = this.state.universities.map((uni, i) => i);
             this.setState({searchInds})
-
-            console.log(this.state.universities)
-            console.log(this.state.searchInds)
         }).catch((error) => {
             console.log(error)
         })

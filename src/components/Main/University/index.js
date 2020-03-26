@@ -11,7 +11,6 @@ import './styles.css'
 export default class University extends Component {
     render() {
         const {university, addToList, learnMore} = this.props;
-        console.log(university);
 
         return (
         <div className="university">
