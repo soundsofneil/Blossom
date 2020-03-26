@@ -29,11 +29,14 @@ Example:
 //Update a USER (identify user by email, and must pass in JSON object with changes): PUT to localhost:5000/api/uni/email
 Example:
 {
-	"programs": [{"program":"Commerce", "gradeRequirement": 85, "website": "www.weedercourse.com"}]
+	"admin": true
 }
 
 //Update a UNIVERSITY (identify university by name, and must pass in JSON object with changes): PUT to localhost:5000/api/uni/name
 Example:
+{
+	"programs": [{"program":"Commerce", "gradeRequirement": 85, "website": "www.weedercourse.com"}]
+}
 
 
 //Get all UNIVERSITIES in the DB: GET to localhost:5000/api/uni
