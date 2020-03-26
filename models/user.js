@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
-		minlegth: 1,
+		minlength: 1,
 		trim: true
     }, 
 	password: {
@@ -31,7 +31,12 @@ const UserSchema = new mongoose.Schema({
     },
     regions: [RegionSchema],
     programs: [ProgramSchema],
-    grades: [GradeSchema]
+	grades: [GradeSchema],
+	schools: [{ //list of universities the user has selected
+		type: String,
+		minlength: 1,
+		trim: true
+	}] 
 })
 
 // This function will run immediately prior to saving the document in the database
