@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import Splash from './components/Splash/Splash';
 import Main from './components/Main';
-import {readCookie, signIn, signOut} from './actions/user';
+import {readCookie, signIn, signOut, signUp} from './actions/user';
 
 import './App.css';
 
@@ -40,12 +40,12 @@ export default class App extends React.Component {
         // amongst other logic
         this.setState({ view: 'splash' })
     }
-    */
 
     signUp = (user) => {
         // amongst other logic
         this.setState({ view: 'main', user: user })
     }
+    */
 
     setUser = (user) => {
         this.setState({ user })
@@ -61,7 +61,7 @@ export default class App extends React.Component {
                             <div className="app">
                                 {this.state.user ?
                                     <Main history={history} signOut={() => signOut(this)} setUser={this.setUser} user={this.state.user}/> :
-                                    <Splash history={history} signIn={(signInComp) => signIn(this, signInComp)} signUp={this.signUp}/>
+                                    <Splash history={history} signIn={(signInComp) => signIn(this, signInComp)} signUp={(signInComp) => signUp(this, signInComp)}/>
                                 }
                             </div>
 

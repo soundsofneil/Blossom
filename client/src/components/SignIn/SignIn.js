@@ -77,19 +77,10 @@ export default class SignIn extends React.Component {
             regions: this.state.regions,
             programs: this.state.programs,
         })
-        this.props.signUp({
-            username: this.state.username,
-            name: this.state.name,
-            password: this.state.password,
-            grades: grades,
-            regions: this.state.regions,
-            programs: this.state.programs,
-            schools: []
-        })
-        // reset fields
-        this.setState({ username: '', password: '', name: '', regions: [], programs: [], stage: 0 })
-        this.props.close() // close window
-        this.props.switchView() // back to sign in
+        this.state.grades = grades;
+        this.props.signUp(this)
+        //this.props.close() // close window
+        //this.props.switchView() // back to sign in
     }
 
     onKeyDownUp = (event) => {

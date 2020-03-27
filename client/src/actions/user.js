@@ -38,7 +38,8 @@ export const signIn = (app, signInComp) => {
         console.log(data)
         if (data && data.user) {
             app.setState({ user: data.user });
-            signInComp.setState({ username: '', password: '', errusername: false, errpassword: false })
+            // reset fields on success
+            signInComp.setState({ username: '', password: '', name: '', regions: [], programs: [], stage: 0, errusername: false, errpassword: false })
         } else {
             app.setState({ user: null });
             signInComp.setState({ errusername: true, errpassword: true })
@@ -53,6 +54,32 @@ export const signIn = (app, signInComp) => {
 export const signOut = (app) => {
     axios.get("http://localhost:5000/api/users/logout").then(res => {
         app.setState({ user: null });
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+// A function to create a new user
+export const signUp = (app, signInComp) => {
+    const data = {
+    	admin: false,
+    	email: signInComp.state.username,
+    	name: signInComp.state.name,
+    	password: signInComp.state.password,
+    	regions: signInComp.state.regions,
+    	programs: signInComp.state.programs,
+    	grades: signInComp.state.grades,
+    	schools: []
+    }
+
+    // send the login request
+    axios.post("http://localhost:5000/api/user", data).then(res => {
+        console.log(res)
+        if (res.status === 200) {
+            return res.data;
+        }
+    }).then(() => {
+        signIn(app, signInComp)
     }).catch(error => {
         console.log(error);
     });
