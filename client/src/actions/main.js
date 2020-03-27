@@ -1,68 +1,86 @@
 /* Actions for the Main React component */
+const axios = require('axios');
 
-export const addToList = (main, uni) => {
-  const mySchools = main.state.mySchools;
+export const addToList = (app, uni) => {
+  const user = app.state.user;
 
-  if (mySchools.find(u => u._id === uni._id)) {
+  if (user.schools.find(school => school.name === uni.name)) {
     console.log("Already in list!");
     return;
   }
 
   console.log("Adding " + uni.name + " to the list!");
 
-  mySchools.push(uni);
+  // update local user
+  user.schools.push({name: uni.name});
 
-  main.setState(
-    {mySchools}
-  )
+  // request to update user
+  axios.put('http://localhost:5000/api/user/' + user.email, {schools: user.schools}).then((res) => {
+    if (res.status === 200) {
+      return res.data;
+    }
+  }).then(data => {
+    if (data) {
+      app.setState({user: data})
+    }
+    else {
+      alert('Could not update user profile!')
+    }
+  }).catch((error) => {
+    console.log(error)
+  })
 }
 
-export const removeFromList = (main, uni) => {
-  const mySchools = main.state.mySchools.filter(u => u._id !== uni._id);
+export const removeFromList = (app, uni) => {
+  const user = app.state.user;
 
   console.log("Removing " + uni.name + " from the list!");
 
-  main.setState(
-    {mySchools}
-  )
-}
+  // set local user
+  user.schools = user.schools.filter(school => school.name !== uni.name);
 
-export const fetchUniversities = () => {
-  /*
-  // fetch hard-coded data from json (placeholder)
-  let universities = require('../data.json')['universities'];
-  for (let i = 0; i < universities.length; i++) {
-    const programs = universities[i]['programs']
-    for (let j = 0; j < programs.length; j++) {
-      if (universities[i]['programs'][j].icon === 'faLaptopCode') {
-        universities[i]['programs'][j].icon = faLaptopCode
-      } else if (universities[i]['programs'][j].icon === 'faChartLine') {
-        universities[i]['programs'][j].icon = faChartLine
-      }
-    }
-  }
-  */
-
-  const url = 'http://localhost:5000/api/uni/';
-
-  return fetch(url)
-  .then((res) => {
+  // request to update user
+  axios.put('http://localhost:5000/api/user/' + user.email, {schools: user.schools}).then((res) => {
     if (res.status === 200) {
-      return res.json()
-    } else {
-      alert('Could not get unversities')
+      return res.data;
     }
-  })
-  .then((json) => {
-    return json.universities;
+  }).then(data => {
+    if (data) {
+      app.setState({user: data})
+    }
+    else {
+      alert('Could not update user profile!')
+    }
+  }).catch((error) => {
+    console.log(error)
   })
 }
 
-export const getReccomendations = (universities) => {
-  // determine recommended schools here
+// function to get necessary university data for main page
+export const getUniversityData = (main) => {
+  axios.get('http://localhost:5000/api/uni/').then((res) => {
+    if (res.status === 200) {
+      return res.data;
+    }
+  }).then((data) => {
+    if (data && data.universities) {
+      // get all necessary data
+      main.setState({universities: data.universities});
+      const searchInds = data.universities.map((uni, i) => i);
+      main.setState({searchInds})
+    } else {
+      alert('Could not get unversity data from server!')
+    }
+  }).catch((error) => {
+    console.log(error)
+  })
+}
+
+// function to compute user reccomendations
+export const getReccomendations = (main) => {
+  const universities = main.state.universities;
   if (universities.length > 0) {
     universities[0].recommended = true;
   }
-
-  return universities;
+  main.setState({universities: universities});
 }

@@ -6,7 +6,7 @@ import {readCookie, signIn, signOut, signUp} from './actions/user';
 
 import './App.css';
 
-const users = require('./data.json').users
+//const users = require('./data.json').users
 
 export default class App extends React.Component {
     constructor(props) {
@@ -60,7 +60,7 @@ export default class App extends React.Component {
                         render={({ history }) => (
                             <div className="app">
                                 {this.state.user ?
-                                    <Main history={history} signOut={() => signOut(this)} setUser={this.setUser} user={this.state.user}/> :
+                                    <Main history={history} app={this} user={this.state.user} signOut={() => signOut(this)} setUser={this.setUser}/> :
                                     <Splash history={history} signIn={(signInComp) => signIn(this, signInComp)} signUp={(signInComp) => signUp(this, signInComp)}/>
                                 }
                             </div>

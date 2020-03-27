@@ -3,7 +3,7 @@ const axios = require('axios');
 
 // A function to check if a user is logged in on the session cookie
 export const readCookie = (app) => {
-    axios("http://localhost:5000/api/users/check-session")
+    axios.get("http://localhost:5000/api/users/check-session")
     .then(res => {
         if (res.status === 200) {
             return res.data;

@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import UniversityInfoPop from './UniversityInfoPop'
 import Preferences from './Preferences/Preferences'
 import AdminPortal from './Preferences/AdminPortal'
-import { addToList, removeFromList, fetchUniversities, getReccomendations } from "../../actions/main";
+import { addToList, removeFromList, getUniversityData, getReccomendations } from "../../actions/main";
 
 import './styles.css'
 
@@ -14,7 +14,6 @@ class Main extends Component {
     state = {
         view: 'main', // main | pref | admin | learn
         universities: [],
-        mySchools: [],
         searchInds: [],
         popVisible: false,
         adminVisible: false,
@@ -26,16 +25,7 @@ class Main extends Component {
         super(props);
 
         this.props.history.push("/main");
-
-        fetchUniversities().then((universities) => {
-            this.setState({universities: getReccomendations(universities)});
-            const mySchools = props.user.schools.map((id) => this.state.universities.filter((uni) => uni.id === id)[0]);
-            this.setState({mySchools})
-            const searchInds = this.state.universities.map((uni, i) => i);
-            this.setState({searchInds})
-        }).catch((error) => {
-            console.log(error)
-        })
+        getUniversityData(this);
     }
 
     render() {
@@ -55,14 +45,14 @@ class Main extends Component {
                         <UniversityList
                             universities={this.state.universities}
                             indeces={this.state.searchInds}
-                            addToList={(uni) => {addToList(this, uni)}}
+                            addToList={(uni) => {addToList(this.props.app, uni)}}
                             learnMore={this.learnMore}
                         />
                     )}
                     {!this.props.user.admin && (
                         <MySchoolsList
-                            mySchools={this.state.mySchools}
-                            removeFromList={(uni) => {removeFromList(this, uni)}}
+                            mySchools={this.state.universities.filter(uni => this.props.user.schools.find(school => school.name === uni.name))}
+                            removeFromList={(uni) => {removeFromList(this.props.app, uni)}}
                             learnMore={this.learnMore}
                         />
                     )}
