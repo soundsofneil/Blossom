@@ -10,12 +10,12 @@ const regions = require('../../../data.json').regions
 
 export default class Preferences extends React.Component {
     state = {
-        newUsername: this.props.user.username,
+        newUsername: this.props.user.email,
         newName: this.props.user.name,
         newPassword: this.props.user.password,
-        newGrades: this.props.user.grades,
-        newPrograms: this.props.user.programs,
-        newRegions: this.props.user.regions
+        newGrades: this.props.user.grades.map((grade, i) => {return {id: i, grade: grade.grade, course: grade.course}}),
+        newPrograms: this.props.user.programs.map(prog1 => programs.find(prog2 => prog1.program === prog2.name).id),
+        newRegions: this.props.user.regions.map(reg1 => regions.find(reg2 => reg1.region === reg2.name).id),
     }
 
     updateUser = () => {
@@ -81,36 +81,36 @@ export default class Preferences extends React.Component {
     render() {
         return (
             <PopWindow visible={this.props.visible} onClose={this.props.close}>
-                <div className='pref-window'> 
-                    <img 
-                        className='logo' 
-                        alt='blossom' 
+                <div className='pref-window'>
+                    <img
+                        className='logo'
+                        alt='blossom'
                         src={require('../../images/blossom-pink.png')} />
                     <div className='pref-content'>
                         <div className='pref-name'>{this.state.newName}</div>
                         <div className='user-details-form'>
-                            <Field 
-                                label='username' 
-                                onChange={({target: {value}}) => this.setState({ newUsername: value })} 
-                                placeholder='username' 
-                                title='username' 
-                                className='fourtyfive marg' 
-                                align='center' 
+                            <Field
+                                label='username'
+                                onChange={({target: {value}}) => this.setState({ newUsername: value })}
+                                placeholder='username'
+                                title='username'
+                                className='fourtyfive marg'
+                                align='center'
                                 value={this.state.newUsername}/>
-                            <Field 
-                                label='name' 
-                                onChange={({target: {value}}) => this.setState({ newName: value })} 
-                                placeholder='name' 
-                                className='fourtyfive marg' 
-                                align='center' 
+                            <Field
+                                label='name'
+                                onChange={({target: {value}}) => this.setState({ newName: value })}
+                                placeholder='name'
+                                className='fourtyfive marg'
+                                align='center'
                                 value={this.state.newName}/>
-                            <Field 
-                                label='password' 
-                                onChange={({target: {value}}) => this.setState({ newPassword: value })} 
-                                placeholder='password' 
-                                className='fourtyfive marg' 
-                                type='password' 
-                                align='center' 
+                            <Field
+                                label='password'
+                                onChange={({target: {value}}) => this.setState({ newPassword: value })}
+                                placeholder='password'
+                                className='fourtyfive marg'
+                                type='password'
+                                align='center'
                                 value={this.state.newPassword}/>
                         </div>
                         <div className='grade-form'>
@@ -124,7 +124,7 @@ export default class Preferences extends React.Component {
                                     </div>
                                 ))
                             }
-                            <div 
+                            <div
                                 className='button-add grade noselect'
                                 onClick={this.addGrades}>Add more...</div>
                         </div>
@@ -133,18 +133,18 @@ export default class Preferences extends React.Component {
                                 <span className='grd-text'>Programs</span>
                                 {
                                     this.state.newPrograms.map((i) => programs[i]).map((program, index) => (
-                                        <Dropdown 
+                                        <Dropdown
                                             onChange={(e) => this.onChangeProgram(e, index)}
-                                            onRemove={() => this.removeProgram(index)} 
-                                            key={index} 
-                                            formclassname='drop' 
-                                            choices={programs.filter((pgm) => !this.state.newPrograms.includes(pgm.id) || pgm.id === program.id)} 
+                                            onRemove={() => this.removeProgram(index)}
+                                            key={index}
+                                            formclassname='drop'
+                                            choices={programs.filter((pgm) => !this.state.newPrograms.includes(pgm.id) || pgm.id === program.id)}
                                             defaultValue={program.id} />
                                     ))
                                 }
                                 {
                                     this.state.newPrograms.length < programs.length && (
-                                        <div 
+                                        <div
                                             className='button-add noselect'
                                             onClick={this.addProgram}>Add more...</div>
                                     )
@@ -154,7 +154,7 @@ export default class Preferences extends React.Component {
                                 <span className='grd-text'>Regions</span>
                                 {
                                     this.state.newRegions.map((i) => regions[i]).map((region, index) => (
-                                        <Dropdown 
+                                        <Dropdown
                                             onRemove={() => this.removeRegion(index)}
                                             key={index}
                                             formclassname='drop'
@@ -164,15 +164,15 @@ export default class Preferences extends React.Component {
                                 }
                                 {
                                     this.state.newRegions.length < regions.length && (
-                                        <div 
+                                        <div
                                             className='button-add noselect'
                                             onClick={this.addRegion}>Add more...</div>
                                     )
                                 }
                             </div>
                         </div>
-                        <div 
-                            className='button threequarters marg-bot' 
+                        <div
+                            className='button threequarters marg-bot'
                             onClick={() => {
                                 this.updateUser()
                                 this.props.close()

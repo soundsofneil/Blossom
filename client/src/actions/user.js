@@ -43,6 +43,7 @@ export const signIn = (app, signInComp) => {
             app.setState({ user: data.user });
             // reset fields on success
             signInComp.setState({ username: '', password: '', name: '', regions: [], programs: [], stage: 0, errusername: false, errpassword: false })
+                console.log("Successfully signed in!")
         } else {
             app.setState({ user: null });
             signInComp.setState({ errusername: true, errpassword: true })
@@ -79,6 +80,7 @@ export const signUp = (app, signInComp) => {
     axios.post("http://localhost:5000/api/user", data).then(res => {
         console.log(res)
         if (res.status === 200) {
+            console.log("Successfully created user!")
             return res.data;
         }
     }).then(() => {
@@ -91,6 +93,7 @@ export const signUp = (app, signInComp) => {
 
 // A function to create a new user
 export const modifyUser = (app, user) => {
+    console.log(user)
     const data = {
     	admin: false,
     	email: user.username,
@@ -111,6 +114,7 @@ export const modifyUser = (app, user) => {
     }).then(() => {
         if (data) {
           app.setState({user: data})
+          console.log("Successfully updated user!")
         }
         else {
           alert('Could not update user profile!')
