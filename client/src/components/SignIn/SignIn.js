@@ -22,14 +22,16 @@ export default class SignIn extends React.Component {
     }
 
     signIn = () => {
-        console.log('sign in');
-        this.props.signIn({ username: this.state.username, password: this.state.password}).then(() => {
-            this.setState({ username: '', password: '', errusername: false, errpassword: false })
-            this.props.close()
-        }).catch((err) => {
-            console.log(err)
-            this.setState({ errusername: true, errpassword: true })
-        })
+        this.props.signIn(this)
+
+        //console.log('sign in');
+        //this.props.signIn({ username: this.state.username, password: this.state.password}).then(() => {
+        //    this.setState({ username: '', password: '', errusername: false, errpassword: false })
+        //    this.props.close()
+        //}).catch((err) => {
+        //    console.log(err)
+        //    this.setState({ errusername: true, errpassword: true })
+        //})
     }
 
     onKeyDownIn = (event) => {
@@ -101,59 +103,59 @@ export default class SignIn extends React.Component {
     signUpGoogle = () => {
         console.log('sign up google');
     }
-    
+
     setPrograms = (programs) => this.setState({ programs })
     setRegions = (regions) => this.setState({ regions })
-        
+
     render() {
         return (
             <div id="sign-in-container">
-                <img 
-                    className="logo" 
-                    alt="blossom" 
+                <img
+                    className="logo"
+                    alt="blossom"
                     src={require('../../images/blossom-pink.png')} />
                 {
                     this.state.stage === 0 ? (
                         <div className="sign-info-box">
                             <span className="title noselect">blossom</span>
-                            <Field 
-                                className="full" 
-                                value={this.state.username} 
-                                onChange={({target: {value}}) => this.setState({username: value})} 
-                                error={this.state.errusername} 
-                                placeholder="username" 
+                            <Field
+                                className="full"
+                                value={this.state.username}
+                                onChange={({target: {value}}) => this.setState({username: value})}
+                                error={this.state.errusername}
+                                placeholder="username"
                                 type="text" />
                             {
                                 this.props.type === 'up' && (
-                                <Field 
-                                    className="full" 
-                                    value={this.state.name} 
+                                <Field
+                                    className="full"
+                                    value={this.state.name}
                                     onChange={({target: {value}}) => this.setState({name: value})}
-                                    error={this.state.errname} 
-                                    placeholder="name" 
+                                    error={this.state.errname}
+                                    placeholder="name"
                                     type="text" />)
                             }
-                            <Field 
-                                className="full" 
-                                value={this.state.password} 
-                                onChange={({target: {value}}) => this.setState({password: value})} 
-                                error={this.state.errpassword} 
-                                placeholder="password" 
+                            <Field
+                                className="full"
+                                value={this.state.password}
+                                onChange={({target: {value}}) => this.setState({password: value})}
+                                error={this.state.errpassword}
+                                placeholder="password"
                                 type="password"
                                 onKeyDown={this.state.type === 'up' ? this.onKeyDownUp : this.onKeyDownIn}/>
-                
-                            <div 
-                                className="button full" 
+
+                            <div
+                                className="button full"
                                 onClick={
-                                    this.props.type === 'up' ? 
+                                    this.props.type === 'up' ?
                                     this.nextSignUpStep : this.signIn}>
                                 Sign {this.props.type === 'up' ? 'Up' : 'In'}</div>
                             <div
-                                className="button-goog full" 
+                                className="button-goog full"
                                 onClick={
-                                    this.props.type === 'up' ? 
+                                    this.props.type === 'up' ?
                                     this.signUpGoogle : this.signInGoogle }>
-                                <FontAwesomeIcon color="#3A4664" icon={faGoogle}/>&nbsp; Sign&nbsp; 
+                                <FontAwesomeIcon color="#3A4664" icon={faGoogle}/>&nbsp; Sign&nbsp;
                                     {this.props.type === 'up' ? 'Up' : 'In'} with Google
                             </div>
                             <div className="button-up noselect" onClick={() => {
@@ -164,7 +166,7 @@ export default class SignIn extends React.Component {
                                 })
                                 this.props.switchView()
                             }}>
-                                {this.props.type === 'up' ? 
+                                {this.props.type === 'up' ?
                                 'Have an account? Sign In.' : 'No account? Sign Up.'}
                             </div>
                         </div>

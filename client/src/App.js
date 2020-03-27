@@ -57,7 +57,7 @@ export default class App extends React.Component {
                             <div className="app">
                                 {this.state.user ?
                                     <Main history={history} signOut={this.signOut} setUser={this.setUser} user={this.state.user}/> :
-                                    <Splash history={history} signIn={(input) => signIn(this, input)} signUp={this.signUp}/>
+                                    <Splash history={history} signIn={(signInComp) => signIn(this, signInComp)} signUp={this.signUp}/>
                                 }
                             </div>
 

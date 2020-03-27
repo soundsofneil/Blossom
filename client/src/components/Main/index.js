@@ -84,7 +84,7 @@ class Main extends Component {
                     uni={this.state.uniPop}
                     close={() => this.setState({ popVisible: false })}/>
                 <AdminPortal visible={this.state.adminVisible} setUser={this.props.setUser} close={this.toggleAdminPanel}/>
-                <Preferences user={this.props.user} setUser={this.props.setUser} visible={this.state.prefVisible} close={this.togglePreferences}/>
+                {/*<Preferences user={this.props.user} setUser={this.props.setUser} visible={this.state.prefVisible} close={this.togglePreferences}/>*/}
             </div>
         );
     }

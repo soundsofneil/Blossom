@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema({
 		required: true,
 		minlength: 1,
 		trim: true
-    }, 
+    },
 	password: {
 		type: String,
 		required: true,
@@ -41,7 +41,7 @@ const UserSchema = new mongoose.Schema({
 		minlength: 1,
 		trim: true
 	}
-	}] 
+	}]
 })
 
 // This function will run immediately prior to saving the document in the database

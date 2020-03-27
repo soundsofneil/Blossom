@@ -3,45 +3,44 @@
 const axios = require('axios');
 
 // A function to send a POST request with the user to be logged in
-export const signIn = (app, input) => {
+export const signIn = (app, signInComp) => {
     const data = {
-        email: input.username,
-        password: input.password
+        email: signInComp.state.username,
+        password: signInComp.state.password
     }
 
-    const request = new Request("http://localhost:5000/api/users/login", {
-        method: "post",
-        body: JSON.stringify(data),
-        headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-            "Connection": "keep-alive"
-        }
-    });
-
-    // Send the request with fetch()
-    //fetch(request)
-    axios.post("http://localhost:5000/api/users/login", data)
-    .then(res => {
+    // send the login request
+    axios.post("http://localhost:5000/api/users/login", data).then(res => {
         console.log(res)
         if (res.status === 200) {
-            return res.json();
+            return res.data;
         }
-    })
-    .then(json => {
-        console.log(json)
-        if (json.user !== "") {
-            console.log("user okay")
-            app.setState({ user: json.user });
+    }).then(data => {
+        console.log(data)
+        if (data.user !== "") {
+            return data.email;
         }
-    })
-    .catch(error => {
+    }).then(id => {
+        // send request for user information
+        if (id) {
+            axios.get("http://localhost:5000/api/user/" + id).then(res => {
+                console.log(res)
+                if (res.status === 200) {
+                    return res.data;
+                }
+            }).then(user => {
+                console.log(user)
+                app.setState({ user });
+                signInComp.setState({ username: '', password: '', errusername: false, errpassword: false })
+            }).catch(error => {
+                console.log(error);
+                signInComp.setState({ errusername: true, errpassword: true })
+            });
+        } else {
+            signInComp.setState({ errusername: true, errpassword: true })
+        }
+    }).catch(error => {
         console.log(error);
+        signInComp.setState({ errusername: true, errpassword: true })
     });
-
-    if (app.state.user) {
-        return Promise.resolve();
-    } else {
-        return Promise.reject();
-    }
 };
