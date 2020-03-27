@@ -2,18 +2,22 @@ import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import Splash from './components/Splash/Splash';
 import Main from './components/Main';
-import {signIn} from './actions/user';
+import {readCookie, signIn, signOut} from './actions/user';
 
 import './App.css';
 
 const users = require('./data.json').users
 
 export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+        readCookie(this); // sees if a user is logged in.
+    }
+
     state = {
         view: 'splash', // splash | main
         user:  null //users[0]// currently logged in user
     }
-
     /*
     signIn = (input) => {
 
@@ -31,12 +35,12 @@ export default class App extends React.Component {
             }
         })
     }
-    */
 
     signOut = () => {
         // amongst other logic
         this.setState({ view: 'splash' })
     }
+    */
 
     signUp = (user) => {
         // amongst other logic
@@ -56,7 +60,7 @@ export default class App extends React.Component {
                         render={({ history }) => (
                             <div className="app">
                                 {this.state.user ?
-                                    <Main history={history} signOut={this.signOut} setUser={this.setUser} user={this.state.user}/> :
+                                    <Main history={history} signOut={() => signOut(this)} setUser={this.setUser} user={this.state.user}/> :
                                     <Splash history={history} signIn={(signInComp) => signIn(this, signInComp)} signUp={this.signUp}/>
                                 }
                             </div>

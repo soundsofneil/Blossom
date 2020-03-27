@@ -50,13 +50,39 @@ app.use(session({
 
 // Our own express middleware to check for
 // an active user on the session cookie (indicating a logged in user.)
-const sessionChecker = (req, res, next) => {
-    if (req.session.user) {
-        res.redirect('/api/users/dashboard'); // redirect to dashboard if logged in.
-    } else {
-        next(); // next() moves on to the route.
-    }
-};
+//const sessionChecker = (req, res, next) => {
+//    if (req.session.user) {
+//        res.redirect('/api/users/dashboard'); // redirect to dashboard if logged in.
+//    } else {
+//        next(); // next() moves on to the route.
+//    }
+//};
+
+// A route to check if a use is logged in on the session cookie
+app.get("/api/users/check-session", (req, res) => {
+	if (!req.session.user) {
+		console.log('server: no user')
+		res.status(401).send();
+		return;
+	}
+
+	if (!ObjectID.isValid(req.session.user)) {
+		res.status(404).send();
+		return;
+	}
+
+	console.log('server: okay user')
+	User.findById(req.session.user).then(user => {
+		if (!user) {
+			console.log('server: couldnt find user')
+			res.status(404).send();
+		} else {
+			res.send({user: user})
+		}
+	}).catch(error => {
+		res.status(500).send(error);
+	})
+});
 
 // Middleware for authentication of resources
 const authenticate = (req, res, next) => {
@@ -95,11 +121,11 @@ app.post('/api/users/login', (req, res) => {
 			// We can check later if this exists to ensure we are logged in.
             req.session.user = user._id;
             req.session.email = user.email
-            res.redirect('/api/users/dashboard');
+						res.send({user: user})
         }
     }).catch((error) => {
 				console.log(error)
-		res.status(400).redirect('/api/users/login');
+				res.send()
     })
 })
 
@@ -110,7 +136,7 @@ app.get('/api/users/logout', (req, res) => {
 		if (error) {
 			res.status(500).send(error)
 		} else {
-			res.redirect('/')
+			res.send()
 		}
 	})
 })
@@ -118,34 +144,34 @@ app.get('/api/users/logout', (req, res) => {
 //--------------------WEBPAGE ROUTES-------------------------------//
 
 // route for root: should redirect to login route
-app.get('/', sessionChecker, (req, res) => {
-	res.redirect('/api/users/login')
-})
+//app.get('/', sessionChecker, (req, res) => {
+//	res.redirect('/api/users/login')
+//})
 
 // login route serves the login page
-app.get('/api/users/login', sessionChecker, (req, res) => {
-	const sessionResponse = {
-		user: '',
-		email: ''
-	}
-	res.send(sessionResponse);
-})
+//app.get('/api/users/login', sessionChecker, (req, res) => {
+//	const sessionResponse = {
+//		user: '',
+//		email: ''
+//	}
+//	res.send(sessionResponse);
+//})
 
 // dashboard route will check if the user is logged in and serve
 // the dashboard page
-app.get('/api/users/dashboard', (req, res) => {
-	if (req.session.user) {
-		console.log('server: okay user')
-		const sessionResponse = {
-			user: req.session.user,
-			email: req.session.email
-		}
-		res.send(sessionResponse);
-	} else {
-		console.log('server: bad user')
-		res.redirect('/api/users/login')
-	}
-})
+//app.get('/api/users/dashboard', (req, res) => {
+//	if (req.session.user) {
+//		console.log('server: okay user')
+//		const sessionResponse = {
+//			user: req.session.user,
+//			email: req.session.email
+//		}
+//		res.send(sessionResponse);
+//	} else {
+//		console.log('server: bad user')
+//		res.redirect('/api/users/login')
+//	}
+//})
 
 //-------------------POST (CREATE) CALLS---------------------------//
 
