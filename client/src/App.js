@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import Splash from './components/Splash/Splash';
 import Main from './components/Main';
-import {readCookie, signIn, signOut, signUp} from './actions/user';
+import {readCookie, signIn, signOut, signUp, modifyUser} from './actions/user';
 
 import './App.css';
 
@@ -48,7 +48,7 @@ export default class App extends React.Component {
     */
 
     setUser = (user) => {
-        this.setState({ user })
+        modifyUser(this, user)
     }
 
     render() {

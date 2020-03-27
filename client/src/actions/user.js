@@ -1,6 +1,9 @@
 /* Actions for logging in/signing up, etc */
 const axios = require('axios');
 
+const programs = require('../data.json').programs
+const regions = require('../data.json').regions
+
 // A function to check if a user is logged in on the session cookie
 export const readCookie = (app) => {
     axios.get("http://localhost:5000/api/users/check-session")
@@ -66,9 +69,9 @@ export const signUp = (app, signInComp) => {
     	email: signInComp.state.username,
     	name: signInComp.state.name,
     	password: signInComp.state.password,
-    	regions: signInComp.state.regions,
-    	programs: signInComp.state.programs,
-    	grades: signInComp.state.grades,
+    	regions: signInComp.state.regions.map(id => {return {region: regions[id].name}}),
+    	programs: signInComp.state.programs.map(id => {return {program: programs[id].name}}),
+    	grades: signInComp.state.grades.map(g => {return {grade: g.grade, course: g.course}}),
     	schools: []
     }
 
@@ -80,6 +83,38 @@ export const signUp = (app, signInComp) => {
         }
     }).then(() => {
         signIn(app, signInComp)
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+
+// A function to create a new user
+export const modifyUser = (app, user) => {
+    const data = {
+    	admin: false,
+    	email: user.username,
+    	name: user.name,
+    	password: user.password,
+    	regions: user.regions.map(id => {return {region: regions[id].name}}),
+    	programs: user.programs.map(id => {return {program: programs[id].name}}),
+    	grades: user.grades.map(g => {return {grade: g.grade, course: g.course}}),
+    	schools: user.schools.map(school => {return {name: school.name}})
+    }
+
+    // send the login request
+    axios.put("http://localhost:5000/api/user/" + data.email, data).then(res => {
+        console.log(res)
+        if (res.status === 200) {
+            return res.data;
+        }
+    }).then(() => {
+        if (data) {
+          app.setState({user: data})
+        }
+        else {
+          alert('Could not update user profile!')
+        }
     }).catch(error => {
         console.log(error);
     });
