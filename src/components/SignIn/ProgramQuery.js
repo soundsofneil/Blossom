@@ -13,7 +13,6 @@ export default class ProgramQuery extends React.Component {
     }
 
     onChangeProgram = ({target: {value}}, id) => {
-        console.log(value, id)
         const newProgram = this.state.programs.map((program) => (program === id) ? parseInt(value) : program)
         this.setState({ programs: newProgram })
     }
