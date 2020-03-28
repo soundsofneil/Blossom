@@ -31,9 +31,9 @@ export default class GradeQuery extends React.Component {
         this.setState({ grades: newGrades })
     }
 
-    removeGrade = (index) => {
-        const newGrade = this.state.grades
-        this.setState({ grades: newGrade.slice(0, index).concat(newGrade.slice(index+1))})
+    removeGrade = (id) => {
+        const newGrade = this.state.newGrades.filter((grade) => grade.id !== id)
+        this.setState({ newGrades: newGrade })
     }
 
     render() {
@@ -41,7 +41,7 @@ export default class GradeQuery extends React.Component {
             <div className='sign-query-box'>
                 <span className='subtitle noselect'>What are your grades like?</span>
                 {
-                    range(this.state.grades.length).map((id, index) => (
+                    range(this.state.grades.length).map((id) => (
                         <div key={id} className='gradefield'>
                             <Field 
                                 className='fourtyfive' 
@@ -54,7 +54,7 @@ export default class GradeQuery extends React.Component {
                                 type='number' 
                                 align='left' 
                                 placeholder='Grade (%)'/>
-                            <CloseIcon className='close-field' onClick={() => this.removeGrade(index)} />
+                            <CloseIcon className='close-field' onClick={() => this.removeGrade(id)} />
                         </div>))
                 }
                 <div 
