@@ -27,13 +27,13 @@ export default class GradeQuery extends React.Component {
 
     addGradeField = () => {
         const newGrades = this.state.grades
-        newGrades.push({ id: this.state.grades.length })
+        newGrades.push({ id: this.state.grades.length, course: '', grade: '' })
         this.setState({ grades: newGrades })
     }
 
     removeGrade = (id) => {
-        const newGrade = this.state.newGrades.filter((grade) => grade.id !== id)
-        this.setState({ newGrades: newGrade })
+        const newGrade = this.state.grades.filter((grade) => grade.id !== id)
+        this.setState({ grades: newGrade })
     }
 
     render() {
@@ -41,20 +41,20 @@ export default class GradeQuery extends React.Component {
             <div className='sign-query-box'>
                 <span className='subtitle noselect'>What are your grades like?</span>
                 {
-                    range(this.state.grades.length).map((id) => (
-                        <div key={id} className='gradefield'>
+                     this.state.grades.map((grade) => (
+                        <div key={grade.id} className='gradefield'>
                             <Field 
                                 className='fourtyfive' 
-                                onChange={(e) => this.onChangeGradeCourse(e, id)}
+                                onChange={(e) => this.onChangeGradeCourse(e, grade.id)}
                                 align='left' 
                                 placeholder='Course Name'/>
                             <Field 
                                 className='fourtyfive' 
-                                onChange={(e) => this.onChangeGradeNumber(e, id)} 
+                                onChange={(e) => this.onChangeGradeNumber(e, grade.id)} 
                                 type='number' 
                                 align='left' 
                                 placeholder='Grade (%)'/>
-                            <CloseIcon className='close-field' onClick={() => this.removeGrade(id)} />
+                            <CloseIcon className='close-field' onClick={() => this.removeGrade(grade.id)} />
                         </div>))
                 }
                 <div 
