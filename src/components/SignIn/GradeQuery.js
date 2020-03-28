@@ -27,7 +27,7 @@ export default class GradeQuery extends React.Component {
 
     addGradeField = () => {
         const newGrades = this.state.grades
-        newGrades.push({ id: this.state.grades.length, course: '', grade: '' })
+        newGrades.push({ id: this.state.grades[this.state.grades.length-1].id+1, course: '', grade: '' })
         this.setState({ grades: newGrades })
     }
 
