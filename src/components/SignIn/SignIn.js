@@ -67,14 +67,6 @@ export default class SignIn extends React.Component {
     signUp = (grades) => {
         console.log('sign up');
         // should complete profile, move to main page.
-        console.log({
-            username: this.state.username,
-            name: this.state.name,
-            password: this.state.password,
-            grades: grades,
-            regions: this.state.regions,
-            programs: this.state.programs,
-        })
         this.props.signUp({
             username: this.state.username,
             name: this.state.name,

@@ -12,15 +12,14 @@ export default class RegionQuery extends React.Component {
         this.setState({ regions: newRegion })
     }
 
-    onChangeRegion = ({target: {value}}, index) => {
-        const half = this.state.regions.slice(0, index)
-        half.push(parseInt(value))
-        this.setState({ regions: half.concat(this.state.regions.slice(index+1)) })
+    onChangeRegion = ({target: {value}}, id) => {
+        const newRegion = this.state.regions.map((region) => (region === id) ? parseInt(value) : region)
+        this.setState({ regions: newRegion })
     }
 
-    removeRegion = (index) => {
-        const newRegion = this.state.regions
-        this.setState({ regions: newRegion.slice(0, index).concat(newRegion.slice(index+1))})
+    removeRegion = (id) => {
+        const newRegion = this.state.regions.filter((region) => region !== id)
+        this.setState({ regions: newRegion })
     }
 
     render() {
@@ -28,12 +27,13 @@ export default class RegionQuery extends React.Component {
             <div className="sign-query-box">
                 <span className="subtitle noselect">What regions are you interested in?</span>
                 {
-                    this.state.regions.map((i) => regions[i]).map((region, index) => (
+                    this.state.regions.map((i) => regions[i]).map((region) => (
                         <Dropdown 
-                            key={index} 
-                            onChange={(e) => this.onChangeRegion(e, index)} 
-                            onRemove={() => this.removeRegion(index)}
-                            choices={regions.filter((rgn) => !this.state.regions.includes(rgn.id) || rgn.id === region.id)} />
+                            key={region.id} 
+                            onChange={(e) => this.onChangeRegion(e, region.id)} 
+                            onRemove={() => this.removeRegion(region.id)}
+                            choices={regions.filter((rgn) => !this.state.regions.includes(rgn.id) || rgn.id === region.id)} 
+                            defaultValue={region.id} />
                     ))
                 }
                 <div 

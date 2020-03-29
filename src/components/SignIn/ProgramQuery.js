@@ -12,15 +12,14 @@ export default class ProgramQuery extends React.Component {
         this.setState({ programs: newProgram })
     }
 
-    onChangeProgram = ({target: {value}}, index) => {
-        const half = this.state.programs.slice(0, index)
-        half.push(parseInt(value))
-        this.setState({ programs: half.concat(this.state.programs.slice(index+1)) })
+    onChangeProgram = ({target: {value}}, id) => {
+        const newProgram = this.state.programs.map((program) => (program === id) ? parseInt(value) : program)
+        this.setState({ programs: newProgram })
     }
 
-    removeProgram = (index) => {
-        const newProgram = this.state.programs
-        this.setState({ programs: newProgram.slice(0, index).concat(newProgram.slice(index+1))})
+    removeProgram = (id) => {
+        const newProgram = this.state.programs.filter((program) => program !== id)
+        this.setState({ programs: newProgram })
     }
 
     render() {
@@ -28,12 +27,13 @@ export default class ProgramQuery extends React.Component {
             <div className="sign-query-box">
                 <span className="subtitle noselect">What programs are you interested in?</span>
                 {
-                    this.state.programs.map((i) => programs[i]).map((program, index) => (
+                    this.state.programs.map((i) => programs[i]).map((program) => (
                         <Dropdown 
-                            key={index} 
-                            onChange={(e) => this.onChangeProgram(e, index)}
-                            onRemove={() => this.removeProgram(index)}
-                            choices={programs.filter((pgm) => !this.state.programs.includes(pgm.id) || pgm.id === program.id)} />
+                            key={program.id} 
+                            onChange={(e) => this.onChangeProgram(e, program.id)}
+                            onRemove={() => this.removeProgram(program.id)}
+                            choices={programs.filter((pgm) => !this.state.programs.includes(pgm.id) || pgm.id === program.id)} 
+                            defaultValue={program.id} />
                     ))
                 }
                 <div 
