@@ -5,7 +5,7 @@ import CloseIcon from '@material-ui/icons/Close';
 let range = n => [...Array(n).keys()]
 
 export default class GradeQuery extends React.Component {
-    state = { grades: [{id: 0}] } // placeholder
+    state = { grades: [{id: 0, course: '', grade: '' }] } // placeholder
 
     onChangeGradeCourse = ({target: {value}}, idTop) => {
         // For the grade course fields
@@ -27,13 +27,19 @@ export default class GradeQuery extends React.Component {
 
     addGradeField = () => {
         const newGrades = this.state.grades
-        newGrades.push({ id: this.state.grades[this.state.grades.length-1].id+1, course: '', grade: '' })
+        const newId = this.state.grades.reduce((max, grade) => {return Math.max(max, grade.id)}, -1) + 1
+        newGrades.push({ id: newId, course: '', grade: '' })
         this.setState({ grades: newGrades })
     }
 
     removeGrade = (id) => {
         const newGrade = this.state.grades.filter((grade) => grade.id !== id)
         this.setState({ grades: newGrade })
+    }
+
+    cleanGrades = () => {
+        const newGrades = this.state.grades.filter((grade) => grade.grade.length > 0 && grade.course.length > 0)
+        return newGrades
     }
 
     render() {
@@ -43,27 +49,27 @@ export default class GradeQuery extends React.Component {
                 {
                      this.state.grades.map((grade) => (
                         <div key={grade.id} className='gradefield'>
-                            <Field 
-                                className='fourtyfive' 
+                            <Field
+                                className='fourtyfive'
                                 onChange={(e) => this.onChangeGradeCourse(e, grade.id)}
-                                align='left' 
+                                align='left'
                                 placeholder='Course Name'/>
-                            <Field 
-                                className='fourtyfive' 
-                                onChange={(e) => this.onChangeGradeNumber(e, grade.id)} 
-                                type='number' 
-                                align='left' 
+                            <Field
+                                className='fourtyfive'
+                                onChange={(e) => this.onChangeGradeNumber(e, grade.id)}
+                                type='number'
+                                align='left'
                                 placeholder='Grade (%)'/>
                             <CloseIcon className='close-field' onClick={() => this.removeGrade(grade.id)} />
                         </div>))
                 }
-                <div 
+                <div
                     className='button-add noselect'
                     onClick={this.addGradeField}>Add more...</div>
-                <div 
-                    className='button threequarters' 
+                <div
+                    className='button threequarters'
                     onClick={() => {
-                        this.props.signUp(this.state.grades)
+                        this.props.signUp(this.cleanGrades())
                     }}>Complete Profile</div>
             </div>
         )

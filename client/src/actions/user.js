@@ -72,9 +72,10 @@ export const signUp = (user) => {
     	password: user.password,
     	regions: user.regions.map(id => {return {region: regions[id].name}}),
     	programs: user.programs.map(id => {return {program: programs[id].name}}),
-    	grades: user.grades.map(g => {return {grade: g.grade, course: g.course}}),
+    	grades: user.grades.map(g => {return {grade: parseInt(g.grade), course: g.course}}),
     	schools: []
     }
+    console.log(data)
 
     return new Promise((resolve, reject) => {
         // send the POST request
@@ -104,7 +105,7 @@ export const modifyUser = (user) => {
     	password: user.password,
     	regions: user.regions.map(id => {return {region: regions[id].name}}),
     	programs: user.programs.map(id => {return {program: programs[id].name}}),
-    	grades: user.grades.map(g => {return {grade: g.grade, course: g.course}}),
+    	grades: user.grades.map(g => {return {grade: parseInt(g.grade), course: g.course}}),
     	schools: user.schools.map(school => {return {name: school.name}})
     }
 

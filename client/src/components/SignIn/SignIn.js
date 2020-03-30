@@ -72,8 +72,10 @@ export default class SignIn extends React.Component {
             programs: this.state.programs,
         }
         this.props.signUp(user).then(() => {
-            this.props.close() // close window
-            this.props.switchView() // back to sign in
+            this.props.signIn(user.username, user.password).then(() => {
+                this.props.close() // close window
+                this.props.switchView() // back to sign in
+            })
         })
     }
 
