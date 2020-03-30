@@ -33,7 +33,8 @@ export default class Preferences extends React.Component {
     // Grades
     addGrades = () => {
         const newGrade = this.state.newGrades
-        newGrade.push({ id: this.state.newGrades[this.state.newGrades.length-1].id+1, course: '', grade: '' })
+        const newId = this.state.newGrades.reduce((max, grade) => {return Math.max(max, grade.id)}, -1) + 1
+        newGrade.push({ id: newId, course: '', grade: '' })
         this.setState({ newGrades: newGrade })
     }
 
