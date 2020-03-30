@@ -36,7 +36,7 @@ class Main extends Component {
                         title={this.props.user.admin ? "Blossom Admin" : "Find Your University"}
                         subtitle={this.props.user.name}
                         subsubtitle={this.props.user.admin ? "Admin Panel" : "Preferences"}
-                        signOut={this.signOut}
+                        signOut={this.props.signOut}
                         isAdmin={this.props.user.admin}
                         toggleAdminPanel={this.toggleAdminPanel}
                         togglePreferences={this.togglePreferences}
@@ -77,11 +77,6 @@ class Main extends Component {
                 <Preferences user={this.props.user} setUser={this.props.setUser} visible={this.state.prefVisible} close={this.togglePreferences}/>
             </div>
         );
-    }
-
-    signOut = () => {
-        console.log("Signing out.");
-        this.props.signOut()
     }
 
     toggleAdminPanel = () => {

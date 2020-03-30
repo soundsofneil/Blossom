@@ -114,18 +114,18 @@ app.post('/api/users/login', (req, res) => {
 	User.findByEmailPassword(email, password).then((user) => {
 	    if (!user) {
 					console.log('server: bad user')
-            res.redirect('/api/users/login');
-        } else {
-						console.log('server: okay user')
-            // Add the user's id to the session cookie.
-			// We can check later if this exists to ensure we are logged in.
-            req.session.user = user._id;
-            req.session.email = user.email
-						res.send({user: user})
-        }
+          res.status(401).send()
+      } else {
+					console.log('server: okay user')
+          // Add the user's id to the session cookie.
+		// We can check later if this exists to ensure we are logged in.
+          req.session.user = user._id;
+          req.session.email = user.email
+					res.send({user: user})
+      }
     }).catch((error) => {
 				console.log(error)
-				res.send()
+				res.status(500).send()
     })
 })
 

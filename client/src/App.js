@@ -18,37 +18,61 @@ export default class App extends React.Component {
         view: 'splash', // splash | main
         user:  null //users[0]// currently logged in user
     }
-    /*
-    signIn = (input) => {
 
-        // old logic
-        return new Promise((res, rej) => {
-            const user = users.filter(({username}) => username === input.username)
-            if (user.length > 0 && user[0].username === input.username && input.password === user[0].password) {
-                console.log('Signing in...')
-                this.setState({ view: 'main', user: user[0] })
-                console.log(user[0])
-                console.log(this.state.user)
-                res() // data to return goes here
-            } else {
-                rej('Incorrect credentials...')
-            }
+    signIn = (username, password) => {
+        console.log("Logging in...")
+        return new Promise((res, rej) =>  {
+            signIn(username, password).then(user => {
+                console.log("...Successfully logged in!")
+                this.setState({user})
+                res(user)
+            }).catch(err => {
+                console.log("...Incorrect credentials!")
+                rej()
+            })
         })
     }
 
     signOut = () => {
-        // amongst other logic
-        this.setState({ view: 'splash' })
+        console.log("Logging out...")
+        return new Promise((res, rej) => {
+            signOut().then(() => {
+                console.log("...Successfully logged out!")
+                this.setState({ user: null })
+                res()
+            }).catch(() => {
+                console.log("...Could not log out!")
+                rej()
+            })
+        })
     }
 
     signUp = (user) => {
-        // amongst other logic
-        this.setState({ view: 'main', user: user })
+        console.log("Signing up...")
+        return new Promise((res, rej) =>  {
+            signUp(user).then(user => {
+                console.log("...Successfully signed up!")
+                this.setState({user})
+                res(user)
+            }).catch(err => {
+                console.log("...Could not sign up!")
+                rej()
+            })
+        })
     }
-    */
 
     setUser = (user) => {
-        modifyUser(this, user)
+        console.log("Modifying user...")
+        return new Promise((res, rej) => {
+            modifyUser(user).then(user => {
+                console.log("...Successfully modified user!")
+                this.setState({user})
+                res(user)
+            }).catch(err => {
+                alert("...Could not modify user!")
+                rej()
+            })
+        })
     }
 
     render() {
@@ -60,8 +84,8 @@ export default class App extends React.Component {
                         render={({ history }) => (
                             <div className="app">
                                 {this.state.user ?
-                                    <Main history={history} app={this} user={this.state.user} signOut={() => signOut(this)} setUser={this.setUser}/> :
-                                    <Splash history={history} signIn={(signInComp) => signIn(this, signInComp)} signUp={(signInComp) => signUp(this, signInComp)}/>
+                                    <Main history={history} app={this} user={this.state.user} signOut={this.signOut} setUser={this.setUser}/> :
+                                    <Splash history={history} signIn={this.signIn} signUp={this.signUp}/>
                                 }
                             </div>
 

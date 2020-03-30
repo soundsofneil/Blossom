@@ -16,14 +16,17 @@ export default class SignIn extends React.Component {
         password: '',
         regions: [],
         programs: [],
-        grades: [],
         errusername: false,
         errname: false,
         errpassword: false,
     }
 
     signIn = () => {
-        this.props.signIn(this)
+        this.props.signIn(this.state.username, this.state.password).then(user => {
+            this.setState({ username: '', password: '', name: '', regions: [], programs: [], stage: 0, errusername: false, errpassword: false })
+        }).catch(err => {
+            this.setState({ errusername: true, errpassword: true })
+        })
     }
 
     onKeyDownIn = (event) => {
@@ -59,21 +62,19 @@ export default class SignIn extends React.Component {
     }
 
     signUp = (grades) => {
-        console.log('sign up');
         // should complete profile, move to main page.
-        console.log({
+        const user = {
             username: this.state.username,
             name: this.state.name,
             password: this.state.password,
             grades: grades,
             regions: this.state.regions,
             programs: this.state.programs,
+        }
+        this.props.signUp(user).then(() => {
+            this.props.close() // close window
+            this.props.switchView() // back to sign in
         })
-        this.setState({ grades }, () => {
-            this.props.signUp(this)
-        });
-        this.props.close() // close window
-        this.props.switchView() // back to sign in
     }
 
     onKeyDownUp = (event) => {
