@@ -32,11 +32,13 @@ export default class AdminPortal extends React.Component {
 
     modifyUser = () => {
         console.log("Modifying user...")
-        const user = this.state.modifyUser;
-        user.email = this.state.username;
-        user.name = this.state.name;
-        user.password = this.state.password;
-        modifyUser(user, true).then(() => {
+        const user = {
+            ...this.state.modifyUser,
+            email: this.state.username,
+            name: this.state.name,
+            password: this.state.password
+        }
+        modifyUser(this.state.modifyUser.email, user, true).then(() => {
             console.log("...Successfully modified user!")
             this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
             this.props.close()
@@ -91,7 +93,7 @@ export default class AdminPortal extends React.Component {
                             this.state.view === 'search' ? (
                                 <div className="pref-content">
                                     <span className="admin-header">Admin Panel</span>
-                                    <Field defaultValue={this.state.searchUsername} placeholder="Search for a username..." onChange={({target: {value}}) => this.setState({ searchUsername: value })} align="left"/>
+                                    <Field placeholder="Search for a username..." onChange={({target: {value}}) => this.setState({ searchUsername: value })} align="left"/>
                                     <div className="button threequarters modify" onClick={this.openModifyUser}>Modify Profile</div>
                                     <div className="button threequarters create" onClick={this.openCreateUser}>Create Profile</div>
                                 </div>

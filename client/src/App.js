@@ -64,7 +64,7 @@ export default class App extends React.Component {
     setUser = (user) => {
         console.log("Modifying user...")
         return new Promise((res, rej) => {
-            modifyUser(user).then(user => {
+            modifyUser(this.state.user.email, user).then(user => {
                 console.log("...Successfully modified user!")
                 this.setState({user})
                 res(user)

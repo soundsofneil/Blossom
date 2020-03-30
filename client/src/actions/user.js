@@ -97,22 +97,22 @@ export const signUp = (user) => {
 }
 
 // A function to modify an existing user
-export const modifyUser = (user, raw) => {
-    const data = raw ? user : {
+export const modifyUser = (username, userProfile, raw) => {
+    const data = raw ? userProfile : {
     	admin: false,
-    	email: user.username,
-    	name: user.name,
-    	password: user.password,
-    	regions: user.regions.map(id => {return {region: regions[id].name}}),
-    	programs: user.programs.map(id => {return {program: programs[id].name}}),
-    	grades: user.grades.map(g => {return {grade: parseInt(g.grade), course: g.course}}),
-    	schools: user.schools.map(school => {return {name: school.name}})
+    	email: userProfile.username,
+    	name: userProfile.name,
+    	password: userProfile.password,
+    	regions: userProfile.regions.map(id => {return {region: regions[id].name}}),
+    	programs: userProfile.programs.map(id => {return {program: programs[id].name}}),
+    	grades: userProfile.grades.map(g => {return {grade: parseInt(g.grade), course: g.course}}),
+    	schools: userProfile.schools.map(school => {return {name: school.name}})
     }
     console.log(data)
 
     return new Promise((resolve, reject) => {
         // send the PUT request
-        axios.put("http://localhost:5000/api/user/" + data.email, data).then(res => {
+        axios.put("http://localhost:5000/api/user/" + username, data).then(res => {
             if (res.status === 200) {
                 return res.data;
             }
