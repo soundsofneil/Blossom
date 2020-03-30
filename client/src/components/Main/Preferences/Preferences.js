@@ -33,13 +33,31 @@ export default class Preferences extends React.Component {
     // Grades
     addGrades = () => {
         const newGrade = this.state.newGrades
-        newGrade.push({ id: this.state.newGrades.length })
+        newGrade.push({ id: this.state.newGrades[this.state.newGrades.length-1].id+1, course: '', grade: '' })
         this.setState({ newGrades: newGrade })
     }
 
-    removeGrade = (index) => {
-        const newGrade = this.state.newGrades
-        this.setState({ newGrades: newGrade.slice(0, index).concat(newGrade.slice(index+1))})
+    onChangeGradeCourse = ({target: {value}}, idTop) => {
+        // For the grade course fields
+        const grade = this.state.newGrades.filter(({id}) => id === idTop)[0]
+        const newGrades = this.state.newGrades.filter(({id}) => id !== idTop)
+        grade.course = value
+        newGrades.push(grade)
+        this.setState({ newGrades: newGrades })
+    }
+
+    onChangeGradeNumber = ({target: {value}}, idTop) => {
+        // For the grade number fields
+        const grade = this.state.newGrades.filter(({id}) => id === idTop)[0]
+        const newGrades = this.state.newGrades.filter(({id}) => id !== idTop)
+        grade.grade = value
+        newGrades.push(grade)
+        this.setState({ newGrades: newGrades })
+    }
+
+    removeGrade = (id) => {
+        const newGrade = this.state.newGrades.filter((grade) => grade.id !== id)
+        this.setState({ newGrades: newGrade })
     }
 
     // Programs
@@ -49,15 +67,14 @@ export default class Preferences extends React.Component {
         this.setState({ newPrograms: newProgram })
     }
 
-    onChangeProgram = ({target: {value}}, index) => {
-        const half = this.state.newPrograms.slice(0, index)
-        half.push(parseInt(value))
-        this.setState({ newPrograms: half.concat(this.state.newPrograms.slice(index+1)) })
+    onChangeProgram = ({target: {value}}, id) => {
+        const newProgram = this.state.newPrograms.map((program) => (program === id) ? parseInt(value) : program)
+        this.setState({ newPrograms: newProgram })
     }
 
-    removeProgram = (index) => {
-        const newProgram = this.state.newPrograms
-        this.setState({ newPrograms: newProgram.slice(0, index).concat(newProgram.slice(index+1))})
+    removeProgram = (id) => {
+        const newProgram = this.state.newPrograms.filter((program) => program !== id)
+        this.setState({ newPrograms: newProgram })
     }
 
     // Regions
@@ -67,15 +84,14 @@ export default class Preferences extends React.Component {
         this.setState({ newRegions: newRegion })
     }
 
-    onChangeRegion = ({target: {value}}, index) => {
-        const half = this.state.newRegions.slice(0, index)
-        half.push(parseInt(value))
-        this.setState({ newRegions: half.concat(this.state.newRegions.slice(index+1)) })
+    onChangeRegion = ({target: {value}}, id) => {
+        const newRegion = this.state.newRegions.map((region) => (region === id) ? parseInt(value) : region)
+        this.setState({ newRegions: newRegion })
     }
 
-    removeRegion = (index) => {
-        const newRegion = this.state.newRegions
-        this.setState({ newRegions: newRegion.slice(0, index).concat(newRegion.slice(index+1))})
+    removeRegion = (id) => {
+        const newRegion = this.state.newRegions.filter((region) => region !== id)
+        this.setState({ newRegions: newRegion })
     }
 
     render() {
@@ -116,11 +132,21 @@ export default class Preferences extends React.Component {
                         <div className='grade-form'>
                             <span className='grd-text'>Grades</span>
                             {
-                                this.state.newGrades.map((grade, index) => (
-                                    <div className='grade-form entry' key={index}>
-                                        <Field placeholder='Course Name' className='fourtyfive' align='left' value={grade.course}/>
-                                        <Field placeholder='Grade (%)' className='fourtyfive' align='left' value={grade.grade}/>
-                                        <CloseIcon className='close-field' onClick={() => this.removeGrade(index)} />
+                                this.state.newGrades.map((grade) => (
+                                    <div className='grade-form entry' key={grade.id}>
+                                        <Field
+                                            onChange={(e) => this.onChangeGradeCourse(e, grade.id)}
+                                            placeholder='Course Name'
+                                            className='fourtyfive'
+                                            align='left'
+                                            value={grade.course}/>
+                                        <Field
+                                            onChange={(e) => this.onChangeGradeNumber(e, grade.id)}
+                                            placeholder='Grade (%)'
+                                            className='fourtyfive'
+                                            align='left'
+                                            value={grade.grade}/>
+                                        <CloseIcon className='close-field' onClick={() => this.removeGrade(grade.id)} />
                                     </div>
                                 ))
                             }
@@ -132,11 +158,11 @@ export default class Preferences extends React.Component {
                             <div className='program-form'>
                                 <span className='grd-text'>Programs</span>
                                 {
-                                    this.state.newPrograms.map((i) => programs[i]).map((program, index) => (
+                                    this.state.newPrograms.map((i) => programs[i]).map((program) => (
                                         <Dropdown
-                                            onChange={(e) => this.onChangeProgram(e, index)}
-                                            onRemove={() => this.removeProgram(index)}
-                                            key={index}
+                                            onChange={(e) => this.onChangeProgram(e, program.id)}
+                                            onRemove={() => this.removeProgram(program.id)}
+                                            key={program.id}
                                             formclassname='drop'
                                             choices={programs.filter((pgm) => !this.state.newPrograms.includes(pgm.id) || pgm.id === program.id)}
                                             defaultValue={program.id} />
@@ -153,10 +179,11 @@ export default class Preferences extends React.Component {
                             <div className='region-form'>
                                 <span className='grd-text'>Regions</span>
                                 {
-                                    this.state.newRegions.map((i) => regions[i]).map((region, index) => (
+                                    this.state.newRegions.map((i) => regions[i]).map((region) => (
                                         <Dropdown
-                                            onRemove={() => this.removeRegion(index)}
-                                            key={index}
+                                            onChange={(e) => this.onChangeRegion(e, region.id)}
+                                            onRemove={() => this.removeRegion(region.id)}
+                                            key={region.id}
                                             formclassname='drop'
                                             choices={regions.filter((rgn) => !this.state.newRegions.includes(rgn.id) || rgn.id === region.id)}
                                             defaultValue={region.id} />

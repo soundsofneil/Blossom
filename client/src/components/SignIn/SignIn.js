@@ -69,7 +69,7 @@ export default class SignIn extends React.Component {
             regions: this.state.regions,
             programs: this.state.programs,
         })
-        this.setState({ grades }, function () {
+        this.setState({ grades }, () => {
             this.props.signUp(this)
         });
         this.props.close() // close window
