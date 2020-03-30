@@ -97,8 +97,8 @@ export const signUp = (user) => {
 }
 
 // A function to modify an existing user
-export const modifyUser = (user) => {
-    const data = {
+export const modifyUser = (user, raw) => {
+    const data = raw ? user : {
     	admin: false,
     	email: user.username,
     	name: user.name,
@@ -108,6 +108,7 @@ export const modifyUser = (user) => {
     	grades: user.grades.map(g => {return {grade: parseInt(g.grade), course: g.course}}),
     	schools: user.schools.map(school => {return {name: school.name}})
     }
+    console.log(data)
 
     return new Promise((resolve, reject) => {
         // send the PUT request
@@ -134,8 +135,33 @@ export const getUser = (username) => {
     console.log(username)
 
     return new Promise((resolve, reject) => {
-        // send the login request
+        // send the GET request
         axios.get("http://localhost:5000/api/user/" + username, {email: username}).then(res => {
+            console.log(res)
+            if (res.status === 200) {
+                return res.data;
+            }
+        }).then((data) => {
+            if (data) {
+                resolve(data)
+            }
+            else {
+                reject()
+            }
+        }).catch(error => {
+            console.log(error);
+            reject()
+        });
+    })
+}
+
+// A function to get a user profile
+export const deleteUser = (username) => {
+    console.log(username)
+
+    return new Promise((resolve, reject) => {
+        // send the DELETE request
+        axios.delete("http://localhost:5000/api/user/" + username, {email: username}).then(res => {
             console.log(res)
             if (res.status === 200) {
                 return res.data;

@@ -2,8 +2,9 @@ import React from 'react';
 import PopWindow from '../../common/PopWindow'
 import CloseIcon from '@material-ui/icons/Close';
 import Field from '../../common/Field';
+import {signUp, modifyUser, getUser, deleteUser} from '../../../actions/user';
 
-const users = require('../../../data.json').users;
+//const users = require('../../../data.json').users;
 
 export default class AdminPortal extends React.Component {
     state = {
@@ -12,17 +13,16 @@ export default class AdminPortal extends React.Component {
         username: '',
         name: '',
         password: '',
-        modifyUser: users[0]
+        modifyUser: null
     }
 
     openModifyUser = () => {
-        const user = users.filter(({username}) => username === this.state.searchUsername)[0]
-        if (user) {
+        getUser(this.state.searchUsername).then(user => {
             console.log('Moving to update user.')
-            this.setState({ view: 'update', searchUsername: '', modifyUser: user, username: user.username, name: user.name, password: user.password })
-        } else {
+            this.setState({ view: 'update', searchUsername: '', modifyUser: user, username: user.email, name: user.name, password: user.password })
+        }).catch(() => {
             console.log('No such user exists.')
-        }
+        })
     }
 
     openCreateUser = () => {
@@ -30,29 +30,50 @@ export default class AdminPortal extends React.Component {
         this.setState({ view: 'create', searchUsername: '' })
     }
 
-    setUser = () => {
-        console.log('Updating user.')
+    modifyUser = () => {
+        console.log("Modifying user...")
         const user = this.state.modifyUser;
-        user.username = this.state.username;
+        user.email = this.state.username;
         user.name = this.state.name;
         user.password = this.state.password;
-        this.props.setUser(user)
-        this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
-        this.props.close()
+        modifyUser(user, true).then(() => {
+            console.log("...Successfully modified user!")
+            this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
+            this.props.close()
+        }).catch(() => {
+            console.log("...Could not modify user!")
+        })
     }
 
     deleteUser = () => {
-        // more logic when server exists
-        console.log('Deleting user.')
-        this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
-        this.props.close()
+        console.log("Deleting user...")
+        deleteUser(this.state.username).then(() => {
+            console.log("...Successfully deleted user!")
+            this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
+            this.props.close()
+        }).catch(() => {
+            console.log("...Could not delete user!")
+        })
     }
 
     createUser = () => {
-        // more logic when server exists
-        console.log('Creating user.')
-        this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
-        this.props.close()
+        const user = {
+        	username: this.state.username,
+        	name: this.state.name,
+        	password: this.state.password,
+        	regions: [],
+        	programs: [],
+        	grades: [],
+        	schools: []
+        }
+        console.log("Creating user...")
+        signUp(user).then(() => {
+            console.log("...Successfully created user!")
+            this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
+            this.props.close()
+        }).catch(() => {
+            console.log("...Could not create user!")
+        })
     }
 
     render() {
@@ -62,15 +83,15 @@ export default class AdminPortal extends React.Component {
                 this.props.close()
             }}>
                 <div className="pref-window">
-                    <img 
-                        className="logo" 
-                        alt="blossom" 
+                    <img
+                        className="logo"
+                        alt="blossom"
                         src={require('../../images/blossom-pink.png')} />
                         {
                             this.state.view === 'search' ? (
                                 <div className="pref-content">
                                     <span className="admin-header">Admin Panel</span>
-                                    <Field placeholder="Search for a username..." onChange={({target: {value}}) => this.setState({ searchUsername: value })} align="left"/>
+                                    <Field defaultValue={this.state.searchUsername} placeholder="Search for a username..." onChange={({target: {value}}) => this.setState({ searchUsername: value })} align="left"/>
                                     <div className="button threequarters modify" onClick={this.openModifyUser}>Modify Profile</div>
                                     <div className="button threequarters create" onClick={this.openCreateUser}>Create Profile</div>
                                 </div>
@@ -85,10 +106,10 @@ export default class AdminPortal extends React.Component {
                             ) : this.state.view === 'update' ? (
                                 <div className="pref-content">
                                     <span className="admin-header">Admin Panel</span>
-                                    <Field defaultValue={this.state.modifyUser.username} onChange={({target: {value}}) => this.setState({ username: value })} align="left"/>
+                                    <Field defaultValue={this.state.modifyUser.email} onChange={({target: {value}}) => this.setState({ username: value })} align="left"/>
                                     <Field defaultValue={this.state.modifyUser.name} onChange={({target: {value}}) => this.setState({ name: value })} align="left"/>
                                     <Field defaultValue={this.state.modifyUser.password} type="password" onChange={({target: {value}}) => this.setState({ password: value })} align="left"/>
-                                    <div className="button threequarters modify" onClick={this.setUser}>Confirm Changes</div>
+                                    <div className="button threequarters modify" onClick={this.modifyUser}>Confirm Changes</div>
                                     <div className="button threequarters delete" onClick={this.deleteUser}>Delete User</div>
                                 </div>
                             ) : null
