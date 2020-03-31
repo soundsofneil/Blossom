@@ -1,0 +1,64 @@
+//Add new UNIVERSITY (must pass in JSON object): POST to localhost:5000/api/uni
+Example: 
+{
+	"name": "UofT",
+	"description": "Gr8 school",
+	"region": "Canada East",
+	"programs": [{"program":"Computer Science", "gradeRequirement": 90, "website": "www.weedercourse.com"}],
+	"location": "Toronto",
+	"country": "Canada",
+	"applyWebsite": "test",
+	"website": "www.estwebsite.com",
+	"twitter": "UofT",
+	"imageUri": "ohsnap"
+}
+
+//Add new USER (must pass in JSON object): POST to localhost:5000/api/user
+Example:
+{
+	"admin": false,
+	"email": "neil.kelkar@mail.utoronto.ca",
+	"name": "Neil Kelkar",
+	"password": "password",
+	"regions": [{"region": "Canada North"}, {"region": "Canada East"}],
+	"programs": [{"program": "Computer Science"}, {"program": "English"}],
+	"grades": [{"grade": 100, "course": "CSC373(I wish)"}, {"grade": 99, "course": "CSC309"}],
+	"schools": [{"name": "University of Toronto"}, {"name":"Ryerson"}]
+}
+
+//Update a USER (identify user by email, and must pass in JSON object with changes): PUT to localhost:5000/api/uni/email
+Example:
+{
+	"admin": true
+}
+
+//Update a UNIVERSITY (identify university by name, and must pass in JSON object with changes): PUT to localhost:5000/api/uni/name
+Example:
+{
+	"programs": [{"program":"Commerce", "gradeRequirement": 85, "website": "www.weedercourse.com"}]
+}
+
+
+//Get all UNIVERSITIES in the DB: GET to localhost:5000/api/uni
+
+//Get all USERS in the DB: GET to localhost:5000/api/user
+
+//Get a particular USER in the DB by email: GET to localhost:5000/api/user/email
+
+//Get a particular UNIVERSITY in the DB by name: GET to localhost:5000/api/uni/name
+
+//Delete a particular USER by their email: DELETE to localhost:5000/api/user/email
+
+//Delete a particular UNIVERSITY by their NAME: DELETE to localhost:5000/api/uni/name
+
+//To log in: POST to localhost:5000/api/users/login
+Example: 
+{
+"email": "student@gmail.com",
+"password": "password"
+}
+
+//Log out: GET to localhost:5000/api/users/logout
+
+//Once logged in, or to check again: GET to localhost:5000/api/users/dashboard
+//and it should return a session object with user id and user email

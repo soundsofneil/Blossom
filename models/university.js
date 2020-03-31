@@ -1,13 +1,14 @@
 /* University mongoose model */
 const mongoose = require('mongoose')
-const RegionSchema = require('region.js')
-const ProgramRequirementsSchema = require('program-requirements.js')
+const RegionSchema = require('./region.js')
+const ProgramRequirementsSchema = require('./program-requirements.js')
 
 const University = mongoose.model('University', {
 	name: {
 		type: String,
 		required: true,
-		minlegth: 1,
+        minlength: 1,
+        unique: true,
 		trim: true
 	},
 	description: {
@@ -16,7 +17,21 @@ const University = mongoose.model('University', {
         minlength: 1,
         trim: true
 	},
-    region: RegionSchema,
+    region: {
+        type: String,
+        enum: [
+            'Canada North',
+            'Canada East',
+            'Canada West',
+            'US West',
+            'US Central',
+            'US South',
+            'US East',
+            'Hawaii',
+            'Alaska'
+        ],
+        required: true,
+    },
     programs: [ProgramRequirementsSchema],
     location: {
 		type: String,
@@ -55,4 +70,4 @@ const University = mongoose.model('University', {
     }
 })
 
-module.exports = { University }
+module.exports = University
