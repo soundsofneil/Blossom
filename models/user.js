@@ -2,11 +2,15 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const RegionSchema = require('region.js')
-const ProgramSchema = require('program.js')
-const GradeSchema = require('grade.js')
+const RegionSchema = require('./region.js')
+const ProgramSchema = require('./program.js')
+const GradeSchema = require('./grade.js')
 
 const UserSchema = new mongoose.Schema({
+	admin: {
+        type: Boolean,
+        required: true
+	},
     email: {
         type: String,
 		required: true,
@@ -21,9 +25,9 @@ const UserSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
-		minlegth: 1,
+		minlength: 1,
 		trim: true
-    }, 
+    },
 	password: {
 		type: String,
 		required: true,
@@ -31,7 +35,13 @@ const UserSchema = new mongoose.Schema({
     },
     regions: [RegionSchema],
     programs: [ProgramSchema],
-    grades: [GradeSchema]
+	grades: [GradeSchema],
+	schools: [{ name: {//list of universities the user has selected
+		type: String,
+		minlength: 1,
+		trim: true
+	}
+	}]
 })
 
 // This function will run immediately prior to saving the document in the database
@@ -78,5 +88,4 @@ UserSchema.statics.findByEmailPassword = function(email, password) {
 	})
 }
 
-const User = mongoose.model('User', UserSchema)
-module.exports = { User }
+module.exports = User = mongoose.model('User', UserSchema)
