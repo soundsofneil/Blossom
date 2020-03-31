@@ -67,25 +67,9 @@
     cursor: pointer;
 }
 
-.button-goog {
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 16px;
-    font-size: 13px;
-    padding-top: 11px;
-    padding-bottom: 11px;
-    color: var(--blue);
-    border-radius: 5px;
-    background-color: white;
-}
-
-.button-goog:hover {
-    background-color: lightgray;
-    cursor: pointer;
-}
-
 .button-up {
     font-size: 13px;
+    margin-top: 15px;
     color: var(--lightpink);
 }
 

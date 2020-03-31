@@ -5,8 +5,6 @@ import Field from '../common/Field';
 import ProgramQuery from './ProgramQuery';
 import RegionQuery from './RegionQuery';
 import GradeQuery from './GradeQuery';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 export default class SignIn extends React.Component {
     state = {
@@ -93,6 +91,22 @@ export default class SignIn extends React.Component {
 
     setPrograms = (programs) => this.setState({ programs })
     setRegions = (regions) => this.setState({ regions })
+    
+    onClose = () => {
+        // reset the module if X is pressed
+        this.setState({
+            stage: 0,
+            username: '',
+            name: '',
+            password: '',
+            regions: [],
+            programs: [],
+            errusername: false,
+            errname: false,
+            errpassword: false,
+        })
+        this.props.close()
+    }
 
     render() {
         return (
@@ -137,14 +151,6 @@ export default class SignIn extends React.Component {
                                     this.props.type === 'up' ?
                                     this.nextSignUpStep : this.signIn}>
                                 Sign {this.props.type === 'up' ? 'Up' : 'In'}</div>
-                            <div
-                                className="button-goog full"
-                                onClick={
-                                    this.props.type === 'up' ?
-                                    this.signUpGoogle : this.signInGoogle }>
-                                <FontAwesomeIcon color="#3A4664" icon={faGoogle}/>&nbsp; Sign&nbsp;
-                                    {this.props.type === 'up' ? 'Up' : 'In'} with Google
-                            </div>
                             <div className="button-up noselect" onClick={() => {
                                 this.setState({
                                     errusername: false,
@@ -162,7 +168,7 @@ export default class SignIn extends React.Component {
                     this.state.stage === 2 ? (<RegionQuery setRegions={this.setRegions} nextSignUpStep={this.nextSignUpStep} />) :
                     this.state.stage === 3 && (<GradeQuery signUp={this.signUp} />)
                 }
-                <CloseIcon className="close-icon" onClick={this.props.close} />
+                <CloseIcon className="close-icon" onClick={this.onClose} />
             </div>
         )
     }

@@ -93,7 +93,7 @@ export default class AdminPortal extends React.Component {
                             this.state.view === 'search' ? (
                                 <div className="pref-content">
                                     <span className="admin-header">Admin Panel</span>
-                                    <Field placeholder="Search for a username..." onChange={({target: {value}}) => this.setState({ searchUsername: value })} align="left"/>
+                                    <Field value={this.state.searchUsername} placeholder="Search for a username..." onChange={({target: {value}}) => this.setState({ searchUsername: value })} align="left"/>
                                     <div className="button threequarters modify" onClick={this.openModifyUser}>Modify Profile</div>
                                     <div className="button threequarters create" onClick={this.openCreateUser}>Create Profile</div>
                                 </div>
