@@ -151,17 +151,6 @@ export default class SignIn extends React.Component {
                                     this.props.type === 'up' ?
                                     this.nextSignUpStep : this.signIn}>
                                 Sign {this.props.type === 'up' ? 'Up' : 'In'}</div>
-<<<<<<< HEAD:src/components/SignIn/SignIn.js
-=======
-                            <div
-                                className="button-goog full"
-                                onClick={
-                                    this.props.type === 'up' ?
-                                    this.signUpGoogle : this.signInGoogle }>
-                                <FontAwesomeIcon color="#3A4664" icon={faGoogle}/>&nbsp; Sign&nbsp;
-                                    {this.props.type === 'up' ? 'Up' : 'In'} with Google
-                            </div>
->>>>>>> 544320f8789dd0c478a6eced44a5381f0fd53d5e:client/src/components/SignIn/SignIn.js
                             <div className="button-up noselect" onClick={() => {
                                 this.setState({
                                     errusername: false,
