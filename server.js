@@ -58,7 +58,7 @@ app.use(session({
 //    }
 //};
 
-// A route to check if a use is logged in on the session cookie
+// A route to check if a user is logged in on the session cookie
 app.get("/api/users/check-session", (req, res) => {
 	if (!req.session.user) {
 		console.log('server: no user')
