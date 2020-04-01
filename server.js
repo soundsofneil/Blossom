@@ -105,13 +105,13 @@ const authenticate = (req, res, next) => {
 // A route to login and create a session
 app.post('/api/users/login', (req, res) => {
 	console.log(req.body)
-	const email = req.body.email
+	const username = req.body.username
 	const password = req.body.password
 
 
     // Use the static method on the User model to find a user
-    // by their email and password
-	User.findByEmailPassword(email, password).then((user) => {
+    // by their username and password
+	User.findByUsernamePassword(username, password).then((user) => {
 	    if (!user) {
 					console.log('server: bad user')
           res.status(401).send()
@@ -120,7 +120,7 @@ app.post('/api/users/login', (req, res) => {
           // Add the user's id to the session cookie.
 		// We can check later if this exists to ensure we are logged in.
           req.session.user = user._id;
-          req.session.email = user.email
+          req.session.username = user.username
 					res.send({user: user})
       }
     }).catch((error) => {
@@ -152,7 +152,7 @@ app.get('/api/users/logout', (req, res) => {
 //app.get('/api/users/login', sessionChecker, (req, res) => {
 //	const sessionResponse = {
 //		user: '',
-//		email: ''
+//		username: ''
 //	}
 //	res.send(sessionResponse);
 //})
@@ -164,7 +164,7 @@ app.get('/api/users/logout', (req, res) => {
 //		console.log('server: okay user')
 //		const sessionResponse = {
 //			user: req.session.user,
-//			email: req.session.email
+//			username: req.session.username
 //		}
 //		res.send(sessionResponse);
 //	} else {
@@ -178,8 +178,8 @@ app.get('/api/users/logout', (req, res) => {
 //Add a new user to the DB
 app.post('/api/user', (req, res) => {
 	var newUser = new User();
-	newUser.admin = req.body.admin;
-	newUser.email = req.body.email;
+	newUser.admin = false;
+	newUser.username = req.body.username;
 	newUser.name = req.body.name;
 	newUser.password = req.body.password;
 	newUser.regions = req.body.regions;
@@ -215,12 +215,12 @@ app.post('/api/uni', (req, res) => {
 })
 
 //-------------------PUT (UPDATE) CALLS------------------//
-// Update a particular user by specifying their email address
+// Update a particular user by specifying their username address
 // and passing in a JSON body
-app.put('/api/user/:email', (req, res) => {
-	const email = req.params.email
+app.put('/api/user/:username', (req, res) => {
+	const username = req.params.username
 
-	User.findOne({ "email": email })
+	User.findOne({ "username": username })
     .then((user) => {
        if (user) {
 			const id = user.id;
@@ -241,7 +241,7 @@ app.put('/api/user/:email', (req, res) => {
 				res.status(400).send() // bad request for changing the user.
 			})
 	} else {
-			res.status(500).send('Could not find user with the email ' + email);
+			res.status(500).send('Could not find user with the username ' + username);
 		}
 	})
 })
@@ -297,11 +297,11 @@ app.get('/api/uni', (req, res) => {
 	})
 })
 
-// Get a particular user by their email
-app.get('/api/user/:email', (req, res) => {
-	const email = req.params.email
+// Get a particular user by their username
+app.get('/api/user/:username', (req, res) => {
+	const username = req.params.username
 
-	User.findOne({ "email": email })
+	User.findOne({ "username": username })
     .then((user) => {
        if (user) {
 		   const id = user.id;
@@ -322,7 +322,7 @@ app.get('/api/user/:email', (req, res) => {
 				res.status(500).send()  // server error
 			})
        } else {
-			res.status(500).send('Could not find user with the email ' + email);
+			res.status(500).send('Could not find user with the username ' + username);
        }
     })
 
@@ -361,11 +361,11 @@ app.get('/api/uni/:name', (req, res) => {
 
 //-------------------DELETE CALLS---------------------------//
 
-// Delete a particular user by their email address
-app.delete('/api/user/:email', (req, res) => {
-	const email = req.params.email
+// Delete a particular user by their username address
+app.delete('/api/user/:username', (req, res) => {
+	const username = req.params.username
 
-	User.findOne({ "email": email })
+	User.findOne({ "username": username })
     .then((user) => {
        if (user) {
 			const id = user.id;
@@ -386,7 +386,7 @@ app.delete('/api/user/:email', (req, res) => {
 				res.status(500).send() // server error, could not delete.
 			})
 	} else {
-			res.status(500).send('Could not find user with the email ' + email);
+			res.status(500).send('Could not find user with the username ' + username);
 		}
 	})
 })
