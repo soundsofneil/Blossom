@@ -230,13 +230,14 @@ app.put('/api/user/:username', authenticate, (req, res) => {
 				return;
 			}
 
-			if (req.user._id != id) {
-				console.log("session user and put user mismatch")
-				res.status(404).send()
-				return;
+			if (req.user._id != id) { //check if session id matches
+				if (req.user.admin == false) { //then check if it is an admin request
+					res.status(404).send("Not authorized")
+					return;
+				}
 			}
 
-			if (req.body.admin) { //make sure that no updates to admin can be made
+			if (req.body.admin) { //make sure that no updates to admin flag can be made
 				delete req.body.admin;
 			}
 
@@ -258,7 +259,7 @@ app.put('/api/user/:username', authenticate, (req, res) => {
 
 // Update a particular university by specifying their name
 // and passing in a JSON body
-app.put('/api/uni/:name', (req, res) => {
+app.put('/api/uni/:name', authenticate, (req, res) => {
 	const name = req.params.name
 
 	University.findOne({ "name": name })
@@ -268,6 +269,11 @@ app.put('/api/uni/:name', (req, res) => {
 			// Validate id
 			if (!ObjectID.isValid(id)) {
 				res.status(404).send()
+				return;
+			}
+
+			if (req.user.admin == false) { // check if it is an admin request
+				res.status(404).send("Not authorized")
 				return;
 			}
 
@@ -290,8 +296,12 @@ app.put('/api/uni/:name', (req, res) => {
 //-------------------GET CALLS---------------------------//
 
 // Get all users in the DB
-app.get('/api/user', (req, res) => {
+app.get('/api/user', authenticate, (req, res) => {
 	User.find().then((users) => {
+		if (req.user.admin == false) { //then check if it is an admin request
+			res.status(404).send("Not authorized")
+			return;
+		}
 		res.send({ users }) // can wrap in object if want to add more properties
 	}, (error) => {
 		res.status(500).send(error) // server error
@@ -308,7 +318,7 @@ app.get('/api/uni', (req, res) => {
 })
 
 // Get a particular user by their username
-app.get('/api/user/:username', (req, res) => {
+app.get('/api/user/:username', authenticate, (req, res) => {
 	const username = req.params.username
 
 	User.findOne({ "username": username })
@@ -320,6 +330,14 @@ app.get('/api/user/:username', (req, res) => {
 				res.status(404).send()  // if invalid id, definitely can't find resource, 404.
 				return;  // so that we don't run the rest of the handler.
 			}
+
+			if (req.user._id != id) { //check if session id matches
+				if (req.user.admin == false) { //then check if it is an admin request
+					res.status(404).send("Not authorized")
+					return;
+				}
+			}
+
 			// Otherwise, findById
 			User.findById(id).then((user) => {
 				if (!user) {
@@ -371,8 +389,8 @@ app.get('/api/uni/:name', (req, res) => {
 
 //-------------------DELETE CALLS---------------------------//
 
-// Delete a particular user by their username address
-app.delete('/api/user/:username', (req, res) => {
+// Delete a particular user by their username
+app.delete('/api/user/:username', authenticate, (req, res) => {
 	const username = req.params.username
 
 	User.findOne({ "username": username })
@@ -382,6 +400,11 @@ app.delete('/api/user/:username', (req, res) => {
 			// Validate id
 			if (!ObjectID.isValid(id)) {
 				res.status(404).send()
+				return;
+			}
+
+			if (req.user.admin == false) { // check if it is an admin request
+				res.status(404).send("Not authorized")
 				return;
 			}
 
@@ -402,7 +425,7 @@ app.delete('/api/user/:username', (req, res) => {
 })
 
 // Delete a particular university by their name
-app.delete('/api/uni/:name', (req, res) => {
+app.delete('/api/uni/:name', authenticate, (req, res) => {
 	const name = req.params.name
 
 	University.findOne({ "name": name })
@@ -412,6 +435,11 @@ app.delete('/api/uni/:name', (req, res) => {
 			// Validate id
 			if (!ObjectID.isValid(id)) {
 				res.status(404).send()
+				return;
+			}
+
+			if (req.user.admin == false) { // check if it is an admin request
+				res.status(404).send("Not authorized")
 				return;
 			}
 
