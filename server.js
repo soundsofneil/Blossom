@@ -217,7 +217,7 @@ app.post('/api/uni', (req, res) => {
 //-------------------PUT (UPDATE) CALLS------------------//
 // Update a particular user by specifying their username address
 // and passing in a JSON body
-app.put('/api/user/:username', (req, res) => {
+app.put('/api/user/:username', authenticate, (req, res) => {
 	const username = req.params.username
 
 	User.findOne({ "username": username })
@@ -228,6 +228,16 @@ app.put('/api/user/:username', (req, res) => {
 			if (!ObjectID.isValid(id)) {
 				res.status(404).send()
 				return;
+			}
+
+			if (req.user._id != id) {
+				console.log("session user and put user mismatch")
+				res.status(404).send()
+				return;
+			}
+
+			if (req.body.admin) { //make sure that no updates to admin can be made
+				delete req.body.admin;
 			}
 
 			// Update a user by their id
