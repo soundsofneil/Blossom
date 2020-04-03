@@ -11,11 +11,11 @@ export const addToList = (app, uni) => {
 
   console.log("Adding " + uni.name + " to the list!");
 
-  // update local user
-  user.schools.push({name: uni.name});
+  const schools = user.schools
+  schools.push({name: uni.name});
 
   // request to update user
-  axios.put('http://localhost:5000/api/user/' + user.username, {schools: user.schools}).then((res) => {
+  axios.put('http://localhost:5000/api/user/' + user.username, {schools: schools}).then((res) => {
     if (res.status === 200) {
       return res.data;
     }
@@ -24,10 +24,12 @@ export const addToList = (app, uni) => {
       app.setState({user: data})
     }
     else {
-      alert('Could not update user profile!')
+      console.log('Could not update user profile!')
     }
   }).catch((error) => {
+    alert('Error: Could not update user profile!')
     console.log(error)
+    console.log(schools)
   })
 }
 
@@ -36,11 +38,10 @@ export const removeFromList = (app, uni) => {
 
   console.log("Removing " + uni.name + " from the list!");
 
-  // set local user
-  user.schools = user.schools.filter(school => school.name !== uni.name);
+  const schools = user.schools.filter(school => school.name !== uni.name);
 
   // request to update user
-  axios.put('http://localhost:5000/api/user/' + user.username, {schools: user.schools}).then((res) => {
+  axios.put('http://localhost:5000/api/user/' + user.username, {schools: schools}).then((res) => {
     if (res.status === 200) {
       return res.data;
     }
@@ -49,10 +50,12 @@ export const removeFromList = (app, uni) => {
       app.setState({user: data})
     }
     else {
-      alert('Could not update user profile!')
+      console.log('Could not update user profile!')
     }
   }).catch((error) => {
-    console.log(error)
+      alert('Could not update user profile!')
+      console.log(error)
+      console.log(schools)
   })
 }
 

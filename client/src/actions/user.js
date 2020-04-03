@@ -60,7 +60,7 @@ export const signIn = (username, password) => {
                 reject()
             }
         }).catch(error => {
-            if (error.response && error.reponse.status == 401) {
+            if (error.response && error.response.status == 401) {
                 reject()
                 return
             }

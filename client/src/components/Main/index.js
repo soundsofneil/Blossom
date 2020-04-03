@@ -51,7 +51,7 @@ class Main extends Component {
                     )}
                     {!this.props.user.admin && (
                         <MySchoolsList
-                            mySchools={this.state.universities.filter(uni => this.props.user.schools.find(school => school.name === uni.name))}
+                            mySchools={this.props.user.schools.map(mySchool => {return this.state.universities.find(uni => uni.name === mySchool.name)}).filter(uni => uni != null)}
                             removeFromList={(uni) => {removeFromList(this.props.app, uni)}}
                             learnMore={this.learnMore}
                         />
