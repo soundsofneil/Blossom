@@ -43,15 +43,15 @@ export default class SignIn extends React.Component {
         console.log('next stage');
         if (this.state.stage === 0) {
             (['username', 'name', 'password']).forEach((wch) => {
-                if (this.state[wch].length <= 2) {
+                if (this.state[wch].length < 4) {
                     this.setState({[`err${wch}`]: true})
                 } else {
                     this.setState({[`err${wch}`]: false})
                 }
             })
-            if (this.state.password.length > 2
-                && this.state.name.length > 2
-                && this.state.username.length > 2) {
+            if (this.state.password.length >= 4
+                && this.state.name.length >= 1
+                && this.state.username.length >= 1) {
                 this.setState({ stage: this.state.stage + 1 })
             }
         } else {
@@ -91,7 +91,7 @@ export default class SignIn extends React.Component {
 
     setPrograms = (programs) => this.setState({ programs })
     setRegions = (regions) => this.setState({ regions })
-    
+
     onClose = () => {
         // reset the module if X is pressed
         this.setState({
