@@ -15,7 +15,7 @@ export const addToList = (app, uni) => {
   user.schools.push({name: uni.name});
 
   // request to update user
-  axios.put('http://localhost:5000/api/user/' + user.email, {schools: user.schools}).then((res) => {
+  axios.put('http://localhost:5000/api/user/' + user.username, {schools: user.schools}).then((res) => {
     if (res.status === 200) {
       return res.data;
     }
@@ -40,7 +40,7 @@ export const removeFromList = (app, uni) => {
   user.schools = user.schools.filter(school => school.name !== uni.name);
 
   // request to update user
-  axios.put('http://localhost:5000/api/user/' + user.email, {schools: user.schools}).then((res) => {
+  axios.put('http://localhost:5000/api/user/' + user.username, {schools: user.schools}).then((res) => {
     if (res.status === 200) {
       return res.data;
     }

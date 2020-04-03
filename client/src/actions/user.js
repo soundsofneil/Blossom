@@ -4,30 +4,45 @@ const axios = require('axios');
 const programs = require('../data.json').programs
 const regions = require('../data.json').regions
 
+// Local function to check the data returned from the server
+const checkUser = (user) => {
+    return (user.admin != null &&
+        user.username != null &&
+        user.password != null &&
+        user.name != null &&
+        user.regions != null &&
+        user.programs != null &&
+        user.grades != null &&
+        user.schools != null);
+}
+
 // A function to check if a user is logged in on the session cookie
-export const readCookie = (app) => {
-    axios.get("http://localhost:5000/api/users/check-session")
-    .then(res => {
-        if (res.status === 200) {
-            return res.data;
-        }
+export const readCookie = () => {
+    return new Promise((resolve, reject) => {
+        axios.get("http://localhost:5000/api/users/check-session")
+        .then(res => {
+            if (res.status === 200) {
+                return res.data;
+            }
+        })
+        .then(data => {
+            if (data && data.user) {
+                checkUser(data.user) || reject();
+                resolve(data.user);
+            } else {
+                reject();
+            }
+        })
+        .catch(error => {
+            reject(error);
+        });
     })
-    .then(data => {
-        if (data && data.user) {
-            app.setState({ user: data.user });
-        } else {
-            app.setState({ user: null });
-        }
-    })
-    .catch(error => {
-        console.log(error);
-    });
 };
 
 // A function to log in a user and set the corresponding components
 export const signIn = (username, password) => {
     const data = {
-        email: username,
+        username: username,
         password: password
     }
 
@@ -39,13 +54,21 @@ export const signIn = (username, password) => {
             }
         }).then(data => {
             if (data && data.user) {
+                checkUser(data.user) || reject()
                 resolve(data.user)
             } else {
                 reject()
             }
         }).catch(error => {
+            if (error.response && error.reponse.status == 401) {
+                reject()
+                return
+            }
+
+            alert('Error: Could not log in!')
             console.log(error);
-            reject()
+            console.log(data);
+            reject(error)
         });
     })
 };
@@ -57,8 +80,9 @@ export const signOut = () => {
         axios.get("http://localhost:5000/api/users/logout").then(res => {
             resolve()
         }).catch(error => {
+            alert("Error: Could not sign out!")
             console.log(error);
-            reject()
+            reject(error)
         });
     })
 }
@@ -66,8 +90,7 @@ export const signOut = () => {
 // A function to create a new user
 export const signUp = (user) => {
     const data = {
-    	admin: false,
-    	email: user.username,
+    	username: user.username,
     	name: user.name,
     	password: user.password,
     	regions: user.regions.map(id => {return {region: regions[id].name}}),
@@ -75,7 +98,6 @@ export const signUp = (user) => {
     	grades: user.grades.map(g => {return {grade: parseInt(g.grade), course: g.course}}),
     	schools: []
     }
-    console.log(data)
 
     return new Promise((resolve, reject) => {
         // send the POST request
@@ -85,13 +107,16 @@ export const signUp = (user) => {
             }
         }).then(data => {
             if (data) {
+                checkUser(data) || reject()
                 resolve(data)
             } else {
                 reject()
             }
         }).catch(error => {
+            alert("Error: Could not sign up!")
             console.log(error);
-            reject()
+            console.log(data);
+            reject(error)
         });
     })
 }
@@ -100,7 +125,7 @@ export const signUp = (user) => {
 export const modifyUser = (username, userProfile, raw) => {
     const data = raw ? userProfile : {
     	admin: false,
-    	email: userProfile.username,
+    	username: userProfile.username,
     	name: userProfile.name,
     	password: userProfile.password,
     	regions: userProfile.regions.map(id => {return {region: regions[id].name}}),
@@ -118,14 +143,17 @@ export const modifyUser = (username, userProfile, raw) => {
             }
         }).then((data) => {
             if (data) {
+                checkUser(data) || reject()
                 resolve(data)
             }
             else {
                 reject()
             }
         }).catch(error => {
+            alert("Error: Could not modify user!")
             console.log(error);
-            reject()
+            console.log(data);
+            reject(error)
         });
     })
 }
@@ -136,21 +164,23 @@ export const getUser = (username) => {
 
     return new Promise((resolve, reject) => {
         // send the GET request
-        axios.get("http://localhost:5000/api/user/" + username, {email: username}).then(res => {
+        axios.get("http://localhost:5000/api/user/" + username, {username}).then(res => {
             console.log(res)
             if (res.status === 200) {
                 return res.data;
             }
         }).then((data) => {
             if (data) {
+                checkUser(data) || reject()
                 resolve(data)
             }
             else {
                 reject()
             }
         }).catch(error => {
+            alert("Error: Could not get user!")
             console.log(error);
-            reject()
+            reject(error)
         });
     })
 }
@@ -161,21 +191,23 @@ export const deleteUser = (username) => {
 
     return new Promise((resolve, reject) => {
         // send the DELETE request
-        axios.delete("http://localhost:5000/api/user/" + username, {email: username}).then(res => {
+        axios.delete("http://localhost:5000/api/user/" + username, {username}).then(res => {
             console.log(res)
             if (res.status === 200) {
                 return res.data;
             }
         }).then((data) => {
             if (data) {
+                checkUser(data) || reject()
                 resolve(data)
             }
             else {
                 reject()
             }
         }).catch(error => {
+            alert("Error: Could not delete user!")
             console.log(error);
-            reject()
+            reject(error)
         });
     })
 }

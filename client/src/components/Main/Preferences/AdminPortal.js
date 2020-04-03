@@ -19,7 +19,7 @@ export default class AdminPortal extends React.Component {
     openModifyUser = () => {
         getUser(this.state.searchUsername).then(user => {
             console.log('Moving to update user.')
-            this.setState({ view: 'update', searchUsername: '', modifyUser: user, username: user.email, name: user.name, password: user.password })
+            this.setState({ view: 'update', searchUsername: '', modifyUser: user, username: user.username, name: user.name, password: user.password })
         }).catch(() => {
             console.log('No such user exists.')
         })
@@ -34,11 +34,11 @@ export default class AdminPortal extends React.Component {
         console.log("Modifying user...")
         const user = {
             ...this.state.modifyUser,
-            email: this.state.username,
+            username: this.state.username,
             name: this.state.name,
             password: this.state.password
         }
-        modifyUser(this.state.modifyUser.email, user, true).then(() => {
+        modifyUser(this.state.modifyUser.username, user, true).then(() => {
             console.log("...Successfully modified user!")
             this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
             this.props.close()
@@ -108,7 +108,7 @@ export default class AdminPortal extends React.Component {
                             ) : this.state.view === 'update' ? (
                                 <div className="pref-content">
                                     <span className="admin-header">Admin Panel</span>
-                                    <Field defaultValue={this.state.modifyUser.email} onChange={({target: {value}}) => this.setState({ username: value })} align="left"/>
+                                    <Field defaultValue={this.state.modifyUser.username} onChange={({target: {value}}) => this.setState({ username: value })} align="left"/>
                                     <Field defaultValue={this.state.modifyUser.name} onChange={({target: {value}}) => this.setState({ name: value })} align="left"/>
                                     <Field defaultValue={this.state.modifyUser.password} type="password" onChange={({target: {value}}) => this.setState({ password: value })} align="left"/>
                                     <div className="button threequarters modify" onClick={this.modifyUser}>Confirm Changes</div>

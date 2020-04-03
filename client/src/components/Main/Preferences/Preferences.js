@@ -10,7 +10,7 @@ const regions = require('../../../data.json').regions
 
 export default class Preferences extends React.Component {
     state = {
-        newUsername: this.props.user.email,
+        newUsername: this.props.user.username,
         newName: this.props.user.name,
         newPassword: this.props.user.password,
         newGrades: this.props.user.grades.map((grade, i) => {return {id: i, grade: grade.grade, course: grade.course}}),
