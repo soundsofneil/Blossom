@@ -3,6 +3,7 @@
 const User = require('./models/user');
 const University = require('./models/university');
 const { mongoose } = require('./db/mongoose');
+const bcrypt = require('bcryptjs')
 
 // to validate object IDs
 const { ObjectID } = require('mongodb');
@@ -124,7 +125,7 @@ app.post('/api/users/login', (req, res) => {
       }
     }).catch((error) => {
 				console.log(error)
-				res.status(500).send()
+				res.status(401).send()
     })
 })
 
@@ -240,16 +241,40 @@ app.put('/api/user/:username', authenticate, (req, res) => {
 				delete req.body.admin;
 			}
 
-			// Update a user by their id
-			User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((user) => {
-				if (!user) {
-					res.status(404).send()
-				} else {
-					res.send(user)
-				}
-			}).catch((error) => {
-				res.status(400).send() // bad request for changing the user.
-			})
+			if (req.body.password !== user.password) { //If password changed
+				// generate salt and hash the password
+				bcrypt.genSalt(10, (err, salt) => {
+					bcrypt.hash(req.body.password, salt, (err, hash) => {
+						req.body.password = hash
+						// Update a user by their id
+						User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((user) => {
+							if (!user) {
+								res.status(404).send()
+							} else {
+								console.log("Update")
+								res.send(user)
+							}
+						}).catch((error) => {
+							res.status(400).send() // bad request for changing the user.
+						})
+					})
+				})
+			}
+
+			else { //If password not changed
+				// Update a user by their id
+				User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((user) => {
+					if (!user) {
+						res.status(404).send()
+					} else {
+						console.log("Update")
+						res.send(user)
+					}
+				}).catch((error) => {
+					res.status(400).send() // bad request for changing the user.
+				})
+			}
+
 	} else {
 			res.status(500).send('Could not find user with the username ' + username);
 		}
