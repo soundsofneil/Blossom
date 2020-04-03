@@ -61,7 +61,7 @@ app.use(session({
 // A route to check if a user is logged in on the session cookie
 app.get("/api/users/check-session", (req, res) => {
 	if (!req.session.user) {
-		console.log('server: no user')
+		console.log('server: No user logged in.')
 		res.status(401).send();
 		return;
 	}
@@ -71,15 +71,16 @@ app.get("/api/users/check-session", (req, res) => {
 		return;
 	}
 
-	console.log('server: okay user')
 	User.findById(req.session.user).then(user => {
 		if (!user) {
-			console.log('server: couldnt find user')
+			console.log('server: User does not exist.')
 			res.status(404).send();
 		} else {
+			console.log('server: Valid user.')
 			res.send({user: user})
 		}
-	}).catch(error => {
+	}).catch((error) => {
+		console.error('ERROR: User could not be found.', error)
 		res.status(500).send(error);
 	})
 });
@@ -104,27 +105,26 @@ const authenticate = (req, res, next) => {
 
 // A route to login and create a session
 app.post('/api/users/login', (req, res) => {
-	console.log(req.body)
-	const username = req.body.username
+  console.log(`POST: Login ${req.body.username}`)
+  const username = req.body.username
 	const password = req.body.password
-
 
     // Use the static method on the User model to find a user
     // by their username and password
 	User.findByUsernamePassword(username, password).then((user) => {
 	    if (!user) {
-					console.log('server: bad user')
+			    console.log('server: Invalid user info.')
           res.status(401).send()
       } else {
-					console.log('server: okay user')
+			    console.log('server: Valid user info.')
           // Add the user's id to the session cookie.
-		// We can check later if this exists to ensure we are logged in.
+		      // We can check later if this exists to ensure we are logged in.
           req.session.user = user._id;
           req.session.username = user.username
 					res.send({user: user})
       }
     }).catch((error) => {
-				console.log(error)
+		    console.log('ERROR: Could not log user in.', error)
 				res.status(401).send()
     })
 })
@@ -177,6 +177,7 @@ app.get('/api/users/logout', (req, res) => {
 
 //Add a new user to the DB
 app.post('/api/user', (req, res) => {
+	console.log(`POST: Create user ${req.body.email}`)
 	var newUser = new User();
 	newUser.admin = false;
 	newUser.username = req.body.username;
@@ -187,14 +188,17 @@ app.post('/api/user', (req, res) => {
 	newUser.grades = req.body.grades;
 	newUser.schools = req.body.schools;
 	newUser.save().then((result) => {
+		console.log('server: Successfully created user.')
 		res.send(result)
 	}, (error) => {
+		console.log('ERROR: Could not create user.', error)
 		res.status(400).send(error) // 400 for bad request
 	})
 })
 
 //Add a new university to the DB
 app.post('/api/uni', (req, res) => {
+	console.log(`POST: Create university ${req.body.name}`)
 	var newUniversity = new University();
 	newUniversity.name = req.body.name;
 	newUniversity.description = req.body.description;
@@ -209,8 +213,10 @@ app.post('/api/uni', (req, res) => {
 	newUniversity.imageUri = req.body.imageUri;
 
 	newUniversity.save().then((result) => {
+		console.log('server: Successfully created university.')
 		res.send(result)
 	}, (error) => {
+		console.log('ERROR: Could not create university.', error)
 		res.status(400).send(error) // 400 for bad request
 	})
 })
@@ -219,6 +225,7 @@ app.post('/api/uni', (req, res) => {
 // Update a particular user by specifying their username address
 // and passing in a JSON body
 app.put('/api/user/:username', authenticate, (req, res) => {
+  console.log(`PUT: Update user ${req.params.email}`)
 	const username = req.params.username
 
 	User.findOne({ "username": username })
@@ -227,6 +234,7 @@ app.put('/api/user/:username', authenticate, (req, res) => {
 			const id = user.id;
 			// Validate id
 			if (!ObjectID.isValid(id)) {
+				console.log('ERROR: Invalid request. ID does not exist.')
 				res.status(404).send()
 				return;
 			}
@@ -253,12 +261,14 @@ app.put('/api/user/:username', authenticate, (req, res) => {
 						// Update a user by their id
 						User.findOneAndUpdate({_id: id}, {$set: req.body}, {new: true, runValidators: true}).then((user) => {
 							if (!user) {
+                console.log('ERROR: User does not exist.')
 								res.status(404).send()
 							} else {
-								console.log("Update")
+								console.log('server: Successfully updated user.')
 								res.send(user)
 							}
 						}).catch((error) => {
+              console.log('ERROR: User does not exist', error)
 							res.status(400).send() // bad request for changing the user.
 						})
 					})
@@ -269,17 +279,20 @@ app.put('/api/user/:username', authenticate, (req, res) => {
 				// Update a user by their id
 				User.findOneAndUpdate({_id: id}, {$set: req.body}, {new: true, runValidators: true}).then((user) => {
 					if (!user) {
+            console.log('ERROR: User does not exist.')
 						res.status(404).send()
 					} else {
-						console.log("Update")
+						console.log('server: Successfully updated user.')
 						res.send(user)
 					}
 				}).catch((error) => {
+          console.log('ERROR: User does not exist', error)
 					res.status(400).send() // bad request for changing the user.
 				})
 			}
 
 	} else {
+      console.log('ERROR: User does not exist')
 			res.status(500).send('Could not find user with the username ' + username);
 		}
 	})
@@ -288,14 +301,15 @@ app.put('/api/user/:username', authenticate, (req, res) => {
 // Update a particular university by specifying their name
 // and passing in a JSON body
 app.put('/api/uni/:name', (req, res) => {
+	console.log(`PUT: Update university ${req.params.name}`)
 	const name = req.params.name
 
-	University.findOne({ "name": name })
-    .then((uni) => {
-       if (uni) {
+	University.findOne({ "name": name }).then((uni) => {
+        if (uni) {
 			const id = uni.id;
 			// Validate id
 			if (!ObjectID.isValid(id)) {
+				console.log('ERROR: Invalid request. ID does not exist.')
 				res.status(404).send()
 				return;
 			}
@@ -303,14 +317,18 @@ app.put('/api/uni/:name', (req, res) => {
 			// Update a uni by their id
 			University.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((uni) => {
 				if (!uni) {
+					console.log('ERROR: University does not exist.')
 					res.status(404).send()
 				} else {
+					console.log('server: Successfully updated university.')
 					res.send(uni)
 				}
 			}).catch((error) => {
+				console.log('ERROR: University does not exist', error)
 				res.status(400).send() // bad request for changing the uni.
 			})
-	} else {
+		} else {
+			console.log('ERROR: University does not exist')
 			res.status(500).send('Could not find university with the name ' + name);
 		}
 	})
@@ -319,7 +337,10 @@ app.put('/api/uni/:name', (req, res) => {
 //-------------------GET CALLS---------------------------//
 
 // Get all users in the DB
+
 app.get('/api/user', authenticate, (req, res) => {
+  console.log('GET: All users')
+  
 	User.find().then((users) => {
 		if (req.user.admin == false) { //then check if it is an admin request
 			res.status(404).send("Not authorized")
@@ -333,6 +354,7 @@ app.get('/api/user', authenticate, (req, res) => {
 
 // Get all universities in the DB
 app.get('/api/uni', (req, res) => {
+	console.log('GET: All universities')
 	University.find().then((universities) => {
 		res.send({ universities }) // can wrap in object if want to add more properties
 	}, (error) => {
@@ -342,6 +364,7 @@ app.get('/api/uni', (req, res) => {
 
 // Get a particular user by their username
 app.get('/api/user/:username', authenticate, (req, res) => {
+  console.log(`GET: User ${req.params.username}`)
 	const username = req.params.username
 
 	User.findOne({ "username": username })
@@ -363,12 +386,12 @@ app.get('/api/user/:username', authenticate, (req, res) => {
 
 			// Otherwise, findById
 			User.findById(id).then((user) => {
-				if (!user) {
-					res.status(404).send()  // could not find this user
-				} else {
-					/// sometimes we wrap returned object in another object:
-					res.send(user)
-				}
+			if (!user) {
+				res.status(404).send()  // could not find this user
+			} else {
+				// sometimes we wrap returned object in another object:
+				res.send(user)
+			}
 			}).catch((error) => {
 				res.status(500).send()  // server error
 			})
@@ -381,12 +404,12 @@ app.get('/api/user/:username', authenticate, (req, res) => {
 
 // Get a particular university by their name
 app.get('/api/uni/:name', (req, res) => {
+	console.log(`GET: University ${req.params.name}`)
 	const name = req.params.name
 
-	University.findOne({ "name": name })
-    .then((uni) => {
-       if (uni) {
-		   const id = uni.id;
+	University.findOne({ "name": name }).then((uni) => {
+        if (uni) {
+		    const id = uni.id;
 			// Validate id immediately.
 			if (!ObjectID.isValid(id)) {
 				res.status(404).send()  // if invalid id, definitely can't find resource, 404.
@@ -403,9 +426,9 @@ app.get('/api/uni/:name', (req, res) => {
 			}).catch((error) => {
 				res.status(500).send()  // server error
 			})
-       } else {
+		} else {
 			res.status(500).send('Could not find a university with the name ' + name);
-       }
+		}
     })
 
 })
@@ -414,7 +437,8 @@ app.get('/api/uni/:name', (req, res) => {
 
 // Delete a particular user by their username
 app.delete('/api/user/:username', authenticate, (req, res) => {
-	const username = req.params.username
+	console.log(`DELETE: User ${req.params.username}`)
+  const username = req.params.username
 
 	User.findOne({ "username": username })
     .then((user) => {
@@ -449,12 +473,12 @@ app.delete('/api/user/:username', authenticate, (req, res) => {
 
 // Delete a particular university by their name
 app.delete('/api/uni/:name', (req, res) => {
+	console.log(`DELETE: University ${req.params.name}`)
 	const name = req.params.name
 
-	University.findOne({ "name": name })
-    .then((uni) => {
-       if (uni) {
-		   const id = uni.id;
+	University.findOne({ "name": name }).then((uni) => {
+        if (uni) {
+		    const id = uni.id;
 			// Validate id
 			if (!ObjectID.isValid(id)) {
 				res.status(404).send()
