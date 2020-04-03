@@ -16,7 +16,11 @@ const University = mongoose.model('University', {
 		required: true,
         minlength: 1,
         trim: true
-	},
+    },
+    ranking: {
+        type: Number,
+        required: true
+    },
     region: {
         type: String,
         enum: [

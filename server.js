@@ -198,6 +198,7 @@ app.post('/api/uni', (req, res) => {
 	var newUniversity = new University();
 	newUniversity.name = req.body.name;
 	newUniversity.description = req.body.description;
+	newUniversity.ranking = req.body.ranking;
 	newUniversity.region = req.body.region;
 	newUniversity.programs = req.body.programs;
 	newUniversity.location = req.body.location;
