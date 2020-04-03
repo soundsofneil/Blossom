@@ -243,11 +243,14 @@ app.put('/api/user/:username', authenticate, (req, res) => {
 
 			if (req.body.password !== user.password) { //If password changed
 				// generate salt and hash the password
+				if (req.body.password.length < 4) {
+					res.status(400).send() // bad request for changing the user.
+				}
 				bcrypt.genSalt(10, (err, salt) => {
 					bcrypt.hash(req.body.password, salt, (err, hash) => {
 						req.body.password = hash
 						// Update a user by their id
-						User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((user) => {
+						User.findOneAndUpdate({_id: id}, {$set: req.body}, {new: true, runValidators: true}).then((user) => {
 							if (!user) {
 								res.status(404).send()
 							} else {
@@ -263,7 +266,7 @@ app.put('/api/user/:username', authenticate, (req, res) => {
 
 			else { //If password not changed
 				// Update a user by their id
-				User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((user) => {
+				User.findOneAndUpdate({_id: id}, {$set: req.body}, {new: true, runValidators: true}).then((user) => {
 					if (!user) {
 						res.status(404).send()
 					} else {
