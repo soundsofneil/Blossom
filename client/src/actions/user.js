@@ -60,12 +60,6 @@ export const signIn = (username, password) => {
                 reject()
             }
         }).catch(error => {
-            if (error.response && error.response.status == 401) {
-                reject()
-                return
-            }
-
-            alert('Error: Could not log in!')
             console.log(error);
             console.log(data);
             reject(error)
@@ -80,7 +74,6 @@ export const signOut = () => {
         axios.get("http://localhost:5000/api/users/logout").then(res => {
             resolve()
         }).catch(error => {
-            alert("Error: Could not sign out!")
             console.log(error);
             reject(error)
         });
@@ -113,7 +106,6 @@ export const signUp = (user) => {
                 reject()
             }
         }).catch(error => {
-            alert("Error: Could not sign up!")
             console.log(error);
             console.log(data);
             reject(error)
@@ -150,7 +142,6 @@ export const modifyUser = (username, userProfile, raw) => {
                 reject()
             }
         }).catch(error => {
-            alert("Error: Could not modify user!")
             console.log(error);
             console.log(data);
             reject(error)
@@ -178,7 +169,6 @@ export const getUser = (username) => {
                 reject()
             }
         }).catch(error => {
-            alert("Error: Could not get user!")
             console.log(error);
             reject(error)
         });
@@ -205,7 +195,6 @@ export const deleteUser = (username) => {
                 reject()
             }
         }).catch(error => {
-            alert("Error: Could not delete user!")
             console.log(error);
             reject(error)
         });

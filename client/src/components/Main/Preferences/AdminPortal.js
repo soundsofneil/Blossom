@@ -20,8 +20,12 @@ export default class AdminPortal extends React.Component {
         getUser(this.state.searchUsername).then(user => {
             console.log('Moving to update user.')
             this.setState({ view: 'update', searchUsername: '', modifyUser: user, username: user.username, name: user.name, password: user.password })
-        }).catch(() => {
-            console.log('No such user exists.')
+        }).catch((err) => {
+            if (err && err.response && err.response.status == 404) {
+                alert("No such user exists!")
+            } else {
+                alert(err)
+            }
         })
     }
 
@@ -42,7 +46,12 @@ export default class AdminPortal extends React.Component {
             console.log("...Successfully modified user!")
             this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
             this.props.close()
-        }).catch(() => {
+        }).catch((err) => {
+            if (err && err.response && err.response.status == 400) {
+                alert("Could not update user: Invalid data!")
+            } else {
+                alert(err)
+            }
             console.log("...Could not modify user!")
         })
     }
@@ -53,7 +62,8 @@ export default class AdminPortal extends React.Component {
             console.log("...Successfully deleted user!")
             this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
             this.props.close()
-        }).catch(() => {
+        }).catch((err) => {
+            alert(err)
             console.log("...Could not delete user!")
         })
     }
@@ -73,7 +83,8 @@ export default class AdminPortal extends React.Component {
             console.log("...Successfully created user!")
             this.setState({ view: 'search', username: '', name: '', password: '', searchUsername: '' })
             this.props.close()
-        }).catch(() => {
+        }).catch((err) => {
+            alert(err)
             console.log("...Could not create user!")
         })
     }

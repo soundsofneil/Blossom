@@ -23,7 +23,11 @@ export default class SignIn extends React.Component {
         this.props.signIn(this.state.username, this.state.password).then(user => {
             this.setState({ username: '', password: '', name: '', regions: [], programs: [], stage: 0, errusername: false, errpassword: false })
         }).catch(err => {
-            this.setState({ errusername: true, errpassword: true })
+            if (err && err.response && err.response.status == 401) {
+                this.setState({ errusername: true, errpassword: true })
+            } else {
+                alert(err)
+            }
         })
     }
 
@@ -73,7 +77,15 @@ export default class SignIn extends React.Component {
             this.props.signIn(user.username, user.password).then(() => {
                 this.props.close() // close window
                 this.props.switchView() // back to sign in
+            }).catch(err => {
+                alert(err)
             })
+        }).catch(err => {
+            if (err && err.response && err.response.status == 400) {
+                alert("Could not create user: Invalid data!")
+            } else {
+                alert(err)
+            }
         })
     }
 

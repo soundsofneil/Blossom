@@ -34,7 +34,7 @@ export default class App extends React.Component {
                 res(user)
             }).catch(err => {
                 console.log("...Incorrect credentials!")
-                rej()
+                rej(err)
             })
         })
     }
@@ -46,9 +46,9 @@ export default class App extends React.Component {
                 console.log("...Successfully logged out!")
                 this.setState({ user: null })
                 res()
-            }).catch(() => {
+            }).catch((err) => {
                 console.log("...Could not log out!")
-                rej()
+                rej(err)
             })
         })
     }
@@ -62,21 +62,21 @@ export default class App extends React.Component {
                 res(user)
             }).catch(err => {
                 console.log("...Could not sign up!")
-                rej()
+                rej(err)
             })
         })
     }
 
-    setUser = (user) => {
+    setUser = (user, raw) => {
         console.log("Modifying user...")
         return new Promise((res, rej) => {
-            modifyUser(this.state.user.username, user).then(user => {
+            modifyUser(this.state.user.username, user, raw).then(user => {
                 console.log("...Successfully modified user!")
                 this.setState({user})
                 res(user)
             }).catch(err => {
                 console.log("...Could not modify user!")
-                rej()
+                rej(err)
             })
         })
     }

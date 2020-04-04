@@ -6,8 +6,6 @@ import SplashBodyComponent from './Body/SplashBodyComponent';
 export default class Splash extends React.Component {
     constructor(props) {
         super(props);
-
-        this.props.history.push("/splash");
     }
 
     render() {
