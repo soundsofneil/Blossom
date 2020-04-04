@@ -11,7 +11,7 @@ class UniversityList extends Component {
 
         return (
         <div className="university-list">
-            {message === 'done' ?
+            {(message === 'done' && indeces.length > 0) ?
             indeces.slice(0,20).map(i =>
             <University
                 key={universities[i]._id}
@@ -19,13 +19,18 @@ class UniversityList extends Component {
                 addToList={this.props.addToList}
                 learnMore={() => this.props.learnMore(universities[i])}
             />) :
-            <div className="university-list-empty">
-                {message}
-            </div>}
+            <div className="university-list-empty"> {this.getMessage()} </div>}
         </div>
         );
     }
 
+    getMessage = () => {
+        if (this.props.message == 'done') {
+            return "No results."
+        } else {
+            return this.props.message
+        }
+    }
 }
 
 export default UniversityList;
