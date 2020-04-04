@@ -3,6 +3,7 @@
 const User = require('./models/user');
 const University = require('./models/university');
 const { mongoose } = require('./db/mongoose');
+const bcrypt = require('bcryptjs')
 
 // to validate object IDs
 const { ObjectID } = require('mongodb');
@@ -33,7 +34,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 60000,
         httpOnly: true
     }
 }));
@@ -58,87 +58,87 @@ app.use(session({
 //    }
 //};
 
-// A route to check if a use is logged in on the session cookie
+// A route to check if a user is logged in on the session cookie
 app.get("/api/users/check-session", (req, res) => {
-	if (!req.session.user) {
-		console.log('server: No user logged in.')
-		res.status(401).send();
-		return;
-	}
+    if (!req.session.user) {
+        console.log('server: No user logged in.')
+        res.status(401).send();
+        return;
+    }
 
-	if (!ObjectID.isValid(req.session.user)) {
-		res.status(404).send();
-		return;
-	}
+    if (!ObjectID.isValid(req.session.user)) {
+        res.status(404).send();
+        return;
+    }
 
-	User.findById(req.session.user).then(user => {
-		if (!user) {
-			console.log('server: User does not exist.')
-			res.status(404).send();
-		} else {
-			console.log('server: Valid user.')
-			res.send({user: user})
-		}
-	}).catch((error) => {
-		console.error('ERROR: User could not be found.', error)
-		res.status(500).send(error);
-	})
+    User.findById(req.session.user).then(user => {
+        if (!user) {
+            console.log('server: User does not exist.')
+            res.status(404).send();
+        } else {
+            console.log('server: Valid user.')
+            res.send({ user: user })
+        }
+    }).catch((error) => {
+        console.error('ERROR: User could not be found.', error)
+        res.status(500).send(error);
+    })
 });
 
 // Middleware for authentication of resources
 const authenticate = (req, res, next) => {
-	if (req.session.user) {
-		User.findById(req.session.user).then((user) => {
-			if (!user) {
-				return Promise.reject()
-			} else {
-				req.user = user
-				next()
-			}
-		}).catch((error) => {
-			res.status(401).send("Unauthorized")
-		})
-	} else {
-		res.status(401).send("Unauthorized")
-	}
+    if (req.session.user) {
+        User.findById(req.session.user).then((user) => {
+            if (!user) {
+                return Promise.reject()
+            } else {
+                req.user = user
+                next()
+            }
+        }).catch((error) => {
+            res.status(401).send("Unauthorized")
+        })
+    } else {
+        res.status(401).send("Unauthorized")
+    }
 }
 
 // A route to login and create a session
 app.post('/api/users/login', (req, res) => {
-	console.log(`POST: Login ${req.body.email}`)
-	const email = req.body.email
-	const password = req.body.password
+    console.log(`POST: Login ${req.body.username}`)
+    const username = req.body.username
+    const password = req.body.password
 
     // Use the static method on the User model to find a user
-    // by their email and password
-	User.findByEmailPassword(email, password).then((user) => {
-		if (!user) {
-			console.log('server: Invalid user info.')
-			res.status(401).send()
-		} else {
-			console.log('server: Valid user info.')
-			// Add the user's id to the session cookie.
-			// We can check later if this exists to ensure we are logged in.
-			req.session.user = user._id;
-			req.session.email = user.email
-			res.send({user: user})
-		}
+    // by their username and password
+    User.findByUsernamePassword(username, password).then((user) => {
+        if (!user) {
+            console.log('server: Invalid user info.')
+            res.status(401).send()
+        } else {
+            console.log('server: Valid user info.')
+            // Add the user's id to the session cookie.
+            // We can check later if this exists to ensure we are logged in.
+            req.session.user = user._id;
+            req.session.username = user.username
+            res.send({ user: user })
+        }
     }).catch((error) => {
-		console.log('ERROR: Could not log user in.', error)
-		res.status(500).send()
+        console.log('ERROR: Could not log user in.', error)
+        res.status(401).send()
     })
 })
 
 // A route to logout a user
 app.get('/api/users/logout', (req, res) => {
-	// Remove the session
-	req.session.destroy((error) => {
-		if (error) {
-			res.status(500).send(error)
-		} else {
-			res.send()
-		}
-	})
+    // Remove the session
+    req.session.destroy((error) => {
+        if (error) {
+            res.status(500).send(error)
+        } else {
+            res.send()
+        }
+    })
 })
 
 //--------------------WEBPAGE ROUTES-------------------------------//
@@ -152,7 +152,7 @@ app.get('/api/users/logout', (req, res) => {
 //app.get('/api/users/login', sessionChecker, (req, res) => {
 //	const sessionResponse = {
 //		user: '',
-//		email: ''
+//		username: ''
 //	}
 //	res.send(sessionResponse);
 //})
@@ -164,7 +164,7 @@ app.get('/api/users/logout', (req, res) => {
 //		console.log('server: okay user')
 //		const sessionResponse = {
 //			user: req.session.user,
-//			email: req.session.email
+//			username: req.session.username
 //		}
 //		res.send(sessionResponse);
 //	} else {
@@ -177,266 +177,328 @@ app.get('/api/users/logout', (req, res) => {
 
 //Add a new user to the DB
 app.post('/api/user', (req, res) => {
-	console.log(`POST: Create user ${req.body.email}`)
-	var newUser = new User();
-	newUser.admin = req.body.admin;
-	newUser.email = req.body.email;
-	newUser.name = req.body.name;
-	newUser.password = req.body.password;
-	newUser.regions = req.body.regions;
-	newUser.programs = req.body.programs;
-	newUser.grades = req.body.grades;
-	newUser.schools = req.body.schools;
-	newUser.save().then((result) => {
-		console.log('server: Successfully created user.')
-		res.send(result)
-	}, (error) => {
-		console.log('ERROR: Could not create user.', error)
-		res.status(400).send(error) // 400 for bad request
-	})
+    console.log(`POST: Create user ${req.body.email}`)
+    var newUser = new User();
+    newUser.admin = false;
+    newUser.username = req.body.username;
+    newUser.name = req.body.name;
+    newUser.password = req.body.password;
+    newUser.regions = req.body.regions;
+    newUser.programs = req.body.programs;
+    newUser.grades = req.body.grades;
+    newUser.schools = req.body.schools;
+    newUser.save().then((result) => {
+        console.log('server: Successfully created user.')
+        res.send(result)
+    }, (error) => {
+        console.log('ERROR: Could not create user.', error)
+        res.status(400).send(error) // 400 for bad request
+    })
 })
 
 //Add a new university to the DB
 app.post('/api/uni', (req, res) => {
-	console.log(`POST: Create university ${req.body.name}`)
-	var newUniversity = new University();
-	newUniversity.name = req.body.name;
-	newUniversity.description = req.body.description;
-	newUniversity.region = req.body.region;
-	newUniversity.programs = req.body.programs;
-	newUniversity.location = req.body.location;
-	newUniversity.country = req.body.country;
-	newUniversity.applyWebsite = req.body.applyWebsite;
-	newUniversity.website = req.body.website;
-	newUniversity.twitter = req.body.twitter;
-	newUniversity.imageUri = req.body.imageUri;
+    console.log(`POST: Create university ${req.body.name}`)
+    var newUniversity = new University();
+    newUniversity.name = req.body.name;
+    newUniversity.description = req.body.description;
+    newUniversity.ranking = req.body.ranking;
+    newUniversity.region = req.body.region;
+    newUniversity.programs = req.body.programs;
+    newUniversity.location = req.body.location;
+    newUniversity.country = req.body.country;
+    newUniversity.applyWebsite = req.body.applyWebsite;
+    newUniversity.website = req.body.website;
+    newUniversity.twitter = req.body.twitter;
+    newUniversity.imageUri = req.body.imageUri;
 
-	newUniversity.save().then((result) => {
-		console.log('server: Successfully created university.')
-		res.send(result)
-	}, (error) => {
-		console.log('ERROR: Could not create university.', error)
-		res.status(400).send(error) // 400 for bad request
-	})
+    newUniversity.save().then((result) => {
+        console.log('server: Successfully created university.')
+        res.send(result)
+    }, (error) => {
+        console.log('ERROR: Could not create university.', error)
+        res.status(400).send(error) // 400 for bad request
+    })
 })
 
 //-------------------PUT (UPDATE) CALLS------------------//
-// Update a particular user by specifying their email address
+// Update a particular user by specifying their username address
 // and passing in a JSON body
-app.put('/api/user/:email', (req, res) => {
-	console.log(`PUT: Update user ${req.params.email}`)
-	const email = req.params.email
+app.put('/api/user/:username', authenticate, (req, res) => {
+    console.log(`PUT: Update user ${req.params.email}`)
+    const username = req.params.username
 
-	User.findOne({ "email": email }).then((user) => {
-        if (user) {
-			const id = user.id;
-			// Validate id
-			if (!ObjectID.isValid(id)) {
-				console.log('ERROR: Invalid request. ID does not exist.')
-				res.status(404).send()
-				return;
-			}
+    User.findOne({ "username": username })
+        .then((user) => {
+            if (user) {
+                const id = user.id;
+                // Validate id
+                if (!ObjectID.isValid(id)) {
+                    console.log('ERROR: Invalid request. ID does not exist.')
+                    res.status(404).send()
+                    return;
+                }
 
-			// Update a user by their id
-			User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((user) => {
-				if (!user) {
-					console.log('ERROR: User does not exist.')
-					res.status(404).send()
-				} else {
-					console.log('server: Successfully updated user.')
-					res.send(user)
-				}
-			}).catch((error) => {
-				console.log('ERROR: User does not exist', error)
-				res.status(400).send() // bad request for changing the user.
-			})
-		} else {
-			console.log('ERROR: User does not exist')
-			res.status(500).send('Could not find user with the email ' + email);
-		}
-	})
+                if (req.user._id != id) { //check if session id matches
+                    if (req.user.admin == false) { //then check if it is an admin request
+                        res.status(404).send("Not authorized")
+                        return;
+                    }
+                }
+
+                if (req.body.admin) { //make sure that no updates to admin flag can be made
+                    delete req.body.admin;
+                }
+
+                if (req.body.password !== user.password) { //If password changed
+                    // generate salt and hash the password
+                    if (req.body.password.length < 4) {
+                        res.status(400).send() // bad request for changing the user.
+                    }
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(req.body.password, salt, (err, hash) => {
+                            req.body.password = hash
+                            // Update a user by their id
+                            User.findOneAndUpdate({ _id: id }, { $set: req.body }, { new: true, runValidators: true }).then((user) => {
+                                if (!user) {
+                                    console.log('ERROR: User does not exist.')
+                                    res.status(404).send()
+                                } else {
+                                    console.log('server: Successfully updated user.')
+                                    res.send(user)
+                                }
+                            }).catch((error) => {
+                                console.log('ERROR: User does not exist', error)
+                                res.status(400).send() // bad request for changing the user.
+                            })
+                        })
+                    })
+                }
+
+                else { //If password not changed
+                    // Update a user by their id
+                    User.findOneAndUpdate({ _id: id }, { $set: req.body }, { new: true, runValidators: true }).then((user) => {
+                        if (!user) {
+                            console.log('ERROR: User does not exist.')
+                            res.status(404).send()
+                        } else {
+                            console.log('server: Successfully updated user.')
+                            res.send(user)
+                        }
+                    }).catch((error) => {
+                        console.log('ERROR: User does not exist', error)
+                        res.status(400).send() // bad request for changing the user.
+                    })
+                }
+
+            } else {
+                console.log('ERROR: User does not exist')
+                res.status(500).send('Could not find user with the username ' + username);
+            }
+        })
 })
 
 // Update a particular university by specifying their name
 // and passing in a JSON body
 app.put('/api/uni/:name', (req, res) => {
-	console.log(`PUT: Update university ${req.params.name}`)
-	const name = req.params.name
+    console.log(`PUT: Update university ${req.params.name}`)
+    const name = req.params.name
 
-	University.findOne({ "name": name }).then((uni) => {
+    University.findOne({ "name": name }).then((uni) => {
         if (uni) {
-			const id = uni.id;
-			// Validate id
-			if (!ObjectID.isValid(id)) {
-				console.log('ERROR: Invalid request. ID does not exist.')
-				res.status(404).send()
-				return;
-			}
+            const id = uni.id;
+            // Validate id
+            if (!ObjectID.isValid(id)) {
+                console.log('ERROR: Invalid request. ID does not exist.')
+                res.status(404).send()
+                return;
+            }
 
-			// Update a uni by their id
-			University.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((uni) => {
-				if (!uni) {
-					console.log('ERROR: University does not exist.')
-					res.status(404).send()
-				} else {
-					console.log('server: Successfully updated university.')
-					res.send(uni)
-				}
-			}).catch((error) => {
-				console.log('ERROR: University does not exist', error)
-				res.status(400).send() // bad request for changing the uni.
-			})
-		} else {
-			console.log('ERROR: University does not exist')
-			res.status(500).send('Could not find university with the name ' + name);
-		}
-	})
+            // Update a uni by their id
+            University.findByIdAndUpdate(id, { $set: req.body }, { new: true }).then((uni) => {
+                if (!uni) {
+                    console.log('ERROR: University does not exist.')
+                    res.status(404).send()
+                } else {
+                    console.log('server: Successfully updated university.')
+                    res.send(uni)
+                }
+            }).catch((error) => {
+                console.log('ERROR: University does not exist', error)
+                res.status(400).send() // bad request for changing the uni.
+            })
+        } else {
+            console.log('ERROR: University does not exist')
+            res.status(500).send('Could not find university with the name ' + name);
+        }
+    })
 })
 
 //-------------------GET CALLS---------------------------//
 
 // Get all users in the DB
-app.get('/api/user', (req, res) => {
-	console.log('GET: All users')
-	User.find().then((users) => {
-		res.send({ users }) // can wrap in object if want to add more properties
-	}, (error) => {
-		res.status(500).send(error) // server error
-	})
+
+app.get('/api/user', authenticate, (req, res) => {
+    console.log('GET: All users')
+
+    User.find().then((users) => {
+        if (req.user.admin == false) { //then check if it is an admin request
+            res.status(404).send("Not authorized")
+            return;
+        }
+        res.send({ users }) // can wrap in object if want to add more properties
+    }, (error) => {
+        res.status(500).send(error) // server error
+    })
 })
 
 // Get all universities in the DB
 app.get('/api/uni', (req, res) => {
-	console.log('GET: All universities')
-	University.find().then((universities) => {
-		res.send({ universities }) // can wrap in object if want to add more properties
-	}, (error) => {
-		res.status(500).send(error) // server error
-	})
+    console.log('GET: All universities')
+    University.find().then((universities) => {
+        res.send({ universities }) // can wrap in object if want to add more properties
+    }, (error) => {
+        res.status(500).send(error) // server error
+    })
 })
 
-// Get a particular user by their email
-app.get('/api/user/:email', (req, res) => {
-	console.log(`GET: User ${req.params.email}`)
-	const email = req.params.email
+// Get a particular user by their username
+app.get('/api/user/:username', authenticate, (req, res) => {
+    console.log(`GET: User ${req.params.username}`)
+    const username = req.params.username
 
-	User.findOne({ "email": email }).then((user) => {
-        if (user) {
-			const id = user.id;
-			// Validate id immediately.
-			if (!ObjectID.isValid(id)) {
-				res.status(404).send()  // if invalid id, definitely can't find resource, 404.
-				return;  // so that we don't run the rest of the handler.
-			}
-			// Otherwise, findById
-			User.findById(id).then((user) => {
-			if (!user) {
-				res.status(404).send()  // could not find this user
-			} else {
-				// sometimes we wrap returned object in another object:
-				res.send(user)
-			}
-			}).catch((error) => {
-				res.status(500).send()  // server error
-			})
-        } else {
-			res.status(500).send('Could not find user with the email ' + email);
-        }
-    })
+    User.findOne({ "username": username })
+        .then((user) => {
+            if (user) {
+                const id = user.id;
+                // Validate id immediately.
+                if (!ObjectID.isValid(id)) {
+                    res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+                    return;  // so that we don't run the rest of the handler.
+                }
+
+                if (req.user._id != id) { //check if session id matches
+                    if (req.user.admin == false) { //then check if it is an admin request
+                        res.status(404).send("Not authorized")
+                        return;
+                    }
+                }
+
+                // Otherwise, findById
+                User.findById(id).then((user) => {
+                    if (!user) {
+                        res.status(404).send()  // could not find this user
+                    } else {
+                        // sometimes we wrap returned object in another object:
+                        res.send(user)
+                    }
+                }).catch((error) => {
+                    res.status(500).send()  // server error
+                })
+            } else {
+                res.status(500).send('Could not find user with the username ' + username);
+            }
+        })
 
 })
 
 // Get a particular university by their name
 app.get('/api/uni/:name', (req, res) => {
-	console.log(`GET: University ${req.params.name}`)
-	const name = req.params.name
+    console.log(`GET: University ${req.params.name}`)
+    const name = req.params.name
 
-	University.findOne({ "name": name }).then((uni) => {
+    University.findOne({ "name": name }).then((uni) => {
         if (uni) {
-		    const id = uni.id;
-			// Validate id immediately.
-			if (!ObjectID.isValid(id)) {
-				res.status(404).send()  // if invalid id, definitely can't find resource, 404.
-				return;  // so that we don't run the rest of the handler.
-			}
-			// Otherwise, findById
-			University.findById(id).then((uni) => {
-				if (!uni) {
-					res.status(404).send()  // could not find this uni
-				} else {
-					/// sometimes we wrap returned object in another object:
-					res.send(uni)
-				}
-			}).catch((error) => {
-				res.status(500).send()  // server error
-			})
-		} else {
-			res.status(500).send('Could not find a university with the name ' + name);
-		}
+            const id = uni.id;
+            // Validate id immediately.
+            if (!ObjectID.isValid(id)) {
+                res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+                return;  // so that we don't run the rest of the handler.
+            }
+            // Otherwise, findById
+            University.findById(id).then((uni) => {
+                if (!uni) {
+                    res.status(404).send()  // could not find this uni
+                } else {
+                    /// sometimes we wrap returned object in another object:
+                    res.send(uni)
+                }
+            }).catch((error) => {
+                res.status(500).send()  // server error
+            })
+        } else {
+            res.status(500).send('Could not find a university with the name ' + name);
+        }
     })
 
 })
 
 //-------------------DELETE CALLS---------------------------//
 
-// Delete a particular user by their email address
-app.delete('/api/user/:email', (req, res) => {
-	console.log(`DELETE: User ${req.params.email}`)
-	const email = req.params.email
+// Delete a particular user by their username
+app.delete('/api/user/:username', authenticate, (req, res) => {
+    console.log(`DELETE: User ${req.params.username}`)
+    const username = req.params.username
 
-	User.findOne({ "email": email }).then((user) => {
-        if (user) {
-			const id = user.id;
-			// Validate id
-			if (!ObjectID.isValid(id)) {
-				res.status(404).send()
-				return;
-			}
+    User.findOne({ "username": username })
+        .then((user) => {
+            if (user) {
+                const id = user.id;
+                // Validate id
+                if (!ObjectID.isValid(id)) {
+                    res.status(404).send()
+                    return;
+                }
 
-			// Delete a user by their id
-			User.findByIdAndRemove(id).then((user) => {
-				if (!user) {
-					res.status(404).send()
-				} else {
-					res.send(user)
-				}
-			}).catch((error) => {
-				res.status(500).send() // server error, could not delete.
-			})
-		} else {
-			res.status(500).send('Could not find user with the email ' + email);
-		}
-	})
+                if (req.user.admin == false) { // check if it is an admin request
+                    res.status(404).send("Not authorized")
+                    return;
+                }
+
+                // Delete a user by their id
+                User.findByIdAndRemove(id).then((user) => {
+                    if (!user) {
+                        res.status(404).send()
+                    } else {
+                        res.send(user)
+                    }
+                }).catch((error) => {
+                    res.status(500).send() // server error, could not delete.
+                })
+            } else {
+                res.status(500).send('Could not find user with the username ' + username);
+            }
+        })
 })
 
 // Delete a particular university by their name
 app.delete('/api/uni/:name', (req, res) => {
-	console.log(`DELETE: University ${req.params.name}`)
-	const name = req.params.name
+    console.log(`DELETE: University ${req.params.name}`)
+    const name = req.params.name
 
-	University.findOne({ "name": name }).then((uni) => {
+    University.findOne({ "name": name }).then((uni) => {
         if (uni) {
-		    const id = uni.id;
-			// Validate id
-			if (!ObjectID.isValid(id)) {
-				res.status(404).send()
-				return;
-			}
+            const id = uni.id;
+            // Validate id
+            if (!ObjectID.isValid(id)) {
+                res.status(404).send()
+                return;
+            }
 
-			// Delete a university by their id
-			University.findByIdAndRemove(id).then((uni) => {
-				if (!uni) {
-					res.status(404).send()
-				} else {
-					res.send(uni)
-				}
-			}).catch((error) => {
-				res.status(500).send() // server error, could not delete.
-			})
-		} else {
-			res.status(500).send('Could not find a university with the name ' + name);
-		}
-	})
+            // Delete a university by their id
+            University.findByIdAndRemove(id).then((uni) => {
+                if (!uni) {
+                    res.status(404).send()
+                } else {
+                    res.send(uni)
+                }
+            }).catch((error) => {
+                res.status(500).send() // server error, could not delete.
+            })
+        } else {
+            res.status(500).send('Could not find a university with the name ' + name);
+        }
+    })
 })
 
 app.use(express.static(__dirname + "/client/build"))
@@ -448,5 +510,5 @@ app.get("*", (req, res) => {
 // will use an 'environmental variable', process.env.PORT, for deployment.
 const port = process.env.PORT || 5000
 app.listen(port, () => {
-	log(`Listening on port ${port}...`)
+    log(`Listening on port ${port}...`)
 })

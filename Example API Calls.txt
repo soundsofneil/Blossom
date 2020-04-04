@@ -3,6 +3,7 @@ Example:
 {
 	"name": "UofT",
 	"description": "Gr8 school",
+	"ranking": 10,
 	"region": "Canada East",
 	"programs": [{"program":"Computer Science", "gradeRequirement": 90, "website": "www.weedercourse.com"}],
 	"location": "Toronto",
@@ -17,7 +18,7 @@ Example:
 Example:
 {
 	"admin": false,
-	"email": "neil.kelkar@mail.utoronto.ca",
+	"username": "neil123",
 	"name": "Neil Kelkar",
 	"password": "password",
 	"regions": [{"region": "Canada North"}, {"region": "Canada East"}],
@@ -26,7 +27,7 @@ Example:
 	"schools": [{"name": "University of Toronto"}, {"name":"Ryerson"}]
 }
 
-//Update a USER (identify user by email, and must pass in JSON object with changes): PUT to localhost:5000/api/uni/email
+//Update a USER (identify user by username, and must pass in JSON object with changes): PUT to localhost:5000/api/uni/username
 Example:
 {
 	"admin": true
@@ -43,22 +44,22 @@ Example:
 
 //Get all USERS in the DB: GET to localhost:5000/api/user
 
-//Get a particular USER in the DB by email: GET to localhost:5000/api/user/email
+//Get a particular USER in the DB by username: GET to localhost:5000/api/user/username
 
 //Get a particular UNIVERSITY in the DB by name: GET to localhost:5000/api/uni/name
 
-//Delete a particular USER by their email: DELETE to localhost:5000/api/user/email
+//Delete a particular USER by their username: DELETE to localhost:5000/api/user/username
 
 //Delete a particular UNIVERSITY by their NAME: DELETE to localhost:5000/api/uni/name
 
 //To log in: POST to localhost:5000/api/users/login
 Example: 
 {
-"email": "student@gmail.com",
+"username": "user",
 "password": "password"
 }
 
 //Log out: GET to localhost:5000/api/users/logout
 
 //Once logged in, or to check again: GET to localhost:5000/api/users/dashboard
-//and it should return a session object with user id and user email
+//and it should return a session object with user id and user username
