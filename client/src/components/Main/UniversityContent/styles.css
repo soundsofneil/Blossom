@@ -9,8 +9,11 @@
 	color: white;
 	text-align: left;
   overflow: hidden;
+}
 
+.university-content:hover {
 	cursor: pointer;
+	opacity: 70%;
 }
 
 .university-content-left {

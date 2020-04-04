@@ -32,14 +32,16 @@ ul {
 }
 
 .my-schools-list-school {
+	display: flex;
+	justify-content: flex-end;
 	text-align: right;
-  margin-top: -11px;
+  margin-top: -7px;
   margin-right: 20px;
 	color: var(--lightgray)
 }
 
 .school-list-name {
-  margin-right: 10px;
+  margin-right: 10px !important;
 }
 
 .school-list-name .MuiButton-label {
@@ -47,6 +49,8 @@ ul {
 	font-size: 12px;
 	font-weight: lighter;
   text-transform: none;
+	text-align:right;
+	line-height: 120%;
 }
 
 .my-schools-list-delete-button {
