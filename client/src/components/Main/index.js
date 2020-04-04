@@ -6,15 +6,16 @@ import TextField from "@material-ui/core/TextField";
 import UniversityInfoPop from './UniversityInfoPop'
 import Preferences from './Preferences/Preferences'
 import AdminPortal from './Preferences/AdminPortal'
-import { getUniversityData, getReccomendations } from "../../actions/main";
+import { getRankedUniversities, getRecomendedUniversities, search } from "../../actions/main";
 
 import './styles.css'
 
 class Main extends Component {
     state = {
         view: 'main', // main | pref | admin | learn
+        loadState: 'Loading...', // 'done' => will show university list
         universities: [],
-        searchInds: [],
+        showInds: [],
         popVisible: false,
         adminVisible: false,
         prefVisible: false,
@@ -23,9 +24,17 @@ class Main extends Component {
 
     constructor(props) {
         super(props);
-
         this.props.history.push("/main");
-        getUniversityData(this);
+
+        console.log("Loading universities...")
+        getRankedUniversities().then(universities => {
+            const showInds = getRecomendedUniversities(this.props.user, universities);
+            this.setState({universities, showInds, loadState: 'done'})
+            console.log("...Loading complete!")
+        }).catch(err => {
+            alert(err)
+            console.log('...Error loading university data!')
+        })
     }
 
     render() {
@@ -44,7 +53,8 @@ class Main extends Component {
                     {!this.props.user.admin && (
                         <UniversityList
                             universities={this.state.universities}
-                            indeces={this.state.searchInds}
+                            indeces={this.state.showInds}
+                            message={this.state.loadState}
                             addToList={this.addToList}
                             learnMore={this.learnMore}
                         />
@@ -61,7 +71,7 @@ class Main extends Component {
                             <TextField
                                 className="main-search-bar"
                                 variant="outlined"
-                                onChange={({target: {value}}) => this.search(value)}
+                                onChange={({target: {value}}) => this.doSearch(value)}
                                 error={false}
                                 placeholder="search"
                                 type="text"
@@ -95,16 +105,20 @@ class Main extends Component {
         this.setState({ popVisible: true, uniPop: uni });
     }
 
-    search = (query) => {
-        const indeces = this.state.universities.reduce( (inds, uni, i) => {
-            if (uni.name.toLowerCase().trim().indexOf(query.toLowerCase().trim()) > -1) {
-                inds.push(i)
-            }
-
-            return inds;
-        }, [])
-
-        this.setState({searchInds: indeces});
+    doSearch = (query, universities) => {
+        this.setState({loadState: 'Loading...'}, () => {
+            console.log("Searching universities...")
+            search(query, this.state.universities).then(inds => {
+                if (inds.length == 0) {
+                    this.setState({loadState: 'No results.'})
+                    console.log("...Searching complete: No matches found.")
+                } else {
+                    this.setState({loadState: 'done'})
+                    console.log("...Searching complete")
+                }
+                this.setState({showInds: inds});
+            })
+        })
     }
 
     addToList = (uni) => {
