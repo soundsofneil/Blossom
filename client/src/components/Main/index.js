@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import UniversityInfoPop from './UniversityInfoPop'
 import Preferences from './Preferences/Preferences'
 import AdminPortal from './Preferences/AdminPortal'
-import { addToList, removeFromList, getUniversityData, getReccomendations } from "../../actions/main";
+import { getUniversityData, getReccomendations } from "../../actions/main";
 
 import './styles.css'
 
@@ -45,14 +45,14 @@ class Main extends Component {
                         <UniversityList
                             universities={this.state.universities}
                             indeces={this.state.searchInds}
-                            addToList={(uni) => {addToList(this.props.app, uni)}}
+                            addToList={this.addToList}
                             learnMore={this.learnMore}
                         />
                     )}
                     {!this.props.user.admin && (
                         <MySchoolsList
-                            mySchools={this.state.universities.filter(uni => this.props.user.schools.find(school => school.name === uni.name))}
-                            removeFromList={(uni) => {removeFromList(this.props.app, uni)}}
+                            mySchools={this.props.user.schools.map(mySchool => {return this.state.universities.find(uni => uni.name === mySchool.name)}).filter(uni => uni != null)}
+                            removeFromList={this.removeFromList}
                             learnMore={this.learnMore}
                         />
                     )}
@@ -105,6 +105,30 @@ class Main extends Component {
         }, [])
 
         this.setState({searchInds: indeces});
+    }
+
+    addToList = (uni) => {
+        const user = this.props.user
+
+        if (user.schools.find(school => school.name === uni.name)) {
+            console.log("Already in list!");
+            return;
+        }
+
+        user.schools.push({name: uni.name});
+
+        this.props.setUser(user, true).catch(err => {
+            alert(err)
+        })
+    }
+
+    removeFromList = (uni) => {
+        const user = this.props.user
+        user.schools = user.schools.filter(school => school.name !== uni.name);
+
+        this.props.setUser(user, true).catch(err => {
+            alert(err)
+        })
     }
 }
 

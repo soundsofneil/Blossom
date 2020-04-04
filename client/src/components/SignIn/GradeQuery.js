@@ -38,7 +38,7 @@ export default class GradeQuery extends React.Component {
     }
 
     cleanGrades = () => {
-        const newGrades = this.state.grades.filter((grade) => grade.grade.length > 0 && grade.course.length > 0)
+        const newGrades = this.state.grades.filter((grade) => grade.grade.length > 0 || grade.course.length > 0)
         return newGrades
     }
 

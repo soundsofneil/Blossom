@@ -9,13 +9,13 @@ class MySchoolsList extends Component {
 
     render() {
         const {mySchools, removeFromList, learnMore} = this.props;
-
+        
         return (
             <div className="my-schools-list">
                 <h1 className="my-schools-list-title"> My Schools </h1>
                 <ul>
-                    {mySchools.map(school =>
-                        <li className="my-schools-list-school" key={school._id}>
+                    {mySchools.map((school, i) =>
+                        <li className="my-schools-list-school" key={i}>
                             <Button className="school-list-name" onClick={() => learnMore(school)}>{school.name}</Button>
                             <IconButton
                                 className="my-schools-list-delete-button"

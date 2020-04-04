@@ -10,7 +10,7 @@ const regions = require('../../../data.json').regions
 
 export default class Preferences extends React.Component {
     state = {
-        newUsername: this.props.user.email,
+        newUsername: this.props.user.username,
         newName: this.props.user.name,
         newPassword: this.props.user.password,
         newGrades: this.props.user.grades.map((grade, i) => {return {id: i, grade: grade.grade, course: grade.course}}),
@@ -19,7 +19,7 @@ export default class Preferences extends React.Component {
     }
 
     updateUser = () => {
-        this.props.setUser({
+        const newUser = {
             ...this.props.user,
             username: this.state.newUsername,
             name: this.state.newName,
@@ -27,6 +27,15 @@ export default class Preferences extends React.Component {
             grades: this.state.newGrades,
             programs: this.state.newPrograms,
             regions: this.state.newRegions
+        }
+        this.props.setUser(newUser).then(() => {
+            this.props.close()
+        }).catch(err => {
+            if (err && err.response && err.response.status == 400) {
+                alert("Could not update user: Invalid data!")
+            } else {
+                alert(err)
+            }
         })
     }
 
@@ -201,10 +210,7 @@ export default class Preferences extends React.Component {
                         </div>
                         <div
                             className='button threequarters marg-bot'
-                            onClick={() => {
-                                this.updateUser()
-                                this.props.close()
-                            }}>Update Profile</div>
+                            onClick={this.updateUser}>Update Profile</div>
                     </div>
                     <CloseIcon className='close-icon' onClick={this.props.close} />
                 </div>

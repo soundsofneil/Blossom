@@ -11,11 +11,17 @@ import './App.css';
 export default class App extends React.Component {
     constructor(props) {
         super(props);
-        readCookie(this); // sees if a user is logged in.
+
+        readCookie().then(user => {
+            console.log("Already logged in!")
+            this.setState({ user });
+        }).catch(err => {
+            console.log("Not logged in.")
+            this.setState({ user: null });
+        }); // sees if a user is logged in.
     }
 
     state = {
-        view: 'splash', // splash | main
         user:  null //users[0]// currently logged in user
     }
 
@@ -28,7 +34,7 @@ export default class App extends React.Component {
                 res(user)
             }).catch(err => {
                 console.log("...Incorrect credentials!")
-                rej()
+                rej(err)
             })
         })
     }
@@ -40,9 +46,9 @@ export default class App extends React.Component {
                 console.log("...Successfully logged out!")
                 this.setState({ user: null })
                 res()
-            }).catch(() => {
+            }).catch((err) => {
                 console.log("...Could not log out!")
-                rej()
+                rej(err)
             })
         })
     }
@@ -56,21 +62,21 @@ export default class App extends React.Component {
                 res(user)
             }).catch(err => {
                 console.log("...Could not sign up!")
-                rej()
+                rej(err)
             })
         })
     }
 
-    setUser = (user) => {
+    setUser = (user, raw) => {
         console.log("Modifying user...")
         return new Promise((res, rej) => {
-            modifyUser(this.state.user.email, user).then(user => {
+            modifyUser(this.state.user.username, user, raw).then(user => {
                 console.log("...Successfully modified user!")
                 this.setState({user})
                 res(user)
             }).catch(err => {
-                alert("...Could not modify user!")
-                rej()
+                console.log("...Could not modify user!")
+                rej(err)
             })
         })
     }
