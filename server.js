@@ -241,7 +241,7 @@ app.put('/api/user/:username', authenticate, (req, res) => {
 
                 if (req.user._id != id) { //check if session id matches
                     if (req.user.admin == false) { //then check if it is an admin request
-                        res.status(404).send("Not authorized")
+                        res.status(401).send("Not authorized")
                         return;
                     }
                 }
@@ -343,7 +343,7 @@ app.get('/api/user', authenticate, (req, res) => {
 
     User.find().then((users) => {
         if (req.user.admin == false) { //then check if it is an admin request
-            res.status(404).send("Not authorized")
+            res.status(401).send("Not authorized")
             return;
         }
         res.send({ users }) // can wrap in object if want to add more properties
@@ -379,7 +379,7 @@ app.get('/api/user/:username', authenticate, (req, res) => {
 
                 if (req.user._id != id) { //check if session id matches
                     if (req.user.admin == false) { //then check if it is an admin request
-                        res.status(404).send("Not authorized")
+                        res.status(401).send("Not authorized")
                         return;
                     }
                 }
@@ -396,7 +396,7 @@ app.get('/api/user/:username', authenticate, (req, res) => {
                     res.status(500).send()  // server error
                 })
             } else {
-                res.status(500).send('Could not find user with the username ' + username);
+                res.status(404).send('Could not find user with the username ' + username);
             }
         })
 
@@ -451,7 +451,7 @@ app.delete('/api/user/:username', authenticate, (req, res) => {
                 }
 
                 if (req.user.admin == false) { // check if it is an admin request
-                    res.status(404).send("Not authorized")
+                    res.status(401).send("Not authorized")
                     return;
                 }
 
