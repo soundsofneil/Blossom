@@ -1,15 +1,25 @@
 /* Styles for the Main/UniversityContent React component */
 
 .university-content {
+	float: right;
+	width: calc(72% - 20px);
+	height: calc(100% - 20px);
+	margin: 10px;
+
 	color: white;
 	text-align: left;
+  overflow: hidden;
 
 	cursor: pointer;
 }
 
 .university-content-left {
 	float: left;
-	width: 40%;
+	width: 60%;
+	height: calc(100% - 50px);
+	margin-top: 25px;
+	margin-bottom: 25px;
+  overflow: hidden;
 }
 
 h1 {
@@ -30,29 +40,44 @@ p {
 	font-style: normal;
 	font-weight: lighter;
 	font-size: 11px;
-	line-height: 120%;
+	line-height: 140%;
 }
 
 .university-title {
   margin: 0;
-  margin-top: 35px;
+	max-height: 40%;
+	overflow: hidden;
 }
 
 .university-location {
   margin: 0;
+	margin-top: 1px;
 	font-weight: lighter;
+	height: 16%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .university-description {
   margin: 0;
-  margin-top: 5px;
-	margin-bottom: 3%;
+	margin-top: 4px;
+	height: 40%;
 	color: var(--lightgray);
-
+	overflow: hidden;
 }
 
 .university-recommendation {
-  margin: 0;
-	margin-top: 3%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	position: absolute;
+	bottom: 20px;
+	width: 42%;
+	height: 20%;
+
+	background-color: var(--blue);
+	font-size: 12px;
+	line-height: 140%;
 	color: var(--darkpink);
 }

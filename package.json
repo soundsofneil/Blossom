@@ -15,7 +15,6 @@
   "scripts": {
     "setup": "npm install && cd client && npm install && cd ..",
     "build-run": "cd client && npm run build && cd .. && node server.js",
-    "build-run-dev": "cd client && npm run build && cd .. && nodemon server.js",
     "start": "node server.js",
     "start-dev": "nodemon server.js",
     "heroku-postbuild": "cd client && npm install && npm run build",

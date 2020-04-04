@@ -6,6 +6,7 @@
   background-color: var(--blue);
   border-radius: 8px;
   height: 180px;
+  overflow: hidden;
 }
 
 .university-icon-container:hover {
