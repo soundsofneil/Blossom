@@ -19,7 +19,7 @@ const checkUser = (user) => {
 // A function to check if a user is logged in on the session cookie
 export const readCookie = () => {
     return new Promise((resolve, reject) => {
-        axios.get("http://localhost:5000/api/users/check-session")
+        axios.get("https://blossom-309.herokuapp.com/api/users/check-session")
         .then(res => {
             if (res.status === 200) {
                 return res.data;
@@ -48,7 +48,7 @@ export const signIn = (username, password) => {
 
     return new Promise((resolve, reject) => {
         // send the login request
-        axios.post("http://localhost:5000/api/users/login", data).then(res => {
+        axios.post("https://blossom-309.herokuapp.com/api/users/login", data).then(res => {
             if (res.status === 200) {
                 return res.data;
             }
@@ -71,7 +71,7 @@ export const signIn = (username, password) => {
 export const signOut = () => {
     // send the logout request
     return new Promise((resolve, reject) => {
-        axios.get("http://localhost:5000/api/users/logout").then(res => {
+        axios.get("https://blossom-309.herokuapp.com/api/users/logout").then(res => {
             resolve()
         }).catch(error => {
             console.log(error);
@@ -94,7 +94,7 @@ export const signUp = (user) => {
 
     return new Promise((resolve, reject) => {
         // send the POST request
-        axios.post("http://localhost:5000/api/user", data).then(res => {
+        axios.post("https://blossom-309.herokuapp.com/api/user", data).then(res => {
             if (res.status === 200) {
                 return res.data
             }
@@ -129,7 +129,7 @@ export const modifyUser = (username, userProfile, raw) => {
 
     return new Promise((resolve, reject) => {
         // send the PUT request
-        axios.put("http://localhost:5000/api/user/" + username, data).then(res => {
+        axios.put("https://blossom-309.herokuapp.com/api/user/" + username, data).then(res => {
             if (res.status === 200) {
                 return res.data;
             }
@@ -155,7 +155,7 @@ export const getUser = (username) => {
 
     return new Promise((resolve, reject) => {
         // send the GET request
-        axios.get("http://localhost:5000/api/user/" + username, {username}).then(res => {
+        axios.get("https://blossom-309.herokuapp.com/api/user/" + username, {username}).then(res => {
             console.log(res)
             if (res.status === 200) {
                 return res.data;
@@ -181,7 +181,7 @@ export const deleteUser = (username) => {
 
     return new Promise((resolve, reject) => {
         // send the DELETE request
-        axios.delete("http://localhost:5000/api/user/" + username, {username}).then(res => {
+        axios.delete("https://blossom-309.herokuapp.com/api/user/" + username, {username}).then(res => {
             console.log(res)
             if (res.status === 200) {
                 return res.data;

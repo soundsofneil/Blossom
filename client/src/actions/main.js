@@ -4,7 +4,7 @@ const axios = require('axios');
 // function to get necessary university data for main page
 export const getRankedUniversities = () => {
   return new Promise((resolve, reject) => {
-    axios.get('http://localhost:5000/api/uni/').then((res) => {
+    axios.get('https://blossom-309.herokuapp.com/api/uni/').then((res) => {
       if (res.status === 200) {
         return res.data;
       }
