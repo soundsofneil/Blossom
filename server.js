@@ -177,7 +177,7 @@ app.get('/api/users/logout', (req, res) => {
 
 //Add a new user to the DB
 app.post('/api/user', (req, res) => {
-    console.log(`POST: Create user ${req.body.email}`)
+    console.log(`POST: Create user ${req.body.username}`)
     var newUser = new User();
     newUser.admin = false;
     newUser.username = req.body.username;
@@ -225,7 +225,7 @@ app.post('/api/uni', (req, res) => {
 // Update a particular user by specifying their username address
 // and passing in a JSON body
 app.put('/api/user/:username', authenticate, (req, res) => {
-    console.log(`PUT: Update user ${req.params.email}`)
+    console.log(`PUT: Update user ${req.params.username}`)
     const username = req.params.username
 
     User.findOne({ "username": username })
