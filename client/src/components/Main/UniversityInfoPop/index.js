@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PopWindow from '../../common/PopWindow';
 import CloseIcon from '@material-ui/icons/Close';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLaptopCode, faChartLine, faScroll, faSquareRootAlt, faDna, faStarOfLife, faGlasses, faAtom, faBriefcase, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faLaptopCode, faChartLine, faScroll, faFlask, faSquareRootAlt, faDna, faStarOfLife, faGlasses, faAtom, faBriefcase, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { faCanadianMapleLeaf } from '@fortawesome/free-brands-svg-icons'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import './index.css'
