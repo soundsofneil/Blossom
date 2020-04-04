@@ -90,8 +90,6 @@ for i, row in raw_df.iterrows():
 new_df = pd.DataFrame(data=new_data)
 new_df.to_csv('./university_data_3.csv')
 
-
-
 def add_rank():
     df_rank = pd.read_csv('university_rank.csv')
     df3 = pd.read_csv('university_data3.csv')
@@ -100,8 +98,6 @@ def add_rank():
             continue 
 
         df3.loc[df3['institution'] == row['name'], 'rank'] = row['rank']
-
-
 
 # load data into mongo
 def load_data():
@@ -153,8 +149,6 @@ def load_data():
         else:
             rank = int(row['rank'])
 
-
-
         body = {
             "name": name,
             "description": description,
@@ -168,9 +162,7 @@ def load_data():
             "twitter": twitter,
             "imageUri": imageUri
         }
-
         headers = {"Content-Type": "application/json"}
-
         print(requests.post('http://localhost:5000/api/uni', headers=headers, data=json.dumps(body))
 
 
