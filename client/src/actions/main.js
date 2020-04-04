@@ -1,7 +1,7 @@
 /* Actions for the Main React component */
 const axios = require('axios');
 
-// function to get necessary university data for main page
+// function to get university data (returns sorted uni's by rank)
 export const getRankedUniversities = () => {
   return new Promise((resolve, reject) => {
     axios.get('http://localhost:5000/api/uni/').then((res) => {
@@ -22,19 +22,37 @@ export const getRankedUniversities = () => {
   })
 }
 
-// function to compute user reccomendations
+// function to compute user reccomendations (input uni's are assumed sorted by rank)
 export const getRecomendedUniversities = (user, universities) => {
   const indeces = []
   const userGrade = user.grades.reduce((sum, grade) => sum + grade.grade, 0) / user.grades.length
 
+  // first find all viable universities
   universities.some((uni, i) => {
-    if (user.regions.find(reg => reg.region === uni.region) &&
-        user.programs.some(prog1 => {
-          return uni.programs.find(prog2 => prog2.program === prog1.program && userGrade >= prog2.gradeRequirement)
-        })) {
-          indeces.push(i)
+    uni.recommended = false
+    // check if in one of the user's specified regions
+    const inRegion = user.regions.find(reg => reg.region === uni.region)
+    // check if the user has a program meeting the uni's requirement
+    const hasProgram = user.programs.some(prog1 => {
+      return uni.programs.find(prog2 => prog2.program === prog1.program && userGrade >= prog2.gradeRequirement)
+    })
+
+    if (inRegion && hasProgram) {
+      indeces.push(i)
     }
+
+    // only need to find 20
     return indeces.length == 20
+  });
+
+  // now set the top ranked university for each of the user's specified programs as recommended
+  user.programs.forEach((prog1, i) => {
+    const uniInd = indeces.find((ind) => {
+      return universities[ind].programs.find(prog2 => prog2.program === prog1.program && userGrade >= prog2.gradeRequirement)
+    })
+    if (uniInd > -1){
+      universities[uniInd].recommended = true
+    }
   });
 
   return indeces;
