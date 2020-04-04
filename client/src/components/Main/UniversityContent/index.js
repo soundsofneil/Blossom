@@ -12,19 +12,13 @@ class UniversityContent extends Component {
                     <h1 className="university-title"> {this.props.university.name} </h1>
                     <h2 className="university-location"> {this.props.university.location} </h2>
                     <p className="university-description"> {this.props.university.description} </p>
-                    <p className="university-recommendation"> {this.recommendationString(this.props.university.recommended)} </p>
                 </div>
+                {this.props.university.recommended &&
+                    (<div className="university-recommendation"> Recommended based on your profile. </div>)
+                }
                 <UniversityProgramList programs={this.props.university.programs} />
             </div>
         );
-    }
-
-    recommendationString = rec => {
-        if (rec) {
-            return "Recommended based on your profile."
-        } else {
-            return ""
-        }
     }
 }
 

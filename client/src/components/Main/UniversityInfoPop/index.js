@@ -36,12 +36,12 @@ export default class UniPopUp extends Component {
                                         <a target="_blank" rel="noopener noreferrer" href={website} className="button-uni program">
                                             <FontAwesomeIcon color="#3A4664" icon={this.getIcon(program)}/>&nbsp; {program}
                                         </a>
-                                        <div className="average-block">{gradeRequirement}%</div>
+                                        <div className="average-block">{gradeRequirement > 10 ? String(parseInt(gradeRequirement)) + "%" : "N/A"}</div>
                                     </div>
                                 ))}
                             </div>
                         </div>
-                        <img className="popup-img" alt="uni" src={require('../../images/uoft.png')} />
+                        <img className="popup-img" alt="uni" src={uni.imageUri} />
                     </div>
                     <CloseIcon className="close-icon" onClick={this.props.close} />
                 </div>

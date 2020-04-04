@@ -33,10 +33,9 @@ export default class University extends Component {
         //<img className="university-small-icon" src={this.getSmallIcon(university.country)} alt="Country Icon"/>
 
     getImage = imageUri => {
-        try {
-            const image = require(imageUri);
-            return image;
-        } catch {
+        if (imageUri.length > 0) {
+            return imageUri;
+        } else {
             return no_image_icon;
         }
     }
