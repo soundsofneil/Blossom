@@ -92,12 +92,14 @@ new_df.to_csv('./university_data_3.csv')
 
 
 
+def add_rank():
+    df_rank = pd.read_csv('university_rank.csv')
+    df3 = pd.read_csv('university_data3.csv')
+    for i, row in df_rank.iterrows():
+        if df3.loc[df3['institution'] == row['name']].empty:
+            continue 
 
-for i, row in df_rank.iterrows():
-    if df3.loc[df3['institution'] == row['name']].empty:
-        continue 
-
-    df3.loc[df3['institution'] == row['name'], 'rank'] = row['rank']
+        df3.loc[df3['institution'] == row['name'], 'rank'] = row['rank']
 
 
 
