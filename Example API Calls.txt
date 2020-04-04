@@ -3,6 +3,7 @@ Example:
 {
 	"name": "UofT",
 	"description": "Gr8 school",
+	"ranking": 10,
 	"region": "Canada East",
 	"programs": [{"program":"Computer Science", "gradeRequirement": 90, "website": "www.weedercourse.com"}],
 	"location": "Toronto",
