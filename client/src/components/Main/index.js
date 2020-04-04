@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import UniversityInfoPop from './UniversityInfoPop'
 import Preferences from './Preferences/Preferences'
 import AdminPortal from './Preferences/AdminPortal'
-import { getRankedUniversities, getRecomendedUniversities, search } from "../../actions/main";
+import { getRankedUniversities, getRecomendedUniversities, sortPrograms, search } from "../../actions/main";
 
 import './styles.css'
 
@@ -16,6 +16,7 @@ class Main extends Component {
         loadState: 'Loading...', // 'done' => will show university list
         universities: [],
         showInds: [],
+        userRecInds: [],
         popVisible: false,
         adminVisible: false,
         prefVisible: false,
@@ -28,8 +29,9 @@ class Main extends Component {
 
         console.log("Loading universities...")
         getRankedUniversities().then(universities => {
-            const showInds = getRecomendedUniversities(this.props.user, universities);
-            this.setState({universities, showInds, loadState: 'done'})
+            const userRecInds = getRecomendedUniversities(this.props.user, universities);
+            universities = sortPrograms(this.props.user, universities)
+            this.setState({universities, userRecInds, showInds: userRecInds, loadState: 'done'})
             console.log("...Loading complete!")
         }).catch(err => {
             alert(err)
@@ -52,6 +54,7 @@ class Main extends Component {
                     />
                     {!this.props.user.admin && (
                         <UniversityList
+                            user={this.props.user}
                             universities={this.state.universities}
                             indeces={this.state.showInds}
                             message={this.state.loadState}
@@ -84,9 +87,18 @@ class Main extends Component {
                     uni={this.state.uniPop}
                     close={() => this.setState({ popVisible: false })}/>
                 <AdminPortal visible={this.state.adminVisible} setUser={this.props.setUser} close={this.toggleAdminPanel}/>
-                <Preferences user={this.props.user} setUser={this.props.setUser} visible={this.state.prefVisible} close={this.togglePreferences}/>
+                <Preferences user={this.props.user} setUser={this.setUser} visible={this.state.prefVisible} close={this.togglePreferences}/>
             </div>
         );
+    }
+
+    setUser = user => {
+        return this.props.setUser(user).then( user => {
+            //this.setState({loadState: 'Loading...'})
+            const userRecInds = getRecomendedUniversities(user, this.state.universities)
+            const universities = sortPrograms(user, this.state.universities)
+            this.setState({universities, userRecInds , showInds: userRecInds})
+        })
     }
 
     toggleAdminPanel = () => {
@@ -106,19 +118,23 @@ class Main extends Component {
     }
 
     doSearch = (query, universities) => {
-        this.setState({loadState: 'Loading...'}, () => {
-            console.log("Searching universities...")
-            search(query, this.state.universities).then(inds => {
-                if (inds.length == 0) {
-                    this.setState({loadState: 'No results.'})
-                    console.log("...Searching complete: No matches found.")
-                } else {
-                    this.setState({loadState: 'done'})
-                    console.log("...Searching complete")
-                }
-                this.setState({showInds: inds});
+        if (query.length > 0) {
+            this.setState({loadState: 'Loading...'}, () => {
+                console.log("Searching universities...")
+                search(query, this.state.universities).then(inds => {
+                    if (inds.length == 0) {
+                        this.setState({loadState: 'No results.'})
+                        console.log("...Searching complete: No matches found.")
+                    } else {
+                        this.setState({loadState: 'done'})
+                        console.log("...Searching complete")
+                    }
+                    this.setState({showInds: inds});
+                })
             })
-        })
+        } else {
+            this.setState({showInds: this.state.userRecInds})
+        }
     }
 
     addToList = (uni) => {

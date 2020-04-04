@@ -24,13 +24,33 @@ export const getRankedUniversities = () => {
 
 // function to compute user reccomendations
 export const getRecomendedUniversities = (user, universities) => {
-  const indeces = universities.map((uni, i) => i)
+  const indeces = []
+  const userGrade = user.grades.reduce((sum, grade) => sum + grade.grade, 0) / user.grades.length
 
-  if (indeces.length > 0 && universities.length > 0) {
-    universities[indeces[0]].recommended = true;
-  }
+  universities.some((uni, i) => {
+    if (user.regions.find(reg => reg.region === uni.region) &&
+        user.programs.some(prog1 => {
+          return uni.programs.find(prog2 => prog2.program === prog1.program && userGrade >= prog2.gradeRequirement)
+        })) {
+          indeces.push(i)
+    }
+    return indeces.length == 20
+  });
 
   return indeces;
+}
+
+// function to sort university programs by user preferences
+export const sortPrograms = (user, universities) => {
+  universities.forEach((uni, i) => {
+    uni.programs.forEach(prog => {
+        prog.score = (user.programs.find(p => p.program === prog.program) ? 100 : 0) + prog.gradeRequirement;
+    })
+    uni.programs = uni.programs.sort((prog1, prog2) => {
+        return prog2.score - prog1.score
+    })
+  });
+  return universities
 }
 
 // function to search through universities by name
