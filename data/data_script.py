@@ -4,6 +4,8 @@
 
 import pandas as pd
 import requests
+import math
+from rand import randint
 
 def get_twitter(profiles):
     for p in profiles:
@@ -87,3 +89,80 @@ for i, row in raw_df.iterrows():
 
 new_df = pd.DataFrame(data=new_data)
 new_df.to_csv('./university_data_3.csv')
+
+def add_rank():
+    df_rank = pd.read_csv('university_rank.csv')
+    df3 = pd.read_csv('university_data3.csv')
+    for i, row in df_rank.iterrows():
+        if df3.loc[df3['institution'] == row['name']].empty:
+            continue 
+
+        df3.loc[df3['institution'] == row['name'], 'rank'] = row['rank']
+
+# load data into mongo
+def load_data():
+    region_list = ['US West','US Central','US South','US East']
+    df3 = pd.read_csv('university_data3.csv')
+
+    for i, row in df3.iterrows():
+
+        # some grades are NaN, just set to 0
+        if math.isnan(row['avg_act_score']):
+            gradeRequirement = 0
+        else:
+            # act is out of 35
+            gradeRequirement = row['avg_act_score'] / 35
+
+        name = row['institution']
+        location = row['city']
+        description = row['desc']
+        imageUri = row['img']
+        # couldnt get region data, so we mock it
+        region = region_list[randint(0,3)]
+        country = 'USA'
+        applyWebsite = row['website']
+        website = row['website']
+        twitter = row['twitter']
+
+        if gradeRequirement != 0:
+            # couldnt get different program grade requirements, so we +- 10% for each program
+            programs = [
+                {"program":"Computer Science", "gradeRequirement": gradeRequirement, "website": website},
+                {"program":"Business", "gradeRequirement": gradeRequirement + randint(-5,5), "website": website},
+                {"program":"Statistics", "gradeRequirement": gradeRequirement + randint(-5,5), "website": website},
+                {"program":"Life Sciences", "gradeRequirement": gradeRequirement + randint(-5,5), "website": website},
+                {"program":"English", "gradeRequirement": gradeRequirement + randint(-5,5), "website": website}
+                ]
+        else:
+            programs = [
+                {"program":"Computer Science", "gradeRequirement": gradeRequirement, "website": website},
+                {"program":"Business", "gradeRequirement": gradeRequirement, "website": website},
+                {"program":"Statistics", "gradeRequirement": gradeRequirement, "website": website},
+                {"program":"Life Sciences", "gradeRequirement": gradeRequirement, "website": website},
+                {"program":"English", "gradeRequirement": gradeRequirement, "website": website}
+                ]
+
+
+        # we only have top 200 ranks, if school is over 200, mock the data
+        if row['rank'] == "200+":
+            rank = randint(250, 2000)
+        else:
+            rank = int(row['rank'])
+
+        body = {
+            "name": name,
+            "description": description,
+            "ranking": rank,
+            "region": region,
+            "programs": programs,
+            "location": location,
+            "country": country,
+            "applyWebsite": website,
+            "website": website,
+            "twitter": twitter,
+            "imageUri": imageUri
+        }
+        headers = {"Content-Type": "application/json"}
+        print(requests.post('http://localhost:5000/api/uni', headers=headers, data=json.dumps(body))
+
+
