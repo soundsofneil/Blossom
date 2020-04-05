@@ -12,3 +12,97 @@ admin:admin
 user:user
 
 Express Routes:
+--Add new UNIVERSITY (must pass in JSON object): POST to https://blossom-309.herokuapp.com/api/uni
+Example: 
+{
+	"name": "UofT",
+	"description": "Gr8 school",
+	"ranking": 10,
+	"region": "Canada East",
+	"programs": [{"program":"Computer Science", "gradeRequirement": 90, "website": "www.weedercourse.com"}],
+	"location": "Toronto",
+	"country": "Canada",
+	"applyWebsite": "test",
+	"website": "www.estwebsite.com",
+	"twitter": "UofT",
+	"imageUri": "ohsnap"
+}
+Description: This route is a simple POST for adding a new university to the DB. If the post is succesful,
+it will return an object representation of the new university data, otherwise an appropriate error.
+
+--Add new USER (must pass in JSON object): POST to https://blossom-309.herokuapp.com/api/user
+Example:
+{
+	"admin": false,
+	"username": "neil123",
+	"name": "Neil Kelkar",
+	"password": "password",
+	"regions": [{"region": "Canada North"}, {"region": "Canada East"}],
+	"programs": [{"program": "Computer Science"}, {"program": "English"}],
+	"grades": [{"grade": 100, "course": "CSC373(I wish)"}, {"grade": 99, "course": "CSC309"}],
+	"schools": [{"name": "University of Toronto"}, {"name":"Ryerson"}]
+}
+Description: This route is a simple POST for adding a new user to the DB. If the post is succesful,
+it will return an object representation of the new user data, otherwise an appropriate error. 
+
+--Update a USER (identify user by username, and must pass in JSON object with changes): PUT to https://blossom-309.herokuapp.com/api/uni/username
+Example:
+{
+	"name": "BillyBob"
+}
+Description: This route is a simple PUT for updating a user's existing data to the DB. If the change is
+successful, it will return an object representation of the updated user data. To make this call, you 
+must be either logged into the session as the user or as an administrator.
+
+--Update a UNIVERSITY (identify university by name, and must pass in JSON object with changes): PUT to https://blossom-309.herokuapp.com/api/uni/name
+Example:
+{
+	"programs": [{"program":"Commerce", "gradeRequirement": 85, "website": "www.weedercourse.com"}]
+}
+Description: This route is a simple PUT for updating a university's existing data to the DB. If the change is
+successful, it will return an object representation of the updated uni data, otherwise an appropriate error.
+
+--Get all UNIVERSITIES in the DB: GET to https://blossom-309.herokuapp.com/api/uni
+Description: This route is a simple GET for getting all of the university data that currently exists in the DB.
+If the call is successful, it will return all of the universities in the DB, otherwise an appropriate error.
+
+--Get all USERS in the DB: GET to https://blossom-309.herokuapp.com/api/user
+Description: This route is a simple GET for getting all of the user data that currently exists in the DB.
+To make this call, you must be logged into the session as an administrator. If the call is successful, 
+it will return all of the users in the DB, otherwise an appropriate error.
+
+--Get a particular USER in the DB by username: GET to https://blossom-309.herokuapp.com/api/user/username
+Description: This route is a simple GET for getting a particular user's data that currently exists in the DB.
+To make this call, you must be logged into the session as the specified user or as an administrator. 
+If the call is successful, it will return the particular user you wanted to get, otherwise an appropriate error.
+
+--Get a particular UNIVERSITY in the DB by name: GET to https://blossom-309.herokuapp.com/api/uni/name
+Description: This route is a simple GET for getting a particular university's data that currently exists in the DB.
+If the call is successful, it will return the particular university you wanted to get, otherwise an appropriate error.
+
+--Delete a particular USER by their username: DELETE to https://blossom-309.herokuapp.com/api/user/username
+Description: This route is a simple DELETE for removing a particular user's data that currently exists in the DB.
+To make this call, you must be logged into the session as an administrator. 
+If the call is successful, it will return the particular user you wanted to delete, otherwise an appropriate error.
+
+--Delete a particular UNIVERSITY by their NAME: DELETE to https://blossom-309.herokuapp.com/api/uni/name
+Description: This route is a simple DELETE for removing a particular university's data that currently exists in the DB.
+If the call is successful, it will return the particular university you wanted to delete, otherwise an appropriate error.
+
+--To log in: POST to https://blossom-309.herokuapp.com/api/users/login
+Example: 
+{
+"username": "user",
+"password": "password"
+}
+Description: This route is a way for a user to log into a session with their username and password credentials.
+If the login is successful, it will return the particular user data, otherwise an appropriate error.
+
+--To log out: GET to https://blossom-309.herokuapp.com/api/users/logout
+Description: This route is a way to log out the current user that is logged into the session.
+If the logout is unsuccessful, it will return a 500 error code, otherwise it is successful.
+
+--To check current session: GET to https://blossom-309.herokuapp.com/api/users/check-session
+Description: This route is a way to check if a user is currently logged into a session. 
+If there is a user on the session, this call will return the user data, otherwise it will 
+send an appropriate error depending on if the user was not found, server error, etc.
