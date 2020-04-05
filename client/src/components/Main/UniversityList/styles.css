@@ -4,11 +4,20 @@
   margin-top: 245px;
   width: 650px;
   margin-bottom: 20px;
+  padding-bottom: 100px;
 }
 
-.university-list-empty {
-  margin-top: 15px;
-  padding: 100px;
-  text-align: center;
-  border-radius: 8px;
+.university-list-message {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    margin-bottom: 15px;
+    background-color: var(--blue);
+    border-radius: 8px;
+    height: 40px;
+
+    color: white;
+    text-align: center;
+    overflow: hidden;
 }
