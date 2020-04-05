@@ -16,3 +16,23 @@
 6. To edit the user profile, click on `Preferences` in the middle of the banner.
 7. If on the `admin` account, to open the admin profile, click `Admin Profile` in the top right, under `Sign Out`.
 8. To sign out, click `Sign Out` in the top right.
+
+## Phase 2
+
+The application operates similar to as it did in phase 1.
+### User
+ - Log in with one of the existing users below, or sign up.
+ - After logging in or signing up, schools will be listed based on a user's profile.
+ - Users can add schools to their list, or learn more by clicking on certain schools.
+ - Users can update their information by clicking 'Preferences'.
+
+### Admin
+ - Admin users can only modify other users, by opening the 'Admin Panel'.
+ - Admins can type in a user's username, then they can change their username, name, and password.
+
+### Existing Test Users
+format=username:password
+ - admin:admin
+ - user:user
+
+### Express Routes
