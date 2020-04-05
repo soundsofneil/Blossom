@@ -155,7 +155,6 @@ export default class Preferences extends React.Component {
                                             placeholder='Grade (%)'
                                             className='fourtyfive'
                                             align='left'
-                                            type='number'
                                             value={grade.grade}/>
                                         <CloseIcon className='close-field' onClick={() => this.removeGrade(grade.id)} />
                                     </div>
