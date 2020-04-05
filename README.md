@@ -18,6 +18,7 @@
 8. To sign out, click `Sign Out` in the top right.
 
 ## Phase 2
+URL: https://blossom-309.herokuapp.com/
 
 The application operates similar to as it did in phase 1.
 ### User
