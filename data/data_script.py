@@ -111,7 +111,7 @@ def load_data():
             gradeRequirement = 0
         else:
             # act is out of 35
-            gradeRequirement = row['avg_act_score'] / 35
+            gradeRequirement = round(row['avg_act_score'] / 35 * 100)
 
         name = row['institution']
         location = row['city']
@@ -163,6 +163,6 @@ def load_data():
             "imageUri": imageUri
         }
         headers = {"Content-Type": "application/json"}
-        print(requests.post('http://localhost:5000/api/uni', headers=headers, data=json.dumps(body))
+        print(requests.post('http://localhost:5000/api/uni', headers=headers, data=json.dumps(body)))
 
 
