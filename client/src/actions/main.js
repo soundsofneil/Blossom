@@ -4,7 +4,7 @@ const axios = require('axios');
 // function to get university data (returns sorted uni's by rank)
 export const getRankedUniversities = () => {
   return new Promise((resolve, reject) => {
-    axios.get('http://localhost:5000/api/uni/').then((res) => {
+    axios.get('/api/uni/').then((res) => {
       if (res.status === 200) {
         return res.data;
       }

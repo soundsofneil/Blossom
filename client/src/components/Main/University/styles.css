@@ -24,6 +24,7 @@
   height: 70%;
   margin: 15%;
   margin-left: 18%;
+  object-fit: cover;
 }
 
 .university-icon:hover {

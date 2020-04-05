@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PopWindow from '../../common/PopWindow';
 import CloseIcon from '@material-ui/icons/Close';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLaptopCode, faChartLine } from '@fortawesome/free-solid-svg-icons'
+import { faLaptopCode, faChartLine, faScroll, faFlask, faSquareRootAlt, faDna, faStarOfLife, faGlasses, faAtom, faBriefcase, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { faCanadianMapleLeaf } from '@fortawesome/free-brands-svg-icons'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import './index.css'
@@ -50,12 +50,29 @@ export default class UniPopUp extends Component {
     }
 
     getIcon = program => {
-        if (program === "Computer Science") {
-            return faLaptopCode;
-        } else if (program === "Commmerce") {
-            return faChartLine;
-        } else {
-            return faChartLine;
+        switch(program) {
+            case "Computer Science":
+                return faLaptopCode
+            case "Commerce":
+                return faChartLine
+            case "English":
+                return faScroll
+            case "Chemistry":
+                return faFlask
+            case "Mathematics":
+                return faSquareRootAlt
+            case "Biology":
+                return faDna
+            case "Life Sciences":
+                return faStarOfLife
+            case "Philosophy":
+                return faGlasses
+            case "Physics":
+                return faAtom
+            case "Business":
+                return faBriefcase
+            default:
+                return faCopy
         }
     }
 }
