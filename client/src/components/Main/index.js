@@ -13,10 +13,11 @@ import './styles.css'
 class Main extends Component {
     state = {
         view: 'main', // main | pref | admin | learn
-        loadState: 'Loading...', // 'done' => will show university list
         universities: [],
         showInds: [],
         userRecInds: [],
+        loadMessage: 'Loading...',
+        listVisible: false,
         popVisible: false,
         adminVisible: false,
         prefVisible: false,
@@ -29,9 +30,7 @@ class Main extends Component {
 
         console.log("Loading universities...")
         getRankedUniversities().then(universities => {
-            const userRecInds = getRecomendedUniversities(this.props.user, universities);
-            universities = sortPrograms(this.props.user, universities)
-            this.setState({universities, userRecInds, showInds: userRecInds, loadState: 'done'})
+            this.updateList(this.props.user, universities)
             console.log("...Loading complete!")
         }).catch(err => {
             alert(err)
@@ -57,7 +56,8 @@ class Main extends Component {
                             user={this.props.user}
                             universities={this.state.universities}
                             indeces={this.state.showInds}
-                            message={this.state.loadState}
+                            visible={this.state.listVisible}
+                            loadMessage={this.state.loadMessage}
                             addToList={this.addToList}
                             learnMore={this.learnMore}
                         />
@@ -94,11 +94,21 @@ class Main extends Component {
 
     setUser = user => {
         return this.props.setUser(user).then( user => {
-            //this.setState({loadState: 'Loading...'})
-            const userRecInds = getRecomendedUniversities(user, this.state.universities)
-            const universities = sortPrograms(user, this.state.universities)
-            this.setState({universities, userRecInds , showInds: userRecInds})
+            this.updateList(user, this.state.universities)
         })
+    }
+
+    updateList = (user, universities) => {
+        const userRecInds = getRecomendedUniversities(user, universities);
+        universities = sortPrograms(user, universities)
+
+        if (userRecInds.length > 0) {
+            this.setState({universities, userRecInds, showInds: userRecInds, listVisible: true, loadMessage: ''})
+        } else {
+            const topinds = [...Array(20).keys()]
+            this.setState({universities, userRecInds, showInds: topinds, listVisible: true, loadMessage: "There were no matches so we're showing you the top ranked universities."})
+        }
+
     }
 
     toggleAdminPanel = () => {
@@ -119,14 +129,14 @@ class Main extends Component {
 
     doSearch = (query, universities) => {
         if (query.length > 0) {
-            this.setState({loadState: 'Loading...'}, () => {
+            this.setState({listVisible: false, loadMessage: 'Loading...'}, () => {
                 console.log("Searching universities...")
                 search(query, this.state.universities).then(inds => {
                     if (inds.length == 0) {
-                        this.setState({loadState: 'No results.'})
+                        this.setState({listVisible: false, loadMessage: 'No results.'})
                         console.log("...Searching complete: No matches found.")
                     } else {
-                        this.setState({loadState: 'done'})
+                        this.setState({listVisible: true, loadMessage: ''})
                         console.log("...Searching complete")
                     }
                     this.setState({showInds: inds});
